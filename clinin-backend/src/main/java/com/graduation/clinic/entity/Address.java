@@ -1,4 +1,4 @@
-package com.grauation.clinic.entity;
+package com.graduation.clinic.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

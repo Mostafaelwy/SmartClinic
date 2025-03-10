@@ -1,4 +1,4 @@
-package com.grauation.clinic.controller;
+package com.graduation.clinic.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -7,18 +7,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.grauation.clinic.service.ReceptionistService;
+import com.graduation.clinic.service.DoctorService;
 
 @RestController
-@RequestMapping("/receptionist")
-public class ReceptionistController {
-
+@RequestMapping("/doctor")
+public class DoctorController {
 	@Autowired
-	private ReceptionistService receptionistService;
+	private DoctorService doctorService;
 	
 	@GetMapping("/get/{id}")
 	public ResponseEntity<?> findById(@PathVariable int id){
-		return ResponseEntity.ok(receptionistService.findById(id));
+		return ResponseEntity.ok(doctorService.findById(null));
 	}
-	
 }

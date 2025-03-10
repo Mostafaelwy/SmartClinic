@@ -1,4 +1,4 @@
-package com.grauation.clinic.entity;
+package com.graduation.clinic.entity;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +10,7 @@ import jakarta.persistence.OneToOne;
 public class Receptionist extends UsersBaseEntity<Integer> {
 
 	@OneToOne
-	@JoinColumn
+	@JoinColumn(name="addess_id")
 	private Address address;
 
 	public Address getAddress() {
