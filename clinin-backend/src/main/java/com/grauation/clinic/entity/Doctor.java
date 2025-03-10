@@ -1,0 +1,43 @@
+package com.grauation.clinic.entity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+@Entity
+public class Doctor extends UsersBaseEntity<Integer> {
+
+	@NotNull
+	private String Specilization;
+	private int experienceYears;
+	
+	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@NotEmpty
+	private List <Clinic> workingClinics=new ArrayList<>();
+	
+	public String getSpecilization() {
+		return Specilization;
+	}
+
+	public void setSpecilization(String specilization) {
+		Specilization = specilization;
+	}
+	public int getExperienceYears() {
+		return experienceYears;
+	}
+	public void setExperienceYears(int experienceYears) {
+		this.experienceYears = experienceYears;
+	}
+	public List<Clinic> getWorkingClinics() {
+		return workingClinics;
+	}
+	public void setWorkingClinics(List<Clinic> workingClinics) {
+		this.workingClinics = workingClinics;
+	}
+	
+}
