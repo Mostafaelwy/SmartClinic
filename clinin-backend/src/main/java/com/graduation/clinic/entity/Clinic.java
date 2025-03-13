@@ -3,12 +3,18 @@ package com.graduation.clinic.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.graduation.clinic.dto.PatientDto;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -22,32 +28,35 @@ public class Clinic {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "clinic_id")
-	private int id;
+	private long id;
 	
 	@NotNull
 	private String clinicName;
 	
 	@NotNull
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id")
 	private Address address;
 
-	@Pattern(regexp = "\\b(01[0-9]{9}|02[0-9]{8})\\b)")
+	//@Pattern(regexp = "\\b(01[0-9]{9}|02[0-9]{8})\\b)")
 	private  List <String> phoneNumbers;
 	
 	private String openingTime;
 	
 	private String closingTime;
 	
-	private Days workingDays;
+	private List<Days>workingDays;
 	@ManyToOne
 	@JoinColumn(name = "doctor_id")
 	private Doctor doctor;
+	@ManyToMany
+	@JsonBackReference
+	private List <Patient> visitors;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getClinicName() {
@@ -80,11 +89,31 @@ public class Clinic {
 	public void setClosingTime(String closingTime) {
 		this.closingTime = closingTime;
 	}
-	public Days getWorkingDays() {
+	public List<Days> getWorkingDays() {
 		return workingDays;
 	}
-	public void setWorkingDays(Days workingDays) {
+	public void setWorkingDays(List<Days> workingDays) {
 		this.workingDays = workingDays;
 	}
+	public Doctor getDoctor() {
+		return doctor;
+	}
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
+	public List<Patient> getVisitors() {
+		return visitors;
+	}
+	public void setVisitors(List<Patient> visitors) {
+		this.visitors = visitors;
+	}
+	public void setPhoneNumbers(List<String> phoneNumbers) {
+		this.phoneNumbers = phoneNumbers;
+	}
+	
+	public void addVisitor(Patient visitor) {
+		visitors.add(visitor);
+	}
+	
 	
 }

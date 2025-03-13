@@ -7,7 +7,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 @Entity
-public class Receptionist extends UsersBaseEntity<Integer> {
+public class Receptionist extends UsersBaseEntity {
 
 	@OneToOne
 	@JoinColumn(name="addess_id")

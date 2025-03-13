@@ -4,24 +4,29 @@ package com.graduation.clinic.entity;
 
 import java.util.List;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-@MappedSuperclass
-public abstract class UsersBaseEntity<ID> {
+
+
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class UsersBaseEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private ID id;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private Long id;
 	
-	private int firstName;
+	private String firstName;
 	
-	private int secondName;
+	private String secondName;
 	
 	private Gender sex;
 	
@@ -29,7 +34,7 @@ public abstract class UsersBaseEntity<ID> {
 	
 	private String country;
 	
-	@Pattern(regexp = "\\b(01[0-9]{9}|02[0-9]{8})\\b)")
+//	@Pattern(regexp = "\\b(01[0-9]{9}|02[0-9]{8})\\b)")
 	private List <String> phoneNumbers;
 	
 	@Email
@@ -57,27 +62,27 @@ public abstract class UsersBaseEntity<ID> {
 		this.password = password;
 	}
 
-	public ID getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(ID id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public int getFirstName() {
+	public String getFirstName() {
 		return firstName;
 	}
 
-	public void setFirstName(int firstName) {
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
-	public int getSecondName() {
+	public String getSecondName() {
 		return secondName;
 	}
 
-	public void setSecondName(int secondName) {
+	public void setSecondName(String secondName) {
 		this.secondName = secondName;
 	}
 

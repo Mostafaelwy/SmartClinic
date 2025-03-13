@@ -9,15 +9,18 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+
+
 @Entity
-public class Doctor extends UsersBaseEntity<Integer> {
+public class Doctor extends UsersBaseEntity {
 
 	@NotNull
 	private String Specilization;
+	
 	private int experienceYears;
 	
 	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-	@NotEmpty
+//	@NotEmpty
 	private List <Clinic> workingClinics=new ArrayList<>();
 	
 	public String getSpecilization() {

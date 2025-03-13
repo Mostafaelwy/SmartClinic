@@ -1,23 +1,32 @@
 package com.graduation.clinic.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.graduation.clinic.dto.ReceptionistDto;
+import com.graduation.clinic.entity.Receptionist;
 import com.graduation.clinic.service.ReceptionistService;
 
 @RestController
 @RequestMapping("/receptionist")
 public class ReceptionistController {
-	@Autowired
-	private ReceptionistService receptionistService ;
-	
-	@GetMapping("/get/{id}")
-	public ResponseEntity<?> findById(@PathVariable int id){
-		return ResponseEntity.ok(receptionistService.findById(id));
-	}
+	private final ReceptionistService recepService;
 
+	public ReceptionistController(ReceptionistService recepService) {
+		this.recepService = recepService;
+	}
+	
+	@PostMapping("/insert")
+	public ReceptionistDto insertReceptionist(@RequestBody Receptionist recep) {
+		return recepService.insertReceptionist(recep);
+	}
+	@PutMapping("/add-visitor")
+	public int addVisitor(@RequestParam String email,@RequestParam Long id) {
+		recepService.addVisitor(email, id);
+		return 0;
+	}
 }

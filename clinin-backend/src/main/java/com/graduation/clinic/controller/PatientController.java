@@ -1,22 +1,26 @@
 package com.graduation.clinic.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.graduation.clinic.dto.PatientDto;
+import com.graduation.clinic.entity.Patient;
 import com.graduation.clinic.service.PatientService;
 
 @RestController
 @RequestMapping("/patient")
-public class PatientController  {
-	@Autowired
-	private PatientService patientService;
-	
-	@GetMapping("/get/{id}")
-	public ResponseEntity<?> findById(@PathVariable int id){
-		return ResponseEntity.ok(patientService.findById(id));
+public class PatientController {
+
+
+	private final PatientService patientService;
+
+	public PatientController(PatientService patientService) {
+		this.patientService = patientService;
+	}
+	@PostMapping("/insert")
+	public PatientDto insertPatient(@RequestBody Patient patient){
+		return patientService.insertPatient(patient);
 	}
 }
