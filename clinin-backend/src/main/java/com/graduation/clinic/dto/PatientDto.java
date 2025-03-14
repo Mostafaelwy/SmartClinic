@@ -19,6 +19,7 @@ public class PatientDto {
 	private final String email;
 	
 
+
 	public PatientDto(Patient patient) {
 		this.id = patient.getId();
 		this.firstName = patient.getFirstName();

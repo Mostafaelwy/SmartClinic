@@ -3,6 +3,8 @@ package com.graduation.clinic.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,6 +24,10 @@ public class Doctor extends UsersBaseEntity {
 	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 //	@NotEmpty
 	private List <Clinic> workingClinics=new ArrayList<>();
+	
+	@OneToMany(mappedBy = "reviewedDoctor")
+	@JsonBackReference
+	private List<Review> DoctorReviews;
 	
 	public String getSpecilization() {
 		return Specilization;

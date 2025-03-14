@@ -53,6 +53,10 @@ public class DoctorService {
 		return clinicService.getAllClinics();
 	}
 	
+	public Doctor findById(Long id) {
+		return doctorRepo.findById(id).orElseThrow();
+	}
+	
 	
 
 	
