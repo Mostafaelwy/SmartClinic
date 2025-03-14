@@ -1,5 +1,8 @@
 package com.graduation.clinic.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.graduation.clinic.dto.DoctorDto;
@@ -31,6 +34,14 @@ public class ReviewService {
 		review.setReviewer(patient);
 		review.setReviewedDoctor(doctor);
 		return new ReviewDto(reviewRepo.save(review));
+	}
+	public List<ReviewDto> readReview(Long id){
+		List<Review> review= reviewRepo.findByReviewedDoctorId(id);
+		List<ReviewDto> reviewDto=new ArrayList<>();
+		for(int i=0;i<review.size();i++) {
+			reviewDto.add(new ReviewDto(review.get(i)));
+		}
+		return reviewDto;
 	}
 	
 }

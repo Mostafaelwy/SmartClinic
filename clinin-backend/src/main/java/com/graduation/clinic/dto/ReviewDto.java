@@ -12,14 +12,14 @@ public class ReviewDto {
 	private final Long id;
 	private final String message;
 	private final PatientDto reviewer;
-	private final DoctorDto reviewedDoctor;
+	//private final DoctorDto reviewedDoctor;
 	
 	
 	public ReviewDto(Review review) {
 		this.id = review.getId();
 		this.message = review.getMessage();
 		this.reviewer = new PatientDto( review.getReviewer());
-		this.reviewedDoctor =new DoctorDto( review.getReviewedDoctor());
+		//this.reviewedDoctor =new DoctorDto( review.getReviewedDoctor());
 	}
 	
 	public Long getId() {
@@ -30,9 +30,9 @@ public class ReviewDto {
 	}
 	public PatientDto getReviewer() {
 		return reviewer;
-	}
+	}/*
 	public DoctorDto getReviewedDoctor() {
 		return reviewedDoctor;
-	}
+	}*/
 
 }

@@ -20,9 +20,11 @@ public class DoctorService {
 	private final DoctorRepo doctorRepo;
 
 	private final ClinicService clinicService;
+	//private final ReviewService reviewService;
 	public DoctorService(DoctorRepo doctorRepo , ClinicService clinicService) {
 		this.doctorRepo = doctorRepo;
 		this.clinicService=clinicService;
+		//this.reviewService=reviewService;
 	}
 
 
@@ -56,6 +58,7 @@ public class DoctorService {
 	public Doctor findById(Long id) {
 		return doctorRepo.findById(id).orElseThrow();
 	}
+	
 	
 	
 
