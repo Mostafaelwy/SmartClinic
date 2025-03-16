@@ -1,14 +1,18 @@
 package com.graduation.clinic.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.graduation.clinic.dto.PatientDto;
 import com.graduation.clinic.dto.ReviewDto;
 import com.graduation.clinic.entity.Patient;
 import com.graduation.clinic.entity.Review;
+import com.graduation.clinic.exceptions.DuplicateException;
+import com.graduation.clinic.exceptions.NotFoundException;
 import com.graduation.clinic.repos.PatientRepo;
 
 @Service
@@ -25,11 +29,22 @@ public class PatientService  {
 		
 	}
 	public PatientDto insertPatient(Patient patient) {
-		return new PatientDto(patientRepo.save(patient));
+		
+		Optional<Patient> p= patientRepo.findByEmail(patient.getEmail());
+		if(!p.isPresent()) {
+			return new PatientDto(patientRepo.save(patient));
+		}
+		throw new DuplicateException("this email is already used.");
+	
 	}
 	
 	public Patient findPatient(String Email) {
-		return  patientRepo.findByEmail(Email).orElseThrow() ;
+		
+		Optional<Patient> patient= patientRepo.findByEmail(Email);
+		if(patient.isPresent()) {
+			return patient.orElseThrow();
+		}
+		throw new NotFoundException(" user not found inter an existanse email.");
 	}
 	
 	public ReviewDto writeReview(Long DoctorId,String reviewerEmail,String Message) {
