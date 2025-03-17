@@ -3,6 +3,7 @@ package com.graduation.clinic.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -19,12 +20,10 @@ public class Review {
 	private long id;
 	@NotBlank
 	private String message;
-	@ManyToOne
-	@JsonManagedReference
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Patient reviewer;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonBackReference
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Doctor reviewedDoctor;
 
 	

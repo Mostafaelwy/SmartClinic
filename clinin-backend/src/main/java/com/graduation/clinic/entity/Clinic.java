@@ -50,7 +50,6 @@ public class Clinic {
 	@JoinColumn(name = "doctor_id")
 	private Doctor doctor;
 	@ManyToMany
-	@JsonManagedReference
 	private List <Patient> visitors;
 	
 	public Long getId() {

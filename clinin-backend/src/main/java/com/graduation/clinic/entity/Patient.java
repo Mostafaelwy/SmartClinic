@@ -24,10 +24,9 @@ public class Patient extends UsersBaseEntity {
 	private Address placeOfBirth;
 	
 	@ManyToMany(mappedBy = "visitors")
-	@JsonBackReference
 	private List<Clinic> visitedClinics;
+	
 	@OneToMany(mappedBy ="reviewer", cascade = CascadeType.ALL)
-	@JsonBackReference
 	private List<Review> reviews;
 	
 	public List<Review> getReviews() {

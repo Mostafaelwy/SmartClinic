@@ -25,8 +25,7 @@ public class Doctor extends UsersBaseEntity {
 //	@NotEmpty
 	private List <Clinic> workingClinics=new ArrayList<>();
 	
-	@OneToMany(mappedBy = "reviewedDoctor")
-	@JsonBackReference
+	@OneToMany(mappedBy = "reviewedDoctor",cascade = CascadeType.ALL)
 	private List<Review> DoctorReviews;
 	
 	public String getSpecilization() {
