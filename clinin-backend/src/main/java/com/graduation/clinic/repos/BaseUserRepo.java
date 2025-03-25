@@ -15,6 +15,7 @@ import com.graduation.clinic.entity.UsersBaseEntity;
 public interface BaseUserRepo extends JpaRepository<UsersBaseEntity, Long> {
 
 	Optional <UsersBaseEntity> findById(Long id);
+	Optional <UsersBaseEntity> findByUserName(String userName);
 	
 	
 }

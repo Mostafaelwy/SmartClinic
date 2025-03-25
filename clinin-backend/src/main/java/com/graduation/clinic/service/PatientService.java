@@ -30,7 +30,7 @@ public class PatientService  {
 	}
 	public PatientDto insertPatient(Patient patient) {
 		
-		Optional<Patient> p= patientRepo.findByEmail(patient.getEmail());
+		Optional<Patient> p= patientRepo.findByUserName(patient.getUsername());
 		if(!p.isPresent()) {
 			return new PatientDto(patientRepo.save(patient));
 		}
@@ -40,7 +40,7 @@ public class PatientService  {
 	
 	public Patient findPatient(String Email) {
 		
-		Optional<Patient> patient= patientRepo.findByEmail(Email);
+		Optional<Patient> patient= patientRepo.findByUserName(Email);
 		if(patient.isPresent()) {
 			return patient.orElseThrow();
 		}

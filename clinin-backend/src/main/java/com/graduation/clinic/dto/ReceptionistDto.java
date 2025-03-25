@@ -16,7 +16,7 @@ public class ReceptionistDto {
 	
 	private final String country;
 	
-	private final String email;
+	private final String userName;
 
 	public ReceptionistDto(Receptionist recep) {
 		this.id =recep.getId();
@@ -25,7 +25,7 @@ public class ReceptionistDto {
 		this.sex = recep.getSex();
 		this.age = recep.getAge();
 		this.country = recep.getCountry();
-		this.email = recep.email;
+		this.userName = recep.getUsername();
 	}
 
 	public Long getId() {
@@ -52,8 +52,8 @@ public class ReceptionistDto {
 		return country;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUserName() {
+		return userName;
 	}
 	
 }

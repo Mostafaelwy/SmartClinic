@@ -16,7 +16,7 @@ public class PatientDto {
 	
 	private final String country;
 	
-	private final String email;
+	private final String userName;
 	
 
 
@@ -27,7 +27,7 @@ public class PatientDto {
 		this.sex = patient.getSex();
 		this.age = patient.getAge();
 		this.country = patient.getCountry();
-		this.email=patient.getEmail();
+		this.userName=patient.getUsername();
 	}
 
 
@@ -61,8 +61,8 @@ public class PatientDto {
 	}
 
 
-	public String getEmail() {
-		return email;
+	public String getUserName() {
+		return userName;
 	}
 	
 }

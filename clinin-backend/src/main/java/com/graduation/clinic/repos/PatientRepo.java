@@ -13,6 +13,6 @@ import com.graduation.clinic.entity.Patient;
 @Repository
 public interface PatientRepo extends JpaRepository<Patient, Long>{
 	
-	Optional<Patient> findByEmail(String email);
+	Optional<Patient> findByUserName(String email);
 	
 }

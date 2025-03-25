@@ -14,20 +14,20 @@ public class UserDto {
 	private final String firstName;
 	
 	private final String secondName;
-	private final String Email;
+	private final String userName;
 	private final Gender sex;
 	
 
 	public UserDto(UsersBaseEntity user) {
 		this.firstName = user.getFirstName();
 		this.secondName = user.getSecondName();
-		this.Email=user.getEmail();
+		this.userName=user.getUsername();
 		this.id = user.getId();
 		this.sex=user.getSex();
 	}
 
-	public String getEmail() {
-		return Email;
+	public String getUserName() {
+		return userName;
 	}
 
 	public Long getId() {

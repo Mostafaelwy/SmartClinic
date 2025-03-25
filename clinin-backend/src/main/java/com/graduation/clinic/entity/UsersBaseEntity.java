@@ -2,9 +2,16 @@ package com.graduation.clinic.entity;
 
 
 
+import java.util.Collection;
 import java.util.List;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,7 +25,7 @@ import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class UsersBaseEntity {
+public abstract class UsersBaseEntity implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -27,7 +34,7 @@ public abstract class UsersBaseEntity {
 	private String firstName;
 	
 	private String secondName;
-	
+	@Enumerated(EnumType.STRING)
 	private Gender sex;
 	
 	private int age;
@@ -38,28 +45,29 @@ public abstract class UsersBaseEntity {
 	private List <String> phoneNumbers;
 	
 	@Email
-	@NotNull
-	public String email;
+	private String userName;
 	
-	@NotNull
-	public String password;
+	private String password;
 	
-	
-	
-	public String getEmail() {
-		return email;
+	@Enumerated(EnumType.STRING)
+	private Role roles;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return  List.of(new SimpleGrantedAuthority(roles.name()));
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
+	@Override
 	public String getPassword() {
+		// TODO Auto-generated method stub
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return userName;
 	}
 
 	public Long getId() {
@@ -117,7 +125,24 @@ public abstract class UsersBaseEntity {
 	public void setPhoneNumbers(List<String> phoneNumbers) {
 		this.phoneNumbers = phoneNumbers;
 	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+
+	public void setRoles(Role roles) {
+		this.roles = roles;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	
+	
+	
+	
+
 	
 
 	
