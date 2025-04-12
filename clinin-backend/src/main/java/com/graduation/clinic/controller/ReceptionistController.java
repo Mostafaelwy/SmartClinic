@@ -12,7 +12,7 @@ import com.graduation.clinic.entity.Receptionist;
 import com.graduation.clinic.service.ReceptionistService;
 
 @RestController
-@RequestMapping("/receptionist")
+@RequestMapping("/smart/receptionist")
 public class ReceptionistController {
 	private final ReceptionistService recepService;
 

@@ -16,13 +16,12 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class Doctor extends UsersBaseEntity {
 
-	@NotNull
 	private String Specilization;
 	
 	private int experienceYears;
 	
 	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-//	@NotEmpty
+//	
 	private List <Clinic> workingClinics=new ArrayList<>();
 	
 	@OneToMany(mappedBy = "reviewedDoctor",cascade = CascadeType.ALL)

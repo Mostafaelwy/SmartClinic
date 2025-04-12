@@ -27,10 +27,6 @@ public class DoctorService {
 		//this.reviewService=reviewService;
 	}
 
-
-	public DoctorDto insertDoctor(Doctor doctor) {
-		return new DoctorDto(doctorRepo.save(doctor));
-	}
 		
 	
 	public List<DoctorDto> findAllDoctors(){

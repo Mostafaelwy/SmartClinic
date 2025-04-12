@@ -17,7 +17,7 @@ import com.graduation.clinic.entity.Review;
 import com.graduation.clinic.service.PatientService;
 
 @RestController
-@RequestMapping("/patient")
+@RequestMapping("/smart/patient")
 public class PatientController {
 
 

@@ -22,6 +22,7 @@ public class JwtAuthenticationfilter extends OncePerRequestFilter{
 
 	private final JwtService jwtService;
 	private final UserDetailsService userDetailsService;
+	private final String tokenSubstringWord = "Bearer";
 	
 	
 	public JwtAuthenticationfilter(JwtService jwtService,UserDetailsService userDetailsService) {
@@ -42,7 +43,7 @@ public class JwtAuthenticationfilter extends OncePerRequestFilter{
 		String Jwt;
 		String userName;
 		
-		if(AuthHeader ==null || !AuthHeader.startsWith("bearer")) {
+		if(AuthHeader ==null || !AuthHeader.startsWith(tokenSubstringWord)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
@@ -53,7 +54,7 @@ public class JwtAuthenticationfilter extends OncePerRequestFilter{
 			if(jwtService.isTokenValid(userDetails, Jwt)) {
 				UsernamePasswordAuthenticationToken authToken=new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-				SecurityContextHolder.getContext().setAuthentication(authToken);;
+				SecurityContextHolder.getContext().setAuthentication(authToken);
 			}
 		}
 		filterChain.doFilter(request, response);

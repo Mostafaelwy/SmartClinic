@@ -3,7 +3,7 @@ package com.graduation.clinic.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public class DoctorRegisterRequest {
+public class ReceptionistRegisterRequest {
 
 	@NotBlank
 	private String firstName;
@@ -15,30 +15,27 @@ public class DoctorRegisterRequest {
 	@NotBlank
 	private String Password;
 	
-
-
-	public DoctorRegisterRequest(String firstName, String secondName, String email, String password) {
+	public ReceptionistRegisterRequest(@NotBlank String firstName, @NotBlank String secondName,
+			@Email @NotBlank String email, @NotBlank String password) {
 		this.firstName = firstName;
 		this.secondName = secondName;
 		this.email = email;
 		Password = password;
 	}
-	
 	public String getFirstName() {
 		return firstName;
 	}
-
 	public String getSecondName() {
 		return secondName;
 	}
-
 	public String getEmail() {
 		return email;
 	}
-
 	public String getPassword() {
 		return Password;
 	}
+	
+	
 	
 	
 }

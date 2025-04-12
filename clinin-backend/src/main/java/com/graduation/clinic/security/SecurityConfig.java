@@ -32,12 +32,11 @@ public class SecurityConfig {
 		http
 			.csrf()
 			.disable()
-			.authorizeHttpRequests()
-			.requestMatchers("/login/**")
-			.permitAll()
-			.anyRequest()
-			.authenticated()
-			.and()
+			.authorizeHttpRequests().requestMatchers("/auth/**").permitAll().and()
+			.authorizeHttpRequests().requestMatchers("/smart/**").authenticated().and()
+			.authorizeHttpRequests().requestMatchers("/smart/doctor/**").hasAuthority("DOCTOR").and()
+			.authorizeHttpRequests().requestMatchers("/smart/patient/**").hasAuthority("PATIENT").and()
+			.authorizeHttpRequests().requestMatchers("/smart/receptionist/**").hasAuthority("RECEPTIONIST").and()
 			.addFilterBefore(jwtAuthenticationfilter, UsernamePasswordAuthenticationFilter.class)
 			.sessionManagement(sess -> sess
 	 	                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

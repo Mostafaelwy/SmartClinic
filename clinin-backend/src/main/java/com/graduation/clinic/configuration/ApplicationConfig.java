@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.graduation.clinic.exceptions.NotFoundException;
 import com.graduation.clinic.repos.BaseUserRepo;
 
 @Configuration
@@ -30,7 +31,9 @@ public class ApplicationConfig {
 			@Override
 			public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 				// TODO Auto-generated method stub
-				return baseUserRepo.findByUserName(username).orElseThrow();
+				return baseUserRepo.findByUserName(username).orElseThrow( () ->
+						new NotFoundException(username +" user is not found")
+						);
 			}
 		};
 		

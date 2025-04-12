@@ -2,16 +2,18 @@ package com.graduation.clinic.dto;
 
 public class RegisterRequest {
 
+	
+	
 	private String firstName;
 	private String secondName;
-	private String userName;
+	private String email;
 	private String Password;
 	
 	
-	public RegisterRequest(String firstName, String secondName, String userName, String password) {
+	public RegisterRequest(String firstName, String secondName, String email, String password) {
 		this.firstName = firstName;
 		this.secondName = secondName;
-		this.userName = userName;
+		this.email = email;
 		this.Password = password;
 	}
 	public String getFirstName() {
@@ -20,8 +22,8 @@ public class RegisterRequest {
 	public String getSecondName() {
 		return secondName;
 	}
-	public String getUserName() {
-		return userName;
+	public String getemail() {
+		return email;
 	}
 	public String getPassword() {
 		return Password;

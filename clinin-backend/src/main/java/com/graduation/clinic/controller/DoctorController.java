@@ -15,7 +15,7 @@ import com.graduation.clinic.entity.Doctor;
 import com.graduation.clinic.service.DoctorService;
 
 @RestController
-@RequestMapping("/doctor")
+@RequestMapping("/smart/doctor")
 public class DoctorController {
 
 	private final DoctorService doctorService;
@@ -26,10 +26,7 @@ public class DoctorController {
 	
 	
 	
-	@PostMapping("/insert")
-	public DoctorDto insertDoctor(@RequestBody Doctor doctor) {
-		return doctorService.insertDoctor(doctor);
-	}
+
 	@GetMapping("/get-all")
 	public List<DoctorDto> findAllDoctors(){
 		return doctorService.findAllDoctors();
