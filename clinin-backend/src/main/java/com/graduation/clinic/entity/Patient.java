@@ -28,6 +28,8 @@ public class Patient extends UsersBaseEntity {
 	
 	@OneToMany(mappedBy ="reviewer", cascade = CascadeType.ALL)
 	private List<Review> reviews;
+	@OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
+	private List<Reservation> reservations;
 	
 	public List<Review> getReviews() {
 		return reviews;

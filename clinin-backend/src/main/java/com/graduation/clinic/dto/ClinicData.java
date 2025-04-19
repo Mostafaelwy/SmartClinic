@@ -1,83 +1,81 @@
 package com.graduation.clinic.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.graduation.clinic.entity.Address;
 import com.graduation.clinic.entity.Clinic;
 import com.graduation.clinic.entity.Days;
-import com.graduation.clinic.entity.Patient;
 
-public class ClinicDto {
+import jakarta.validation.constraints.NotNull;
 
-	private  final Long id;
-	
+public class ClinicData {
+
+	@NotNull
+	private final Long id;
+	private final byte[] logo;
+	@NotNull
 	private final String clinicName;
 	
-	private final Address address;
-	
+	private final byte[] location;
+	@NotNull
 	private final List <String> phoneNumbers;
-	
+	@NotNull
 	private final String openingTime;
-	
+	@NotNull
 	private final String closingTime;
 	
-	private final List<Days> workingDays;
+	private final List<Days>workingDays;
 	
-	private final List<PatientDto> visitors;
 	
-
-	public ClinicDto(Clinic clinic) {
-		this.id = clinic.getId();
+	public ClinicData(Clinic clinic) {
+		this.id=clinic.getId();
+		this.logo = clinic.getLogo();
 		this.clinicName = clinic.getClinicName();
-		this.address = clinic.getAddress();
+		this.location = clinic.getLocation();
 		this.phoneNumbers = clinic.getPhoneNumbers();
 		this.openingTime = clinic.getOpeningTime();
-		this.closingTime = clinic.getClosingTime();
+		this.closingTime =clinic.getClosingTime();
 		this.workingDays = clinic.getWorkingDays();
-		
-		
-		// return list of patientDto(visitors)
-		List<Patient> patients=clinic.getVisitors();
-		List<PatientDto> visitorsDto=new ArrayList<>();
-		for(int i=0;i<patients.size();i++) {
-			visitorsDto.add(new PatientDto(patients.get(i)));
-		}
-		this.visitors=visitorsDto;
 	}
 
-	public long getId() {
+
+	public Long getId() {
 		return id;
 	}
+
+
+	public byte[] getLogo() {
+		return logo;
+	}
+
 
 	public String getClinicName() {
 		return clinicName;
 	}
 
-	public Address getAddress() {
-		return address;
+
+	public byte[] getLocation() {
+		return location;
 	}
+
 
 	public List<String> getPhoneNumbers() {
 		return phoneNumbers;
 	}
 
+
 	public String getOpeningTime() {
 		return openingTime;
 	}
+
 
 	public String getClosingTime() {
 		return closingTime;
 	}
 
+
 	public List<Days> getWorkingDays() {
 		return workingDays;
 	}
-
-	public List<PatientDto> getVisitors() {
-		return visitors;
-	}
-	
 	
 }
-

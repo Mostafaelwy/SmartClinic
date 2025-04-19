@@ -1,16 +1,13 @@
 package com.graduation.clinic.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.graduation.clinic.entity.Address;
 import com.graduation.clinic.entity.Clinic;
 import com.graduation.clinic.entity.Days;
-import com.graduation.clinic.entity.Patient;
 
-public class ClinicDto {
-
-	private  final Long id;
+public class CreateClinicResponse {
+	private final long id;
 	
 	private final String clinicName;
 	
@@ -24,10 +21,13 @@ public class ClinicDto {
 	
 	private final List<Days> workingDays;
 	
-	private final List<PatientDto> visitors;
+	//private final byte[] logo;
+	
+	//private final byte[] location;
+	
 	
 
-	public ClinicDto(Clinic clinic) {
+	public CreateClinicResponse(Clinic clinic) {
 		this.id = clinic.getId();
 		this.clinicName = clinic.getClinicName();
 		this.address = clinic.getAddress();
@@ -35,15 +35,8 @@ public class ClinicDto {
 		this.openingTime = clinic.getOpeningTime();
 		this.closingTime = clinic.getClosingTime();
 		this.workingDays = clinic.getWorkingDays();
-		
-		
-		// return list of patientDto(visitors)
-		List<Patient> patients=clinic.getVisitors();
-		List<PatientDto> visitorsDto=new ArrayList<>();
-		for(int i=0;i<patients.size();i++) {
-			visitorsDto.add(new PatientDto(patients.get(i)));
-		}
-		this.visitors=visitorsDto;
+		//this.logo = clinic.getLogo();
+		//this.location = clinic.getLocation();
 	}
 
 	public long getId() {
@@ -73,11 +66,13 @@ public class ClinicDto {
 	public List<Days> getWorkingDays() {
 		return workingDays;
 	}
-
-	public List<PatientDto> getVisitors() {
-		return visitors;
+/*
+	public byte[] getLogo() {
+		return logo;
 	}
-	
+
+	public byte[] getLocation() {
+		return location;
+	}*/
 	
 }
-

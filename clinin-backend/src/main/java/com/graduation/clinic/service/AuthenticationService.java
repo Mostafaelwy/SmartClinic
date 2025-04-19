@@ -6,8 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +15,14 @@ import com.graduation.clinic.dto.AuthenticationResponse;
 import com.graduation.clinic.dto.DoctorRegisterRequest;
 import com.graduation.clinic.dto.PatientRegisterRequest;
 import com.graduation.clinic.dto.ReceptionistRegisterRequest;
-import com.graduation.clinic.dto.RegisterRequest;
+
 import com.graduation.clinic.entity.Doctor;
 import com.graduation.clinic.entity.Patient;
 import com.graduation.clinic.entity.Receptionist;
 import com.graduation.clinic.entity.Role;
 import com.graduation.clinic.entity.UsersBaseEntity;
 import com.graduation.clinic.exceptions.DuplicateException;
-import com.graduation.clinic.exceptions.NotFoundException;
+
 import com.graduation.clinic.repos.BaseUserRepo;
 import com.graduation.clinic.repos.DoctorRepo;
 import com.graduation.clinic.repos.PatientRepo;

@@ -21,8 +21,4 @@ public class ReceptionistService {
 		return new ReceptionistDto(receptionistRepo.save(recep));
 	}
 	
-	public int addVisitor(String email, Long id) {
-		clinicService.addVisitor(email, id);
-		return 0;
-	}
 }

@@ -1,7 +1,10 @@
 package com.graduation.clinic.dto;
 
+
+
 public class AuthenticationResponse {
 
+	
 	private String token;
 
 	public AuthenticationResponse(String token) {

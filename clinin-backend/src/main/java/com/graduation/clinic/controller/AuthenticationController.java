@@ -10,7 +10,7 @@ import com.graduation.clinic.dto.AuthenticationResponse;
 import com.graduation.clinic.dto.DoctorRegisterRequest;
 import com.graduation.clinic.dto.PatientRegisterRequest;
 import com.graduation.clinic.dto.ReceptionistRegisterRequest;
-import com.graduation.clinic.dto.RegisterRequest;
+
 import com.graduation.clinic.service.AuthenticationService;
 
 import jakarta.validation.Valid;
@@ -28,15 +28,15 @@ public class AuthenticationController {
 	}
 
 
-	@PostMapping("/register-patient")
+	@PostMapping("/patient")
 	public AuthenticationResponse registerAsPatient(@RequestBody @Valid PatientRegisterRequest request) {
 		return authenticationService.registerAsPatient(request);
 	}
-	@PostMapping("/register-Doctor")
+	@PostMapping("/Doctor")
 	public AuthenticationResponse registerAsDoctor(@RequestBody @Valid DoctorRegisterRequest request) {
 		return authenticationService.registerAsDoctor(request);
 	}
-	@PostMapping("/register-receptionist")
+	@PostMapping("/receptionist")
 	public AuthenticationResponse registerAsReceptionist(@RequestBody @Valid ReceptionistRegisterRequest request) {
 		return authenticationService.registerAsReceptionist(request);
 	}

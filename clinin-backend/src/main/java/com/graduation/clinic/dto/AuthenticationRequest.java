@@ -12,9 +12,10 @@ import jakarta.validation.constraints.NotNull;
 public class AuthenticationRequest {
 	
 
-
+	@NotNull
 	private String email;
 
+	@NotNull
 	private String password;
 
 	public AuthenticationRequest( String email, String password) {

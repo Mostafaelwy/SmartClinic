@@ -47,4 +47,5 @@ public class Doctor extends UsersBaseEntity {
 		this.workingClinics = workingClinics;
 	}
 	
+
 }

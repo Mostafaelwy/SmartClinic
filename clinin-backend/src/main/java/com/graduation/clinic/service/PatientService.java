@@ -40,19 +40,13 @@ public class PatientService  {
 	
 	public Patient findPatient(String Email) {
 		
-		Optional<Patient> patient= patientRepo.findByUserName(Email);
-		if(patient.isPresent()) {
-			return patient.orElseThrow();
-		}
-		throw new NotFoundException(" user not found inter an existanse email.");
-	}
+		return patientRepo.findByUserName(Email).orElseThrow(()-> new NotFoundException("patient not found"));
+	}	
 	
-	public ReviewDto writeReview(Long DoctorId,String reviewerEmail,String Message) {
-		return reviewService.writeReview(DoctorId, reviewerEmail, Message);
+	public Patient findById(Long id) {
+		return patientRepo.findById(id).orElseThrow(()-> new NotFoundException("patient not found Exception"));
 	}
-	public List<ReviewDto> readReview(Long id) {
-		return reviewService.readReview(id);
-	}
+
 
 	
 }

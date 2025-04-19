@@ -1,7 +1,10 @@
 package com.graduation.clinic.entity;
 
+import org.springframework.data.domain.Page;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.graduation.clinic.dto.ReviewDto;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -57,6 +60,14 @@ public class Review {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	public ReviewDto convertReviewToDto(Review review) {
+		return new ReviewDto(review);
+	}
+	public Page<ReviewDto> paginateReviewDto(Page <Review> reviews){
+		Page<ReviewDto> dtos= reviews.map(this::convertReviewToDto);
+		return dtos;
 	}
 
 

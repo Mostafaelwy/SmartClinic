@@ -54,10 +54,22 @@ public abstract class UsersBaseEntity implements UserDetails {
 	
 	@Enumerated(EnumType.STRING)
 	private Role roles;
+	
+	@Column (name ="photo_link",length = 1000)
+	private byte[] photo;
+
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
+		roles.name();
 		return  List.of(new SimpleGrantedAuthority(roles.name()));
 	}
 

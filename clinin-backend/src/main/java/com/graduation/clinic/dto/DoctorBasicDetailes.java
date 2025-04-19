@@ -1,31 +1,31 @@
 package com.graduation.clinic.dto;
 
+import java.util.List;
+
 import com.graduation.clinic.entity.Doctor;
-import com.graduation.clinic.entity.Gender;
 
-public class DoctorDto {
-	
+public class DoctorBasicDetailes {
 
-	
-	private final Long id;
-	
+	private final Long id ;
 	private final String firstName;
-	
 	private final String secondName;
-	
-	private final Gender sex;
-	
+	private final int age;
+	private final List <String> phoneNumbers;
+	private final byte[] photo;
 	private final String Specilization;
-	
 	private final int experienceYears;
+	
 
-	public DoctorDto(Doctor doctor) {
-		this.id = doctor.getId();
+	public DoctorBasicDetailes(Doctor doctor) {
+		this.id=doctor.getId();
 		this.firstName = doctor.getFirstName();
 		this.secondName = doctor.getSecondName();
-		this.sex = doctor.getSex();
+		this.age = doctor.getAge();
+		this.phoneNumbers = doctor.getPhoneNumbers();
+		this.photo = doctor.getPhoto();
 		this.Specilization = doctor.getSpecilization();
 		this.experienceYears = doctor.getExperienceYears();
+	
 	}
 
 	public Long getId() {
@@ -40,8 +40,16 @@ public class DoctorDto {
 		return secondName;
 	}
 
-	public Gender getSex() {
-		return sex;
+	public int getAge() {
+		return age;
+	}
+
+	public List<String> getPhoneNumbers() {
+		return phoneNumbers;
+	}
+
+	public byte[] getPhoto() {
+		return photo;
 	}
 
 	public String getSpecilization() {
@@ -52,5 +60,6 @@ public class DoctorDto {
 		return experienceYears;
 	}
 	
-
+	
+	
 }

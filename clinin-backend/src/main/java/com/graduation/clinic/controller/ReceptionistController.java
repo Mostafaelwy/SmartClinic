@@ -24,9 +24,5 @@ public class ReceptionistController {
 	public ReceptionistDto insertReceptionist(@RequestBody Receptionist recep) {
 		return recepService.insertReceptionist(recep);
 	}
-	@PutMapping("/add-visitor")
-	public int addVisitor(@RequestParam String email,@RequestParam Long id) {
-		recepService.addVisitor(email, id);
-		return 0;
-	}
+
 }
