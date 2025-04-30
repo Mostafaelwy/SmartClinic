@@ -34,6 +34,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests().requestMatchers("/swagger-ui/**").permitAll().and()
 			.authorizeHttpRequests().requestMatchers("/v3/api-docs/**").permitAll().and()
 			.authorizeHttpRequests().requestMatchers("/error/**").permitAll().and()
+//			.authorizeHttpRequests().requestMatchers("/smart/doctor/test/**").permitAll().and()
 			.authorizeHttpRequests().requestMatchers("/smart/doctor/**").hasAuthority("DOCTOR").and()
 			.authorizeHttpRequests().requestMatchers("/smart/patient/**").hasAuthority("PATIENT").and()
 			.authorizeHttpRequests().requestMatchers("/smart/receptionist/**").hasAuthority("RECEPTIONIST").and()

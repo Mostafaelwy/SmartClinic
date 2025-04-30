@@ -2,6 +2,7 @@ package com.graduation.clinic.entity;
 
 
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.graduation.clinic.dto.CreateClinicRequest;
@@ -54,8 +55,10 @@ public class Clinic {
 	@JsonBackReference
 	@NotNull
 	private Doctor doctor;
-	@ManyToMany
-	private List <Patient> visitors;
+	
+	@OneToMany(mappedBy = "clinic",cascade = CascadeType.ALL)
+	private Set<ClinicsVistors> myVistors;
+	
 	@OneToMany(mappedBy = "reservedClinic",cascade = CascadeType.ALL)
 	private List <Reservation> reservations;
 	
@@ -123,19 +126,12 @@ public class Clinic {
 	public void setDoctor(Doctor doctor) {
 		this.doctor = doctor;
 	}
-	public List<Patient> getVisitors() {
-		return visitors;
-	}
-	public void setVisitors(List<Patient> visitors) {
-		this.visitors = visitors;
-	}
+
 	public void setPhoneNumbers(List<String> phoneNumbers) {
 		this.phoneNumbers = phoneNumbers;
 	}
 	
-	public void addVisitor(Patient visitor) {
-		visitors.add(visitor);
-	}
+
 	public byte[] getLogo() {
 		return logo;
 	}
@@ -147,6 +143,14 @@ public class Clinic {
 	}
 	public void setLocation(byte[] location) {
 		this.location = location;
+	}
+
+	public Set<ClinicsVistors> getMyVistors() {
+		return myVistors;
+	}
+
+	public void setMyVistors(Set<ClinicsVistors> myVistors) {
+		this.myVistors = myVistors;
 	}
 
 	

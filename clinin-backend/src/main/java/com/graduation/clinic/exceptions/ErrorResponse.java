@@ -9,7 +9,7 @@ public class ErrorResponse {
 	private LocalDateTime time;
 	//private String Solution;
 	
-
+ 
 
 	public ErrorResponse( String message) {
 		Success = Boolean.FALSE;

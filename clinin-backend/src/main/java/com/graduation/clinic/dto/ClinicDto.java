@@ -24,7 +24,7 @@ public class ClinicDto {
 	
 	private final List<Days> workingDays;
 	
-	private final List<PatientDto> visitors;
+	//private  List<PatientDto> visitors;
 	
 
 	public ClinicDto(Clinic clinic) {
@@ -36,14 +36,14 @@ public class ClinicDto {
 		this.closingTime = clinic.getClosingTime();
 		this.workingDays = clinic.getWorkingDays();
 		
-		
+		/*
 		// return list of patientDto(visitors)
-		List<Patient> patients=clinic.getVisitors();
+		//List<Patient> patients=clinic.getMyVistors()
 		List<PatientDto> visitorsDto=new ArrayList<>();
 		for(int i=0;i<patients.size();i++) {
 			visitorsDto.add(new PatientDto(patients.get(i)));
 		}
-		this.visitors=visitorsDto;
+		this.visitors=visitorsDto;*/
 	}
 
 	public long getId() {
@@ -73,11 +73,11 @@ public class ClinicDto {
 	public List<Days> getWorkingDays() {
 		return workingDays;
 	}
-
+/*
 	public List<PatientDto> getVisitors() {
 		return visitors;
 	}
-	
+	*/
 	
 }
 

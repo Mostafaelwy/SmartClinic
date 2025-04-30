@@ -16,23 +16,30 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class Doctor extends UsersBaseEntity {
 
-	private String Specilization;
+	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private List<SpecialtiesAndServices> doctorSpecilization;
 	
 	private int experienceYears;
 	
 	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-//	
+	
 	private List <Clinic> workingClinics=new ArrayList<>();
 	
 	@OneToMany(mappedBy = "reviewedDoctor",cascade = CascadeType.ALL)
 	private List<Review> DoctorReviews;
 	
-	public String getSpecilization() {
-		return Specilization;
-	}
+	@OneToMany(mappedBy = "ratedDoctor")
+	private List<Rating> ratings;
+	
+	private double totalRating;
+	
+	
 
-	public void setSpecilization(String specilization) {
-		Specilization = specilization;
+	public List<SpecialtiesAndServices> getDoctorSpecilization() {
+		return doctorSpecilization;
+	}
+	public void setDoctorSpecilization(List<SpecialtiesAndServices> doctorSpecilization) {
+		this.doctorSpecilization = doctorSpecilization;
 	}
 	public int getExperienceYears() {
 		return experienceYears;
@@ -46,6 +53,32 @@ public class Doctor extends UsersBaseEntity {
 	public void setWorkingClinics(List<Clinic> workingClinics) {
 		this.workingClinics = workingClinics;
 	}
+
+	public List<Review> getDoctorReviews() {
+		return DoctorReviews;
+	}
+
+	public void setDoctorReviews(List<Review> doctorReviews) {
+		DoctorReviews = doctorReviews;
+	}
+
+	public double getTotalRating() {
+		return totalRating;
+	}
+
+	public void setTotalRating(double totalRating) {
+		this.totalRating = totalRating;
+	}
+//	public void addSpeciality(SpecialtiesAndServices speciality){
+//		
+//		doctorSpecilization.add(speciality);
+//		speciality.setDoctor(this);
+//	}
+//	public void deleteSpeciality(SpecialtiesAndServices speciality){
+//		doctorSpecilization.remove(speciality);
+//		speciality.setDoctor(null);
+//	}
+//	
 	
 
 }

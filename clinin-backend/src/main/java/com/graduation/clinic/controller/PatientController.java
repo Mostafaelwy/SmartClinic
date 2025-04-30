@@ -11,13 +11,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.graduation.clinic.dto.PatientDto;
+import com.graduation.clinic.dto.RatingDto;
+import com.graduation.clinic.dto.ReservationDto;
 import com.graduation.clinic.dto.ReservationRequest;
 import com.graduation.clinic.dto.ReviewDto;
 import com.graduation.clinic.dto.WriteReviewRequest;
 import com.graduation.clinic.entity.Patient;
+import com.graduation.clinic.entity.Rating;
 import com.graduation.clinic.entity.ReservationStatus;
 import com.graduation.clinic.entity.Review;
 import com.graduation.clinic.service.PatientService;
+import com.graduation.clinic.service.RatingService;
 import com.graduation.clinic.service.ReservationService;
 import com.graduation.clinic.service.ReviewService;
 
@@ -31,11 +35,20 @@ public class PatientController {
 	private final PatientService patientService;
 	private final ReservationService reservationService;
 	private final ReviewService reviewService;
+	private final RatingService ratingService;
 
-	public PatientController(PatientService patientService,ReservationService reservationService,ReviewService reviewService) {
+
+	public PatientController(
+			PatientService patientService,
+			ReservationService reservationService,
+			ReviewService reviewService,
+			RatingService ratingService
+			) {
+		
 		this.patientService = patientService;
-		this.reservationService=reservationService;
-		this.reviewService=reviewService;
+		this.reservationService = reservationService;
+		this.reviewService = reviewService;
+		this.ratingService = ratingService;
 	}
 	@PostMapping("/insert")
 	public PatientDto insertPatient(@RequestBody Patient patient){
@@ -46,8 +59,12 @@ public class PatientController {
 		return reviewService.writeReview(request);
 	}
 
-	@PostMapping("/make-reservation")
-	public ReservationStatus makeReservation(@RequestBody @Valid ReservationRequest request) {
-		return reservationService.makeReservation(request);
+	@PostMapping("/me/reservation/clinic/{clinicId}")// fix this ############
+	public ReservationDto makeReservation(@RequestBody @Valid ReservationRequest request,@PathVariable Long clinicId) {
+		return reservationService.makeReservation(request,clinicId);
+	}
+	@PostMapping("/rate")
+	public Rating rate(@RequestBody RatingDto request) {
+		return ratingService.rate(request);
 	}
 }

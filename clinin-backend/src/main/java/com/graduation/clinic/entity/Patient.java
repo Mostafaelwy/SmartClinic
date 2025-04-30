@@ -1,6 +1,7 @@
 package com.graduation.clinic.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -22,14 +23,15 @@ public class Patient extends UsersBaseEntity {
 	@ManyToOne
 	@JoinColumn(name ="birth_address_id")
 	private Address placeOfBirth;
-	
-	@ManyToMany(mappedBy = "visitors")
-	private List<Clinic> visitedClinics;
+	@OneToMany(mappedBy = "visitor",cascade = CascadeType.ALL)
+	private Set<ClinicsVistors> visitedClinics;
 	
 	@OneToMany(mappedBy ="reviewer", cascade = CascadeType.ALL)
 	private List<Review> reviews;
 	@OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
 	private List<Reservation> reservations;
+	@OneToMany(mappedBy = "rater")
+	private List<Rating> ratings;
 	
 	public List<Review> getReviews() {
 		return reviews;
@@ -55,13 +57,16 @@ public class Patient extends UsersBaseEntity {
 		this.placeOfBirth = placeOfBirth;
 	}
 
-	public List<Clinic> getVisitedClinics() {
+	public Set<ClinicsVistors> getVisitedClinics() {
 		return visitedClinics;
 	}
 
-	public void setVisitedClinics(List<Clinic> visitedClinics) {
+	public void setVisitedClinics(Set<ClinicsVistors> visitedClinics) {
 		this.visitedClinics = visitedClinics;
 	}
+	
+
+
 
 
 }

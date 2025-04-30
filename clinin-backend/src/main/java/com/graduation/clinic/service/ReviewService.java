@@ -41,9 +41,18 @@ public class ReviewService {
 	public ReviewDto writeReview(WriteReviewRequest request) {
 		Doctor doctor=doctorService.findById(request.getDoctorId());
 		Patient patient = patientService.findById(request.getReviewerId());
+		List<Integer> DoctorRates=reviewRepo.findRates(request.getDoctorId());
 		
+		Double totalRate=0.0;
+		
+		for(int i=0;i<DoctorRates.size();i++) {
+			totalRate+=DoctorRates.get(i);
+		}
+		totalRate/=DoctorRates.size();
+		doctor.setTotalRating(totalRate);
 		Review review= new Review();
 		review.setMessage(request.getMessage());
+		review.setRate(request.getRate());
 		review.setReviewer(patient);
 		review.setReviewedDoctor(doctor);
 		return new ReviewDto(reviewRepo.save(review));

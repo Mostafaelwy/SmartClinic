@@ -14,7 +14,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 @Entity
 public class Review {
 
@@ -28,6 +31,11 @@ public class Review {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Doctor reviewedDoctor;
+	
+	@NotNull
+	@Min(value = 0)
+	@Max(value = 5)
+	private int rate;
 
 	
 	public long getId() {
@@ -68,6 +76,14 @@ public class Review {
 	public Page<ReviewDto> paginateReviewDto(Page <Review> reviews){
 		Page<ReviewDto> dtos= reviews.map(this::convertReviewToDto);
 		return dtos;
+	}
+
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
 	}
 
 

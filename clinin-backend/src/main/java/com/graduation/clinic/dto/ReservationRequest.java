@@ -1,35 +1,43 @@
 package com.graduation.clinic.dto;
 
-import com.graduation.clinic.entity.Days;
+import java.time.LocalDate;
+
+
+import com.graduation.clinic.entity.VisitType;
 
 import jakarta.validation.constraints.NotNull;
 
+
 public class ReservationRequest {
 
+
 	@NotNull
-	private long patientId;
+	private LocalDate reservationDate;
 	@NotNull
-	private Days reservationDay;
-	@NotNull
-	private long clinicId;
+	private VisitType visitType;
+
 	
-	public long getPatientId() {
-		return patientId;
+	public ReservationRequest(@NotNull LocalDate reservationDate,@NotNull VisitType visitType) {
+		this.reservationDate = reservationDate;
+		this.visitType = visitType;
 	}
 
-	public Days getReservationDay() {
-		return reservationDay;
+	public LocalDate getReservationDate() {
+		return reservationDate;
 	}
 
-	public long getClinicId() {
-		return clinicId;
+	public VisitType getVisitType() {
+		return visitType;
 	}
 
-	public ReservationRequest(@NotNull long patientId, @NotNull Days reservationDay, @NotNull long clinicId) {
-		this.patientId = patientId;
-		this.reservationDay = reservationDay;
-		this.clinicId = clinicId;
-	}
+	
+	
+
+
+
+
+
+
 	
 
 

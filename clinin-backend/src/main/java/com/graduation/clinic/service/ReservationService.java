@@ -1,5 +1,6 @@
 package com.graduation.clinic.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,15 +9,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.graduation.clinic.dto.FilterReservations;
 import com.graduation.clinic.dto.ReservationDto;
 import com.graduation.clinic.dto.ReservationRequest;
 import com.graduation.clinic.entity.Clinic;
+import com.graduation.clinic.entity.Doctor;
 import com.graduation.clinic.entity.Patient;
 import com.graduation.clinic.entity.Reservation;
 import com.graduation.clinic.entity.ReservationStatus;
 import com.graduation.clinic.exceptions.NotFoundException;
+import com.graduation.clinic.exceptions.TimeException;
 import com.graduation.clinic.repos.ReservationRepo;
 
 @Service
@@ -40,45 +47,62 @@ public class ReservationService {
 		return dtos;
 	}
 	
-	public Page<ReservationDto> findAllReservation(Long Clinicid,int pageNum){
-		
-		Pageable page=PageRequest.of(pageNum,4,Sort.by(Direction.ASC, "reservationDay"));
-		
-		Page<Reservation> reservation=reservationRepo.findByReservedClinicId(Clinicid,page);
-	
-		return paginateReservationDto(reservation);
-		
-	}
-	public ReservationStatus makeReservation(ReservationRequest request) {
-		Clinic clinic=clinicService.findById(request.getClinicId());
-		Patient patient =patientService.findById(request.getPatientId());
-		
-		Reservation reservation=new Reservation();
-		reservation.setPatient(patient);
-		reservation.setReservedClinic(clinic);
-		reservation.setStatus(ReservationStatus.PENDING);
-		reservation.setReservationDay(request.getReservationDay());
-		
-		return (reservationRepo.save(reservation)).getStatus();
-		
-	}
-	
-	public ReservationDto alterReservationStatus(Reservation request) {
-		Reservation reservation= reservationRepo.findById(request.getId()).orElseThrow(()->new NotFoundException("reservation not found"));
-		reservation.setStatus(request.getStatus());
-		return new ReservationDto(reservationRepo.save(reservation));
-	}
-	public Page<ReservationDto> filterReservationByStatus(Long id,ReservationStatus status,int pageNum) {
 
-		Pageable page =PageRequest.of(pageNum,2, Direction.ASC, "reservationDay");
+	public ReservationDto makeReservation(ReservationRequest request,Long clinicId) {
 		
-		if (status == null || status.name() == "") {
-			Page<Reservation> reservationPage = reservationRepo.findByReservedClinicId(id, page);
-			return paginateReservationDto(reservationPage);
+		if(request.getReservationDate().isAfter(LocalDate.now())) {
+			Clinic clinic=clinicService.findById(clinicId);
+			
+			Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+			Patient patient=(Patient) auth.getPrincipal();
+			
+			Long doctorId=clinic.getDoctor().getId();
+			
+			Reservation reservation=new Reservation();
+			reservation.setPatient(patient);
+			reservation.setReservedClinic(clinic);
+			reservation.setStatus(ReservationStatus.PENDING);
+			reservation.setReservationDate(request.getReservationDate());
+			reservation.setDoctorId(doctorId);
+			reservation.setCreationDate(LocalDate.now());
+			reservation.setVisitType(request.getVisitType());
+			return new ReservationDto(reservationRepo.save(reservation));
 		}else {
-			Page<Reservation> reservationPage=reservationRepo.findByReservedClinicIdAndStatus(id, status, page);
-			return paginateReservationDto(reservationPage);
+			throw new TimeException("reservation date must be at least after one day from reservation Request time.");
 		}
-	
+
 	}
+	
+	public ReservationDto alterReservationStatus(Long reservationId , ReservationStatus status) {
+		
+		Reservation reservation= reservationRepo.findById(reservationId).orElseThrow(()->new NotFoundException("reservation not found"));
+		if(status==null|| status.name()=="") {
+			
+			return new ReservationDto(reservationRepo.save(reservation));
+		}else {
+			reservation.setStatus(status);
+			return new ReservationDto(reservationRepo.save(reservation));
+		}
+	}
+	
+	public Page<ReservationDto> reservationSearch(FilterReservations filter, int pageNum,int pageSize){
+		
+		Pageable page=PageRequest.of(pageNum, pageSize);
+		
+		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		Doctor doc=(Doctor) auth.getPrincipal();
+		
+		Page<Reservation> reservationPage=reservationRepo.findAll(
+	
+				Specification.where(ReservationSpecifications.hasDoctorId(doc.getId()))
+							.and(ReservationSpecifications.hasStatus(filter.getStatus()))
+							.and(ReservationSpecifications.hasCreationDate(filter.getStartTime(), filter.getEndTime()))
+							.and(ReservationSpecifications.hasPatientName(filter.getPatientName()))
+							.and(ReservationSpecifications.hasVisitType(filter.getVisitType()))
+				,page);
+		
+		return paginateReservationDto(reservationPage);
+	}
+	
+
 }
