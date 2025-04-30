@@ -1,6 +1,9 @@
 package com.graduation.clinic.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -120,7 +123,9 @@ public class AuthenticationService {
 	public AuthenticationResponse authenticate(AuthenticationRequest request) {
 		Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
 		UsersBaseEntity user =baseUserRepo.findByUserName(request.getEmail()).orElseThrow();
-		var jwtToken =jwtService.GenerateToken(user);
+		Map<String, Object> newCalims = new HashMap();
+		newCalims.put("roles", user.getAuthorities());
+		var jwtToken =jwtService.GenerateToken(newCalims, user);
 		AuthenticationResponse authresponse=new AuthenticationResponse(jwtToken);
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		return authresponse;
