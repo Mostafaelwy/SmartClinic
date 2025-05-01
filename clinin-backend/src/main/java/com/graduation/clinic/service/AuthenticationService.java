@@ -129,9 +129,8 @@ public class AuthenticationService {
 	public AuthenticationResponse authenticate(AuthenticationRequest request) {
 		Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
 		UsersBaseEntity user =baseUserRepo.findByUserName(request.getEmail()).orElseThrow();
-		Map<String, Object> newCalims = new HashMap();
-		newCalims.put("roles", user.getAuthorities());
-		var jwtToken =jwtService.GenerateToken(newCalims, user);
+
+		var jwtToken =jwtService.GenerateToken(user);
 		AuthenticationResponse authresponse=new AuthenticationResponse(jwtToken);
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		return authresponse;
