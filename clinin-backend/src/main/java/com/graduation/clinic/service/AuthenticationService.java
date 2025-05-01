@@ -68,7 +68,9 @@ public class AuthenticationService {
 			doctor.setPassword(passwordEncoder.encode(request.getPassword()));
 			doctor.setRoles(Role.DOCTOR);
 			doctorRepo.save(doctor);
-			var JwtToken =jwtService.GenerateToken(doctor);
+			Map<String, Object> newCalims = new HashMap();
+			newCalims.put("roles", doctor.getAuthorities());
+			var JwtToken =jwtService.GenerateToken(newCalims ,doctor);
 			AuthenticationResponse authresponse =new AuthenticationResponse(JwtToken);
 			return authresponse;
 		}
@@ -89,7 +91,9 @@ public class AuthenticationService {
 			patient.setPassword(passwordEncoder.encode(request.getPassword()));
 			patient.setRoles(Role.PATIENT);
 			patientRepo.save(patient);
-			var JwtToken =jwtService.GenerateToken(patient);
+			Map<String, Object> newCalims = new HashMap();
+			newCalims.put("roles", patient.getAuthorities());
+			var JwtToken =jwtService.GenerateToken(newCalims, patient);
 			AuthenticationResponse authresponse =new AuthenticationResponse(JwtToken);
 			return authresponse;
 		}
@@ -109,7 +113,9 @@ public class AuthenticationService {
 			recep.setPassword(passwordEncoder.encode(request.getPassword()));
 			recep.setRoles(Role.RECEPTIONIST);
 			receptionistRepo.save(recep);
-			var JwtToken =jwtService.GenerateToken(recep);
+			Map<String, Object> newCalims = new HashMap();
+			newCalims.put("roles", recep.getAuthorities());
+			var JwtToken =jwtService.GenerateToken(newCalims, recep);
 			AuthenticationResponse authresponse =new AuthenticationResponse(JwtToken);
 			return authresponse;
 		}
