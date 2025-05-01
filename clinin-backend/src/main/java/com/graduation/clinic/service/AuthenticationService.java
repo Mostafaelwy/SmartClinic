@@ -91,9 +91,7 @@ public class AuthenticationService {
 			patient.setPassword(passwordEncoder.encode(request.getPassword()));
 			patient.setRoles(Role.PATIENT);
 			patientRepo.save(patient);
-			Map<String, Object> newCalims = new HashMap();
-			newCalims.put("roles", patient.getAuthorities());
-			var JwtToken =jwtService.GenerateToken(newCalims, patient);
+			var JwtToken =jwtService.GenerateToken( patient);
 			AuthenticationResponse authresponse =new AuthenticationResponse(JwtToken);
 			return authresponse;
 		}
@@ -113,9 +111,7 @@ public class AuthenticationService {
 			recep.setPassword(passwordEncoder.encode(request.getPassword()));
 			recep.setRoles(Role.RECEPTIONIST);
 			receptionistRepo.save(recep);
-			Map<String, Object> newCalims = new HashMap();
-			newCalims.put("roles", recep.getAuthorities());
-			var JwtToken =jwtService.GenerateToken(newCalims, recep);
+			var JwtToken =jwtService.GenerateToken(recep);
 			AuthenticationResponse authresponse =new AuthenticationResponse(JwtToken);
 			return authresponse;
 		}
@@ -129,7 +125,6 @@ public class AuthenticationService {
 	public AuthenticationResponse authenticate(AuthenticationRequest request) {
 		Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
 		UsersBaseEntity user =baseUserRepo.findByUserName(request.getEmail()).orElseThrow();
-
 		var jwtToken =jwtService.GenerateToken(user);
 		AuthenticationResponse authresponse=new AuthenticationResponse(jwtToken);
 		SecurityContextHolder.getContext().setAuthentication(auth);
