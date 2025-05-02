@@ -19,6 +19,7 @@ import com.graduation.clinic.exceptions.DuplicateException;
 import com.graduation.clinic.exceptions.GenericException;
 import com.graduation.clinic.exceptions.NotFoundException;
 import com.graduation.clinic.repos.DoctorRepo;
+import com.graduation.clinic.repos.SpecialityServiceRepo;
 import com.graduation.clinic.repos.SpecialtiesAndServicesRepo;
 
 import jakarta.transaction.Transactional;
@@ -27,12 +28,17 @@ import jakarta.transaction.Transactional.TxType;
 public class DoctorSpecialtiesService {
 
 	private final SpecialtiesAndServicesRepo specialtiesAndServicesRepo;
+	private final SpecialityServiceRepo specialityServiceRepo;
 
 	private final DoctorRepo doctorRepo;
-	public DoctorSpecialtiesService(SpecialtiesAndServicesRepo specialtiesAndServicesRepo,
-			DoctorRepo doctorRepo) {
+	public DoctorSpecialtiesService(
+			SpecialtiesAndServicesRepo specialtiesAndServicesRepo,
+			DoctorRepo doctorRepo,
+			SpecialityServiceRepo specialityServiceRepo
+			) {
 		this.specialtiesAndServicesRepo = specialtiesAndServicesRepo;
 		this.doctorRepo=doctorRepo;
+		this.specialityServiceRepo=specialityServiceRepo;
 	}
 	public boolean compareSpecialityServicesWithoutId(SpecialityServices obj1, SpecialityServices obj2) {
 	    return new EqualsBuilder()
@@ -88,7 +94,7 @@ public class DoctorSpecialtiesService {
 	 
 	 
 	 
-	 
+	 @Transactional(value = TxType.REQUIRES_NEW)
 	 public SpecialityServiceDto addServicetoSpeciality(Long specialityId,AddSpecialityServiceRequest request) {
 		 SpecialtiesAndServices speciality=specialtiesAndServicesRepo.findById(specialityId).orElseThrow(()-> new NotFoundException("speciality not found"));
 		 
@@ -133,6 +139,18 @@ public class DoctorSpecialtiesService {
 			 throw new GenericException("you are not allowed to delete this speciality");
 		 }
 	 
+	 }
+	 @Transactional(value = TxType.REQUIRES_NEW)
+	 public void deleteSpecialityService(Long ServiceId) {
+		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		 Doctor doc=(Doctor) auth.getPrincipal();
+		 SpecialityServices service=specialityServiceRepo.findById(ServiceId).orElseThrow(()-> new NotFoundException("service not found"));
+		 
+		 if(service.getSpeciality().getDoctor().getId()==doc.getId()) {
+			 specialityServiceRepo.delete(service);
+		 }else {
+			 throw new GenericException("you are not allowed to delete this");
+		 }
 	 }
 	 
 }

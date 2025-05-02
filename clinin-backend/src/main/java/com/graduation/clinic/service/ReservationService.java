@@ -48,6 +48,7 @@ public class ReservationService {
 	}
 	
 
+	
 	public ReservationDto makeReservation(ReservationRequest request,Long clinicId) {
 		
 		if(request.getReservationDate().isAfter(LocalDate.now())) {

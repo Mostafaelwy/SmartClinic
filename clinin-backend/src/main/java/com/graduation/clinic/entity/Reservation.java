@@ -43,6 +43,17 @@ public class Reservation {
 	private LocalDate creationDate;
 	@NotNull
 	private VisitType visitType;
+	
+	private AppointmentDetailes appointmentDetailes;
+
+	
+	public AppointmentDetailes getAppointmentDetailes() {
+		return appointmentDetailes;
+	}
+
+	public void setAppointmentDetailes(AppointmentDetailes appointmentDetailes) {
+		this.appointmentDetailes = appointmentDetailes;
+	}
 
 	public long getId() {
 		return id;

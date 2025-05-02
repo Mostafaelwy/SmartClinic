@@ -33,6 +33,18 @@ public class Patient extends UsersBaseEntity {
 	@OneToMany(mappedBy = "rater")
 	private List<Rating> ratings;
 	
+	private List<AppointmentDetailes> patientAppointmentDetailes;
+	
+	
+	
+	public List<AppointmentDetailes> getPatientAppointmentDetailes() {
+		return patientAppointmentDetailes;
+	}
+
+	public void setPatientAppointmentDetailes(List<AppointmentDetailes> patientAppointmentDetailes) {
+		this.patientAppointmentDetailes = patientAppointmentDetailes;
+	}
+
 	public List<Review> getReviews() {
 		return reviews;
 	}

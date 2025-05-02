@@ -32,6 +32,8 @@ import com.graduation.clinic.dto.UpdateClinicDetailesRequest;
 import com.graduation.clinic.dto.AddSpecialityRequest;
 import com.graduation.clinic.dto.AddSpecialityServiceRequest;
 import com.graduation.clinic.dto.AddVisitorResponse;
+import com.graduation.clinic.dto.AppointmentDetailesRequest;
+import com.graduation.clinic.dto.ChangePasswordRequest;
 import com.graduation.clinic.dto.ClinicData;
 import com.graduation.clinic.dto.ClinicDto;
 import com.graduation.clinic.dto.CreateClinicRequest;
@@ -40,6 +42,7 @@ import com.graduation.clinic.entity.Reservation;
 import com.graduation.clinic.entity.ReservationStatus;
 import com.graduation.clinic.entity.SpecialtiesAndServices;
 import com.graduation.clinic.repos.ReviewRepo;
+import com.graduation.clinic.service.AppointmentDetailesService;
 import com.graduation.clinic.service.ClinicService;
 import com.graduation.clinic.service.DoctorService;
 import com.graduation.clinic.service.DoctorSpecialtiesService;
@@ -59,13 +62,17 @@ public class DoctorController {
 	private final ReviewService reviewService;
 	private final ReviewRepo reviewRepo;
 	private final DoctorSpecialtiesService doctorSpecialtiesService;
+	private final AppointmentDetailesService appointmentDetailesService;
 
-	public DoctorController(DoctorService doctorService,
+	public DoctorController(
+			DoctorService doctorService,
 			ClinicService clinicService,
 			ReservationService reservationService,
 			ReviewService reviewService,
 			ReviewRepo reviewRepo ,
-			DoctorSpecialtiesService doctorSpecialtiesService) {
+			DoctorSpecialtiesService doctorSpecialtiesService,
+			AppointmentDetailesService appointmentDetailesService
+			) {
 		
 		
 		this.doctorService = doctorService;
@@ -74,10 +81,10 @@ public class DoctorController {
 		this.reviewService=reviewService;
 		this.reviewRepo=reviewRepo;
 		this.doctorSpecialtiesService=doctorSpecialtiesService;
+		this.appointmentDetailesService=appointmentDetailesService;
 	}
 	
-	 @Autowired
-    private HttpServletRequest request;
+
 	
 	
 	/*
@@ -156,6 +163,21 @@ public class DoctorController {
 	public void deleteSpeciality(@PathVariable long specialityId) {
 		doctorSpecialtiesService.deleteSpeciality(specialityId);
 	}
+	@DeleteMapping("me/service/{serviceId}")
+	public void deleteSpecialityService(@PathVariable Long serviceId) {
+		doctorSpecialtiesService.deleteSpecialityService(serviceId);
+	}
+	@PatchMapping("/me/password")
+	public void changePassword(@RequestBody ChangePasswordRequest request) {
+		doctorService.ChangePassword(request);
+	}
+	@PostMapping("/me/appointment-detailes/reservation/{reservationID}")
+	public void addAppointmentDetailes(@RequestBody AppointmentDetailesRequest request,@PathVariable Long reservationID) {
+		
+		
+		appointmentDetailesService.addAppointmentDetailes(reservationID, request);
+	}
+	
 	
 			
 }

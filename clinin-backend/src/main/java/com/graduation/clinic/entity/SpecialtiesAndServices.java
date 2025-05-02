@@ -31,7 +31,7 @@ public class SpecialtiesAndServices {
 	@Enumerated(EnumType.STRING)
 	private Specialties specialtiy;
 	
-	@OneToMany(mappedBy = "speciality",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "speciality",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@NotEmpty
 	private List<SpecialityServices> services;
 	

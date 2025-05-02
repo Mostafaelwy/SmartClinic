@@ -21,7 +21,7 @@ public class Doctor extends UsersBaseEntity {
 	
 	private int experienceYears;
 	
-	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	
 	private List <Clinic> workingClinics=new ArrayList<>();
 	
@@ -32,9 +32,17 @@ public class Doctor extends UsersBaseEntity {
 	private List<Rating> ratings;
 	
 	private double totalRating;
+	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private List<AppointmentDetailes> patientNotes;
 	
 	
 
+	public List<AppointmentDetailes> getPatientNotes() {
+		return patientNotes;
+	}
+	public void setPatientNotes(List<AppointmentDetailes> patientNotes) {
+		this.patientNotes = patientNotes;
+	}
 	public List<SpecialtiesAndServices> getDoctorSpecilization() {
 		return doctorSpecilization;
 	}
