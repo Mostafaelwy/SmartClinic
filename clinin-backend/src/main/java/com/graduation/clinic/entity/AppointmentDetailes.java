@@ -22,7 +22,7 @@ public class AppointmentDetailes {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@ManyToOne
-	private Patient Patient;
+	private Patient patient;
 	@ManyToOne
 	private Doctor doctor;
 	@OneToOne
@@ -38,6 +38,9 @@ public class AppointmentDetailes {
 	
 	
 	
+	public AppointmentDetailes() {
+		
+	}
 	public AppointmentDetailes(AppointmentDetailesRequest request) {
 		this.advice= request.getAdvice();
 		this.clinicalNotes= request.getClinicalNotes();
@@ -45,8 +48,11 @@ public class AppointmentDetailes {
 		this.followUp= request.getFollowUp();
 		this.laboratoryTests= request.getLaboratoryTests();
 		List<Medications> medications=new ArrayList<>();
+		
 		for(int i=0 ;i<request.getMedications().size();i++) {
-			medications.add(new Medications(request.getMedications().get(i)));
+			Medications medication=new Medications(request.getMedications().get(i));
+			medication.setAppointmentDetailes(this);
+			medications.add(medication);
 		}
 		this.medications=medications;
 		this.PreviousMedicalHistory= request.getPreviousMedicalHistory();
@@ -58,10 +64,10 @@ public class AppointmentDetailes {
 		this.id = id;
 	}
 	public Patient getPatient() {
-		return Patient;
+		return patient;
 	}
 	public void setPatient(Patient patient) {
-		Patient = patient;
+		this.patient = patient;
 	}
 	
 	public Doctor getDoctor() {

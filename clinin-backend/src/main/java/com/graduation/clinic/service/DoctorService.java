@@ -87,7 +87,7 @@ public class DoctorService {
 		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
 		 Doctor doc=(Doctor)auth.getPrincipal();
 		
-		 if(doc.getPassword().equals(passwordEncoder.encode(request.getOldPassword()))){
+		 if(this.passwordEncoder.matches(request.getOldPassword(), doc.getPassword())){
 			 doc.setPassword(passwordEncoder.encode(request.getNewPassword()));
 			 doctorRepo.save(doc);
 		 }else {

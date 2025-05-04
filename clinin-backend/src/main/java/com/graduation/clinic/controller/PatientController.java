@@ -67,4 +67,9 @@ public class PatientController {
 	public Rating rate(@RequestBody RatingDto request) {
 		return ratingService.rate(request);
 	}
+	@GetMapping("/{id}")
+	public Patient findPatient(@PathVariable Long id) {
+		return patientService.findById(id);
+	}
+	
 }

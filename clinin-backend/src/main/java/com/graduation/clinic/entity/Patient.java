@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -23,16 +24,16 @@ public class Patient extends UsersBaseEntity {
 	@ManyToOne
 	@JoinColumn(name ="birth_address_id")
 	private Address placeOfBirth;
-	@OneToMany(mappedBy = "visitor",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "visitor",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private Set<ClinicsVistors> visitedClinics;
 	
-	@OneToMany(mappedBy ="reviewer", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy ="reviewer", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<Review> reviews;
-	@OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "patient",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<Reservation> reservations;
 	@OneToMany(mappedBy = "rater")
 	private List<Rating> ratings;
-	
+	@OneToMany(mappedBy = "patient",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<AppointmentDetailes> patientAppointmentDetailes;
 	
 	

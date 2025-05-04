@@ -7,4 +7,7 @@ import com.graduation.clinic.entity.AppointmentDetailes;
 @Repository
 public interface AppointmentDetailesRepo extends JpaRepository<AppointmentDetailes, Long>{
 
+	int countByDoctorIdAndPatientId(Long doctorId,Long patientId) ;
+		
+	
 }

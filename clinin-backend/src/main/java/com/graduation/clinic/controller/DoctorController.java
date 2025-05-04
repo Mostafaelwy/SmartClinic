@@ -28,6 +28,7 @@ import com.graduation.clinic.dto.ReservationDto;
 import com.graduation.clinic.dto.ReviewDto;
 import com.graduation.clinic.dto.SpecialityServiceDto;
 import com.graduation.clinic.dto.SpecialtiesAndServicesDto;
+import com.graduation.clinic.dto.StartAppointment;
 import com.graduation.clinic.dto.UpdateClinicDetailesRequest;
 import com.graduation.clinic.dto.AddSpecialityRequest;
 import com.graduation.clinic.dto.AddSpecialityServiceRequest;
@@ -171,11 +172,15 @@ public class DoctorController {
 	public void changePassword(@RequestBody ChangePasswordRequest request) {
 		doctorService.ChangePassword(request);
 	}
-	@PostMapping("/me/appointment-detailes/reservation/{reservationID}")
-	public void addAppointmentDetailes(@RequestBody AppointmentDetailesRequest request,@PathVariable Long reservationID) {
+	@GetMapping("/me/appointment/reservation/{reservationId}")
+	public StartAppointment startAppointment(@PathVariable Long reservationId) {
+		 return appointmentDetailesService.startAppointment(reservationId);
+	}
+	
+	@PostMapping("/me/appointment/reservation/{reservationID}")
+	public ReservationStatus endAppointment(@RequestBody AppointmentDetailesRequest request,@PathVariable Long reservationID) {
 		
-		
-		appointmentDetailesService.addAppointmentDetailes(reservationID, request);
+		return appointmentDetailesService.endAppointment(reservationID, request);
 	}
 	
 	

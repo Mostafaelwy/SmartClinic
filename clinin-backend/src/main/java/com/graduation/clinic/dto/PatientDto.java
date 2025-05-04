@@ -1,5 +1,8 @@
 package com.graduation.clinic.dto;
 
+import java.util.List;
+
+import com.graduation.clinic.entity.Address;
 import com.graduation.clinic.entity.Gender;
 import com.graduation.clinic.entity.Patient;
 
@@ -14,9 +17,10 @@ public class PatientDto {
 	
 	private final int age;
 	
-	private final String country;
-	
+	private final Address address;
 	private final String userName;
+	
+	private final List<String> phoneNumbers;
 	
 
 
@@ -26,8 +30,10 @@ public class PatientDto {
 		this.secondName = patient.getSecondName();
 		this.sex = patient.getSex();
 		this.age = patient.getAge();
-		this.country = patient.getCountry();
 		this.userName=patient.getUsername();
+		this.phoneNumbers=patient.getPhoneNumbers();
+		this.address=patient.getAddress();
+		
 	}
 
 
@@ -56,13 +62,21 @@ public class PatientDto {
 	}
 
 
-	public String getCountry() {
-		return country;
-	}
-
 
 	public String getUserName() {
 		return userName;
 	}
+
+
+	public List<String> getPhoneNumbers() {
+		return phoneNumbers;
+	}
+
+
+	public Address getAddress() {
+		return address;
+	}
+	
+	
 	
 }
