@@ -1,10 +1,12 @@
 package com.graduation.clinic.dto;
 
 import java.util.List;
+import java.util.Map;
 
 import com.graduation.clinic.entity.Address;
 import com.graduation.clinic.entity.Clinic;
 import com.graduation.clinic.entity.Days;
+import com.graduation.clinic.entity.Slot;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -24,7 +26,7 @@ public class ClinicData {
 	@NotNull
 	private final String closingTime;
 	
-	private final List<Days>workingDays;
+	private final Map<Days ,Slot> workingDays;
 	
 	
 	public ClinicData(Clinic clinic) {
@@ -74,8 +76,10 @@ public class ClinicData {
 	}
 
 
-	public List<Days> getWorkingDays() {
+	public Map<Days, Slot> getWorkingDays() {
 		return workingDays;
 	}
+
+
 	
 }

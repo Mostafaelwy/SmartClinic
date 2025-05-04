@@ -1,6 +1,8 @@
 package com.graduation.clinic.controller;
 
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,7 @@ import com.graduation.clinic.dto.DoctorStatistics;
 import com.graduation.clinic.dto.FilterReservations;
 import com.graduation.clinic.dto.ReservationDto;
 import com.graduation.clinic.dto.ReviewDto;
+import com.graduation.clinic.dto.SlotDto;
 import com.graduation.clinic.dto.SpecialityServiceDto;
 import com.graduation.clinic.dto.SpecialtiesAndServicesDto;
 import com.graduation.clinic.dto.StartAppointment;
@@ -38,9 +41,11 @@ import com.graduation.clinic.dto.ChangePasswordRequest;
 import com.graduation.clinic.dto.ClinicData;
 import com.graduation.clinic.dto.ClinicDto;
 import com.graduation.clinic.dto.CreateClinicRequest;
+import com.graduation.clinic.entity.Days;
 import com.graduation.clinic.entity.Doctor;
 import com.graduation.clinic.entity.Reservation;
 import com.graduation.clinic.entity.ReservationStatus;
+import com.graduation.clinic.entity.Slot;
 import com.graduation.clinic.entity.SpecialtiesAndServices;
 import com.graduation.clinic.repos.ReviewRepo;
 import com.graduation.clinic.service.AppointmentDetailesService;
@@ -182,6 +187,15 @@ public class DoctorController {
 		
 		return appointmentDetailesService.endAppointment(reservationID, request);
 	}
+	@PatchMapping("/me/workingdays/{workingDay}/clinic/{clinicId}")
+	public Map<Days, List<LocalTime>> addWorkingDay(@PathVariable Long clinicId,@PathVariable Days workingDay,@RequestBody SlotDto slot){
+		 return clinicService.addWorkingDay(clinicId, workingDay, slot);
+	}
+	@GetMapping("/avilable-timings/clinic/{clinicId}")
+	public Map<Days, List<LocalTime>> showSlotsPerDay(@PathVariable Long clinicId) {
+		return clinicService.showSlotsPerDay(clinicId);
+	}
+	
 	
 	
 			

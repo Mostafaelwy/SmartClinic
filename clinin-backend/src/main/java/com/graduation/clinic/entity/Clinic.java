@@ -2,20 +2,26 @@ package com.graduation.clinic.entity;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.graduation.clinic.dto.CreateClinicRequest;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapKeyEnumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -48,8 +54,10 @@ public class Clinic {
 	private String openingTime;
 	@NotNull
 	private String closingTime;
-	@NotNull
-	private List<Days>workingDays;
+	
+	@OneToMany(mappedBy = "clinic",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @MapKeyEnumerated(EnumType.STRING)
+	private Map<Days,Slot>workingDays;
 	@ManyToOne
 	@JoinColumn(name = "doctor_id")
 	@JsonBackReference
@@ -113,13 +121,16 @@ public class Clinic {
 	public void setClosingTime(String closingTime) {
 		this.closingTime = closingTime;
 	}
-	public List<Days> getWorkingDays() {
+
+	
+	public Map<Days, Slot> getWorkingDays() {
 		return workingDays;
 	}
-	public void setWorkingDays(List<Days> workingDays) {
+
+	public void setWorkingDays(Map<Days,Slot> workingDays) {
 		this.workingDays = workingDays;
 	}
-	
+
 	public Doctor getDoctor() {
 		return doctor;
 	}

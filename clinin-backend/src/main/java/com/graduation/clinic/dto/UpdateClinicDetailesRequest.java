@@ -1,8 +1,10 @@
 package com.graduation.clinic.dto;
 
 import java.util.List;
+import java.util.Map;
 
 import com.graduation.clinic.entity.Days;
+import com.graduation.clinic.entity.Slot;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -22,11 +24,11 @@ public class UpdateClinicDetailesRequest {
 	@NotNull
 	private final String closingTime;
 	
-	private final List<Days>workingDays;
+	private final Map<Days,Slot>workingDays;
 
 	public UpdateClinicDetailesRequest(byte[] logo, @NotNull String clinicName, byte[] location,
 			@NotNull List<String> phoneNumbers, @NotNull String openingTime, @NotNull String closingTime,
-			List<Days> workingDays,@NotNull Long id) {
+			Map<Days,Slot>workingDays,@NotNull Long id) {
 		this.logo = logo;
 		this.clinicName = clinicName;
 		this.location = location;
@@ -67,9 +69,12 @@ public class UpdateClinicDetailesRequest {
 		return closingTime;
 	}
 
-	public List<Days> getWorkingDays() {
+
+	public Map<Days, Slot> getWorkingDays() {
 		return workingDays;
 	}
+
+
 	
 	
 }
