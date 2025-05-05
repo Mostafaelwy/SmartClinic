@@ -2,6 +2,8 @@ package com.graduation.clinic.dto;
 
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import com.graduation.clinic.entity.Days;
 import com.graduation.clinic.entity.Slot;
@@ -24,21 +26,22 @@ public class UpdateClinicDetailesRequest {
 	@NotNull
 	private final String closingTime;
 	
-	private final Map<Days,Slot>workingDays;
+	private final SortedMap<Days,Slot>workingDays =new TreeMap<>();
 
-	public UpdateClinicDetailesRequest(byte[] logo, @NotNull String clinicName, byte[] location,
-			@NotNull List<String> phoneNumbers, @NotNull String openingTime, @NotNull String closingTime,
-			Map<Days,Slot>workingDays,@NotNull Long id) {
+
+	
+
+	public UpdateClinicDetailesRequest(@NotNull Long id, byte[] logo, @NotNull String clinicName, byte[] location,
+			@NotNull List<String> phoneNumbers, @NotNull String openingTime, @NotNull String closingTime) {
+		this.id = id;
 		this.logo = logo;
 		this.clinicName = clinicName;
 		this.location = location;
 		this.phoneNumbers = phoneNumbers;
 		this.openingTime = openingTime;
 		this.closingTime = closingTime;
-		this.workingDays = workingDays;
-		this.id=id;
 	}
-	
+
 
 	public Long getId() {
 		return id;
@@ -70,9 +73,11 @@ public class UpdateClinicDetailesRequest {
 	}
 
 
-	public Map<Days, Slot> getWorkingDays() {
+	public SortedMap<Days, Slot> getWorkingDays() {
 		return workingDays;
 	}
+
+
 
 
 	

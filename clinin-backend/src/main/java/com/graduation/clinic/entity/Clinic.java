@@ -4,6 +4,8 @@ package com.graduation.clinic.entity;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.graduation.clinic.dto.CreateClinicRequest;
@@ -57,7 +59,7 @@ public class Clinic {
 	
 	@OneToMany(mappedBy = "clinic",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @MapKeyEnumerated(EnumType.STRING)
-	private Map<Days,Slot>workingDays;
+	private SortedMap<Days,Slot>workingDays =new TreeMap<>();
 	@ManyToOne
 	@JoinColumn(name = "doctor_id")
 	@JsonBackReference
@@ -122,12 +124,12 @@ public class Clinic {
 		this.closingTime = closingTime;
 	}
 
-	
-	public Map<Days, Slot> getWorkingDays() {
+
+	public SortedMap<Days, Slot> getWorkingDays() {
 		return workingDays;
 	}
 
-	public void setWorkingDays(Map<Days,Slot> workingDays) {
+	public void setWorkingDays(SortedMap<Days, Slot> workingDays) {
 		this.workingDays = workingDays;
 	}
 

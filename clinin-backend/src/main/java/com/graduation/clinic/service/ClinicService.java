@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +35,8 @@ import com.graduation.clinic.exceptions.GenericException;
 import com.graduation.clinic.exceptions.NotFoundException;
 import com.graduation.clinic.repos.ClinicRepo;
 import com.graduation.clinic.repos.ClinicsVisitorsRepo;
+
+import jakarta.persistence.criteria.Order;
 
 @Service
 public class ClinicService {
@@ -120,6 +124,7 @@ public class ClinicService {
 		Clinic clinic=clinicRepo.findById(clinicId).orElseThrow(()->new NotFoundException("clinic not found"));
 		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
 		 Doctor doc=(Doctor)auth.getPrincipal();
+		 
 		 if(doc.getId()==clinic.getDoctor().getId()) {
 			Slot slot=new Slot();
 			slot.setClinic(clinic);
@@ -128,28 +133,29 @@ public class ClinicService {
 			slot.setStartTime(request.getStartTime());
 			slot.setAppointmentInterval(request.getInterval());
 			slot.setDay(workingDay);
-			Map<Days,Slot> newWorkingtimes=clinic.getWorkingDays();
-			newWorkingtimes.put(workingDay, slot);
-			clinic.setWorkingDays(newWorkingtimes);
+
+			clinic.getWorkingDays().put(workingDay, slot);
 			clinicRepo.save(clinic);
 			 
 		 }else {
 			 throw new GenericException("you are not allowed to perform this action.");
 		 }
-		 return showSlotsPerDay(clinicId);
+		 return showSlotsPerDay(clinicId,workingDay);
 		 
 
 	}
-	public Map<Days, List<LocalTime>> showSlotsPerDay(Long clinicId) {
+	public Map<Days, List<LocalTime>> showSlotsPerDay(Long clinicId,Days workingDay) {
 
 		Clinic clinic=clinicRepo.findById(clinicId).orElseThrow(()->new NotFoundException("clinic not found"));
 
 		Map<Days, List<LocalTime>> SlotsPerDay=new HashMap<>();
-		for(Map.Entry<Days,Slot> entry : clinic.getWorkingDays().entrySet()) {
-			
-			Days day=entry.getKey();
-		
-			Slot slot =entry.getValue();
+	
+		if(workingDay==null||workingDay.name()=="")
+		{
+			workingDay=clinic.getWorkingDays().firstKey();
+		}
+	
+			Slot slot =clinic.getWorkingDays().get(workingDay);
 			
 			
 			Duration DoctotalTimeToday = Duration.between(slot.getStartTime(),slot.getEndTime());
@@ -157,6 +163,7 @@ public class ClinicService {
 			if (DoctotalTimeToday.isNegative()) {
 			    DoctotalTimeToday = DoctotalTimeToday.plusHours(24); // Adjust for crossing midnight
 			}
+			
 			DoctotalTimeToday.toMinutes();
 			Duration timeForAppointment =slot.getDuration().plus(slot.getAppointmentInterval());
 			timeForAppointment.toMinutes();
@@ -168,8 +175,8 @@ public class ClinicService {
 				appointmentsTimes.add(start);
 				start=start.plus(timeForAppointment);
 			}
-			SlotsPerDay.put(day, appointmentsTimes);
-		}
+			SlotsPerDay.put(workingDay, appointmentsTimes);
+		
 		
 		return SlotsPerDay;
 	}

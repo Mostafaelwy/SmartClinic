@@ -192,11 +192,8 @@ public class DoctorController {
 		 return clinicService.addWorkingDay(clinicId, workingDay, slot);
 	}
 	@GetMapping("/avilable-timings/clinic/{clinicId}")
-	public Map<Days, List<LocalTime>> showSlotsPerDay(@PathVariable Long clinicId) {
-		return clinicService.showSlotsPerDay(clinicId);
+	public Map<Days, List<LocalTime>> showSlotsPerDay(@PathVariable Long clinicId,@RequestParam(name = "workingDay",required = false,defaultValue = "") Days workingDay) {
+		return clinicService.showSlotsPerDay(clinicId,workingDay);
 	}
-	
-	
-	
 			
 }
