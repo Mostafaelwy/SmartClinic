@@ -23,16 +23,16 @@ public class CreateClinicRequest {
 	@NotNull
 	private  String closingTime;
 
-	private  SortedMap<Days,Slot> workingDays=new TreeMap<>();
+
 	
 	public CreateClinicRequest(@NotNull String clinicName, @NotNull Address address, @NotNull List<String> phoneNumbers,
-			@NotNull String openingTime, @NotNull String closingTime,  SortedMap<Days,Slot> workingDays) {
+			@NotNull String openingTime, @NotNull String closingTime) {
 		this.clinicName = clinicName;
 		this.address = address;
 		this.phoneNumbers = phoneNumbers;
 		this.openingTime = openingTime;
 		this.closingTime = closingTime;
-		this.workingDays = workingDays;
+		
 	}
 
 	public String getClinicName() {
@@ -55,9 +55,7 @@ public class CreateClinicRequest {
 		return closingTime;
 	}
 
-	public SortedMap<Days, Slot> getWorkingDays() {
-		return workingDays;
-	}
+
 
 	
 	

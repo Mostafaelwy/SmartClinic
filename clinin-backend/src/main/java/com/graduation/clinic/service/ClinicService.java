@@ -35,6 +35,7 @@ import com.graduation.clinic.exceptions.GenericException;
 import com.graduation.clinic.exceptions.NotFoundException;
 import com.graduation.clinic.repos.ClinicRepo;
 import com.graduation.clinic.repos.ClinicsVisitorsRepo;
+import com.graduation.clinic.repos.SlotRepo;
 
 import jakarta.persistence.criteria.Order;
 
@@ -45,19 +46,21 @@ public class ClinicService {
 	private final DoctorService doctorService;
 	private final PatientService patientService;
 	private final ClinicsVisitorsRepo clinicsVisitorsRepo;
+	private final SlotRepo slotRepo;
 
 	
 	public ClinicService(
 			ClinicRepo clinicRepo,
 			DoctorService doctorService,
 			PatientService patientService,
-			ClinicsVisitorsRepo clinicsVisitorsRepo
-			) {
+			ClinicsVisitorsRepo clinicsVisitorsRepo,
+			SlotRepo slotRepo) {
 		
 		this.clinicRepo = clinicRepo;
 		this.doctorService = doctorService;
 		this.patientService = patientService;
 		this.clinicsVisitorsRepo = clinicsVisitorsRepo;
+		this.slotRepo=slotRepo;
 	}
 
 	public CreateClinicResponse createClinic(Long doctorId,CreateClinicRequest request) {
@@ -101,7 +104,6 @@ public class ClinicService {
 		clinic.setOpeningTime(detailes.getOpeningTime());
 		clinic.setClosingTime(detailes.getClosingTime());
 		clinic.setPhoneNumbers(detailes.getPhoneNumbers());
-		clinic.setWorkingDays(detailes.getWorkingDays());
 		clinic.setLocation(detailes.getLocation());
 		clinic.setLogo(detailes.getLogo());
 		
@@ -126,13 +128,19 @@ public class ClinicService {
 		 Doctor doc=(Doctor)auth.getPrincipal();
 		 
 		 if(doc.getId()==clinic.getDoctor().getId()) {
+			 
 			Slot slot=new Slot();
-			slot.setClinic(clinic);
+			
+			if(slotRepo.findByClinicIdAndDay(clinicId, workingDay).isPresent()) {
+			slot.setId(slotRepo.findByClinicIdAndDay(clinicId, workingDay).orElseThrow().getId());
+			}
 			slot.setDuration(request.getDuration());
 			slot.setEndTime(request.getEndTime());
 			slot.setStartTime(request.getStartTime());
 			slot.setAppointmentInterval(request.getInterval());
+			slot.setClinic(clinic);
 			slot.setDay(workingDay);
+			
 
 			clinic.getWorkingDays().put(workingDay, slot);
 			clinicRepo.save(clinic);
@@ -145,40 +153,49 @@ public class ClinicService {
 
 	}
 	public Map<Days, List<LocalTime>> showSlotsPerDay(Long clinicId,Days workingDay) {
+		try {
 
-		Clinic clinic=clinicRepo.findById(clinicId).orElseThrow(()->new NotFoundException("clinic not found"));
+			Clinic clinic=clinicRepo.findById(clinicId).orElseThrow(()->new NotFoundException("clinic not found"));
 
-		Map<Days, List<LocalTime>> SlotsPerDay=new HashMap<>();
+				Map<Days, List<LocalTime>> SlotsPerDay=new HashMap<>();
 	
-		if(workingDay==null||workingDay.name()=="")
-		{
-			workingDay=clinic.getWorkingDays().firstKey();
+			if(workingDay==null||workingDay.name()=="")
+			{
+				workingDay=clinic.getWorkingDays().firstKey();
+			}
+			
+		
+			
+				Slot slot =clinic.getWorkingDays().get(workingDay);
+			
+
+			
+			
+				Duration DoctotalTimeToday = Duration.between(slot.getStartTime(),slot.getEndTime());
+
+				if (DoctotalTimeToday.isNegative()) {
+					DoctotalTimeToday = DoctotalTimeToday.plusHours(24); // Adjust for crossing midnight
+				}
+			
+				DoctotalTimeToday.toMinutes();
+				Duration timeForAppointment =slot.getDuration().plus(slot.getAppointmentInterval());
+				timeForAppointment.toMinutes();
+				long appointmentsPerDay=DoctotalTimeToday.dividedBy(timeForAppointment);
+				List<LocalTime> appointmentsTimes=new ArrayList<>();
+				LocalTime start =slot.getStartTime();
+			
+				for(int i=0;i<appointmentsPerDay;i++) {
+					appointmentsTimes.add(start);
+					start=start.plus(timeForAppointment);
+				}
+				SlotsPerDay.put(workingDay, appointmentsTimes);
+		
+		
+				return SlotsPerDay;
+		}catch(RuntimeException e) {
+			throw new NotFoundException("no slots for :"+workingDay);
+			
 		}
-	
-			Slot slot =clinic.getWorkingDays().get(workingDay);
-			
-			
-			Duration DoctotalTimeToday = Duration.between(slot.getStartTime(),slot.getEndTime());
-
-			if (DoctotalTimeToday.isNegative()) {
-			    DoctotalTimeToday = DoctotalTimeToday.plusHours(24); // Adjust for crossing midnight
-			}
-			
-			DoctotalTimeToday.toMinutes();
-			Duration timeForAppointment =slot.getDuration().plus(slot.getAppointmentInterval());
-			timeForAppointment.toMinutes();
-			long appointmentsPerDay=DoctotalTimeToday.dividedBy(timeForAppointment);
-			List<LocalTime> appointmentsTimes=new ArrayList<>();
-			LocalTime start =slot.getStartTime();
-			
-			for(int i=0;i<appointmentsPerDay;i++) {
-				appointmentsTimes.add(start);
-				start=start.plus(timeForAppointment);
-			}
-			SlotsPerDay.put(workingDay, appointmentsTimes);
-		
-		
-		return SlotsPerDay;
 	}
 	
 	

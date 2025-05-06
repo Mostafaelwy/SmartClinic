@@ -10,18 +10,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 @Entity
-@Table(name = "slot")
+@Table(name = "slots")
 public class Slot {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne
-	private Clinic clinic;
-	@Enumerated(EnumType.STRING)
-	private Days day;
 	@NotNull
 	private LocalTime startTime;
 	@NotNull
@@ -30,7 +27,10 @@ public class Slot {
 	private Duration duration;
 	@NotNull
 	private Duration AppointmentInterval;
-	
+	@ManyToOne
+	private Clinic clinic;
+	@Enumerated(EnumType.STRING)
+	private Days day;
 	
 	public Long getId() {
 		return id;
@@ -38,18 +38,7 @@ public class Slot {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Clinic getClinic() {
-		return clinic;
-	}
-	public void setClinic(Clinic clinic) {
-		this.clinic = clinic;
-	}
-	public Days getDay() {
-		return day;
-	}
-	public void setDay(Days day) {
-		this.day = day;
-	}
+
 	public LocalTime getStartTime() {
 		return startTime;
 	}
@@ -73,6 +62,18 @@ public class Slot {
 	}
 	public void setAppointmentInterval(Duration appointmentInterval) {
 		AppointmentInterval = appointmentInterval;
+	}
+	public Clinic getClinic() {
+		return clinic;
+	}
+	public void setClinic(Clinic clinic) {
+		this.clinic = clinic;
+	}
+	public Days getDay() {
+		return day;
+	}
+	public void setDay(Days day) {
+		this.day = day;
 	}
 
 

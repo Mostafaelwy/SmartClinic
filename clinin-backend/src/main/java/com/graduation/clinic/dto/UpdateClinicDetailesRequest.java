@@ -26,7 +26,7 @@ public class UpdateClinicDetailesRequest {
 	@NotNull
 	private final String closingTime;
 	
-	private final SortedMap<Days,Slot>workingDays =new TreeMap<>();
+
 
 
 	
@@ -73,9 +73,6 @@ public class UpdateClinicDetailesRequest {
 	}
 
 
-	public SortedMap<Days, Slot> getWorkingDays() {
-		return workingDays;
-	}
 
 
 

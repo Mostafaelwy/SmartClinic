@@ -23,6 +23,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.MapKeyEnumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -57,7 +58,7 @@ public class Clinic {
 	@NotNull
 	private String closingTime;
 	
-	@OneToMany(mappedBy = "clinic",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @MapKeyEnumerated(EnumType.STRING)
 	private SortedMap<Days,Slot>workingDays =new TreeMap<>();
 	@ManyToOne
@@ -84,7 +85,6 @@ public class Clinic {
 		this.phoneNumbers = request.getPhoneNumbers();
 		this.openingTime = request.getOpeningTime();
 		this.closingTime = request.getClosingTime();
-		this.workingDays = request.getWorkingDays();
 		this.setDoctor(doctor);
 	}
 	public Long getId() {
@@ -130,6 +130,7 @@ public class Clinic {
 	}
 
 	public void setWorkingDays(SortedMap<Days, Slot> workingDays) {
+		
 		this.workingDays = workingDays;
 	}
 
