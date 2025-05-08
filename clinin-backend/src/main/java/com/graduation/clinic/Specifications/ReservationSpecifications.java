@@ -1,4 +1,4 @@
-package com.graduation.clinic.service;
+package com.graduation.clinic.Specifications;
 
 import java.time.LocalDate;
 

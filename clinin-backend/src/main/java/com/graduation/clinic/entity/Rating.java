@@ -1,6 +1,8 @@
 package com.graduation.clinic.entity;
 
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,6 +33,8 @@ public class Rating {
 	@Max(value = 5)
 	private int rate;
 	
+	private LocalDate creationDate;
+	
 	public Long getId() {
 		return id;
 	}
@@ -55,6 +59,13 @@ public class Rating {
 	public void setRate(int rate) {
 		this.rate = rate;
 	}
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
+	}
+	
 	
 	
 }

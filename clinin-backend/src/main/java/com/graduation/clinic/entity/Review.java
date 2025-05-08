@@ -1,5 +1,7 @@
 package com.graduation.clinic.entity;
 
+import java.time.LocalDate;
+
 import org.springframework.data.domain.Page;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -32,12 +34,10 @@ public class Review {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Doctor reviewedDoctor;
 	
-	@NotNull
-	@Min(value = 0)
-	@Max(value = 5)
-	private int rate;
-
+	private LocalDate creationDate;
 	
+
+
 	public long getId() {
 		return id;
 	}
@@ -69,22 +69,19 @@ public class Review {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
+	}
 	
-	public ReviewDto convertReviewToDto(Review review) {
-		return new ReviewDto(review);
-	}
-	public Page<ReviewDto> paginateReviewDto(Page <Review> reviews){
-		Page<ReviewDto> dtos= reviews.map(this::convertReviewToDto);
-		return dtos;
-	}
+	
 
-	public int getRate() {
-		return rate;
-	}
 
-	public void setRate(int rate) {
-		this.rate = rate;
-	}
+
 
 
 	

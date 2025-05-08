@@ -12,7 +12,7 @@ public class ReviewDto {
 	private final Long id;
 	private final String message;
 	private final PatientDto reviewer;
-	private final int rate;
+
 	//private final DoctorDto reviewedDoctor;
 	
 	
@@ -20,7 +20,7 @@ public class ReviewDto {
 		this.id = review.getId();
 		this.message = review.getMessage();
 		this.reviewer = new PatientDto( review.getReviewer());
-		this.rate=review.getRate();
+		
 		//this.reviewedDoctor =new DoctorDto( review.getReviewedDoctor());
 	}
 	
@@ -34,9 +34,7 @@ public class ReviewDto {
 		return reviewer;
 	}
 
-	public int getRate() {
-		return rate;
-	}
+
 	
 	/*
 	public DoctorDto getReviewedDoctor() {

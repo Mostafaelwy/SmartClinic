@@ -1,5 +1,6 @@
 package com.graduation.clinic.controller;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import com.graduation.clinic.dto.SlotDto;
 import com.graduation.clinic.dto.SpecialityServiceDto;
 import com.graduation.clinic.dto.SpecialtiesAndServicesDto;
 import com.graduation.clinic.dto.StartAppointment;
+import com.graduation.clinic.dto.TimeInterval;
 import com.graduation.clinic.dto.UpdateClinicDetailesRequest;
 import com.graduation.clinic.dto.AddSpecialityRequest;
 import com.graduation.clinic.dto.AddSpecialityServiceRequest;
@@ -133,13 +135,16 @@ public class DoctorController {
 		return clinicService.addVisitor(patientId,cLinicId);
 	}
 	@GetMapping("/{doctorId}/reviews")
-	public Page<ReviewDto> readAllReviews(@PathVariable Long doctorId, @RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum){
-		return reviewService.readReview(doctorId,pageNum);
-	}
+	public Page<ReviewDto> readAllReviews(
+			@PathVariable Long doctorId,
+			@RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
+			@ModelAttribute TimeInterval interval){
+		return reviewService.readReviews(doctorId,pageNum,interval);
+	}/*
 	@GetMapping("/{doctorId}/rates")
 	public List<Integer>  findRates(@PathVariable Long doctorId) {
 		return reviewRepo.findRates(doctorId);
-	}
+	}*/
 	
 	@GetMapping("/me/statistics")
 	public DoctorStatistics calculateStatistics() {

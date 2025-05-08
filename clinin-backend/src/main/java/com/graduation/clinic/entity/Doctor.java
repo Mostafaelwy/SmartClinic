@@ -32,11 +32,18 @@ public class Doctor extends UsersBaseEntity {
 	private List<Rating> ratings;
 	
 	private double totalRating;
+	
 	@OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<AppointmentDetailes> patientNotes;
 	
 	
 
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+	public void setRatings(List<Rating> ratings) {
+		this.ratings = ratings;
+	}
 	public List<AppointmentDetailes> getPatientNotes() {
 		return patientNotes;
 	}
@@ -77,6 +84,7 @@ public class Doctor extends UsersBaseEntity {
 	public void setTotalRating(double totalRating) {
 		this.totalRating = totalRating;
 	}
+	
 //	public void addSpeciality(SpecialtiesAndServices speciality){
 //		
 //		doctorSpecilization.add(speciality);
