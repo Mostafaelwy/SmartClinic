@@ -27,8 +27,6 @@ public class Patient extends UsersBaseEntity {
 	@OneToMany(mappedBy = "visitor",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private Set<ClinicsVistors> visitedClinics;
 	
-	@OneToMany(mappedBy ="reviewer", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<Review> reviews;
 	@OneToMany(mappedBy = "patient",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<Reservation> reservations;
 	@OneToMany(mappedBy = "rater")
@@ -46,13 +44,7 @@ public class Patient extends UsersBaseEntity {
 		this.patientAppointmentDetailes = patientAppointmentDetailes;
 	}
 
-	public List<Review> getReviews() {
-		return reviews;
-	}
 
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
-	}
 
 	public Address getAddress() {
 		return address;

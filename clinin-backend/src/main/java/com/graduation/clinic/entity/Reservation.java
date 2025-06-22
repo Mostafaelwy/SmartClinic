@@ -29,7 +29,6 @@ public class Reservation {
 	@NotNull
 	private Long doctorId;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "patient_id")
 	private Patient patient;
 
 	@Enumerated(EnumType.STRING)

@@ -1,5 +1,7 @@
 package com.graduation.clinic.dto;
 
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import com.graduation.clinic.entity.Rating;
 
 import jakarta.validation.constraints.Max;
@@ -12,19 +14,26 @@ public class RatingDto {
 	@Min(value = 1)
 	@Max(value = 5)
 	private int rate;
-	
 
-	
-	public RatingDto(@NotNull @Min(1) @Max(5) int rate) {
+	private String Review;
 
-		
+	public RatingDto(@NotNull @Min(1) @Max(5) int rate,@DefaultValue(value = "") String review) {
 		this.rate = rate;
+		Review = review;
 	}
-
 
 	public int getRate() {
 		return rate;
 	}
+
+	public String getReview() {
+		return Review;
+	}
+	
+	
+	
+
+
 	
 	
 	

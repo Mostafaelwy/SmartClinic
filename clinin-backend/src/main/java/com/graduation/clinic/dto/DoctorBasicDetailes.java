@@ -11,7 +11,7 @@ public class DoctorBasicDetailes {
 	private final String secondName;
 	private final int age;
 	private final List <String> phoneNumbers;
-	private final byte[] photo;
+	//private final byte[] photo;
 	
 	private final int experienceYears;
 	
@@ -22,7 +22,7 @@ public class DoctorBasicDetailes {
 		this.secondName = doctor.getSecondName();
 		this.age = doctor.getAge();
 		this.phoneNumbers = doctor.getPhoneNumbers();
-		this.photo = doctor.getPhoto();
+		//this.photo = doctor.getPhoto();
 		
 		this.experienceYears = doctor.getExperienceYears();
 	
@@ -47,11 +47,11 @@ public class DoctorBasicDetailes {
 	public List<String> getPhoneNumbers() {
 		return phoneNumbers;
 	}
-
+/*
 	public byte[] getPhoto() {
 		return photo;
 	}
-
+*/
 
 	public int getExperienceYears() {
 		return experienceYears;

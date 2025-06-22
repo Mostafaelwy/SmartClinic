@@ -10,15 +10,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -55,15 +60,20 @@ public abstract class UsersBaseEntity implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private Role roles;
 	
-	@Column (name ="photo_link",length = 1000)
-	private byte[] photo;
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn(name = "photoId")
+	private Photo profilePhoto;
 
-	public byte[] getPhoto() {
-		return photo;
+
+
+
+
+	public Photo getProfilePhoto() {
+		return profilePhoto;
 	}
 
-	public void setPhoto(byte[] photo) {
-		this.photo = photo;
+	public void setProfilePhoto(Photo profilePhoto) {
+		this.profilePhoto = profilePhoto;
 	}
 
 	@Override

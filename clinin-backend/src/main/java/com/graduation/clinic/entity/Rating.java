@@ -33,6 +33,8 @@ public class Rating {
 	@Max(value = 5)
 	private int rate;
 	
+	private String Review;
+	
 	private LocalDate creationDate;
 	
 	public Long getId() {
@@ -65,6 +67,13 @@ public class Rating {
 	public void setCreationDate(LocalDate creationDate) {
 		this.creationDate = creationDate;
 	}
+	public String getReview() {
+		return Review;
+	}
+	public void setReview(String review) {
+		Review = review;
+	}
+	
 	
 	
 	

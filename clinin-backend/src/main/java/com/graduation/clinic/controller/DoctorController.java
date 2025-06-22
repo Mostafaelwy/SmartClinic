@@ -25,10 +25,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.graduation.clinic.dto.CreateClinicResponse;
 import com.graduation.clinic.dto.DoctorBasicDetailes;
 import com.graduation.clinic.dto.DoctorBasicDetailesRequest;
+import com.graduation.clinic.dto.DoctorProfileData;
 import com.graduation.clinic.dto.DoctorStatistics;
 import com.graduation.clinic.dto.FilterReservations;
+import com.graduation.clinic.dto.GetAwards;
+import com.graduation.clinic.dto.GetEducation;
+import com.graduation.clinic.dto.GetExperienceDto;
 import com.graduation.clinic.dto.ReservationDto;
 import com.graduation.clinic.dto.ReviewDto;
+import com.graduation.clinic.dto.SetAwards;
+import com.graduation.clinic.dto.SetEducation;
+import com.graduation.clinic.dto.SetExperienceRequest;
 import com.graduation.clinic.dto.SlotDto;
 import com.graduation.clinic.dto.SpecialityServiceDto;
 import com.graduation.clinic.dto.SpecialtiesAndServicesDto;
@@ -39,23 +46,26 @@ import com.graduation.clinic.dto.AddSpecialityRequest;
 import com.graduation.clinic.dto.AddSpecialityServiceRequest;
 import com.graduation.clinic.dto.AddVisitorResponse;
 import com.graduation.clinic.dto.AppointmentDetailesRequest;
+import com.graduation.clinic.dto.BasicDetailes;
 import com.graduation.clinic.dto.ChangePasswordRequest;
 import com.graduation.clinic.dto.ClinicData;
 import com.graduation.clinic.dto.ClinicDto;
 import com.graduation.clinic.dto.CreateClinicRequest;
 import com.graduation.clinic.entity.Days;
 import com.graduation.clinic.entity.Doctor;
+import com.graduation.clinic.entity.Rating;
 import com.graduation.clinic.entity.Reservation;
 import com.graduation.clinic.entity.ReservationStatus;
 import com.graduation.clinic.entity.Slot;
 import com.graduation.clinic.entity.SpecialtiesAndServices;
-import com.graduation.clinic.repos.ReviewRepo;
+
 import com.graduation.clinic.service.AppointmentDetailesService;
 import com.graduation.clinic.service.ClinicService;
 import com.graduation.clinic.service.DoctorService;
 import com.graduation.clinic.service.DoctorSpecialtiesService;
+import com.graduation.clinic.service.RatingService;
 import com.graduation.clinic.service.ReservationService;
-import com.graduation.clinic.service.ReviewService;
+
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -67,8 +77,8 @@ public class DoctorController {
 	private final DoctorService doctorService;
 	private final ClinicService clinicService;
 	private final ReservationService reservationService;
-	private final ReviewService reviewService;
-	private final ReviewRepo reviewRepo;
+	private final RatingService ratingService;
+
 	private final DoctorSpecialtiesService doctorSpecialtiesService;
 	private final AppointmentDetailesService appointmentDetailesService;
 
@@ -76,43 +86,29 @@ public class DoctorController {
 			DoctorService doctorService,
 			ClinicService clinicService,
 			ReservationService reservationService,
-			ReviewService reviewService,
-			ReviewRepo reviewRepo ,
+
 			DoctorSpecialtiesService doctorSpecialtiesService,
-			AppointmentDetailesService appointmentDetailesService
+			AppointmentDetailesService appointmentDetailesService,
+			RatingService ratingService
 			) {
 		
 		
 		this.doctorService = doctorService;
 		this.clinicService=clinicService;
 		this.reservationService=reservationService;
-		this.reviewService=reviewService;
-		this.reviewRepo=reviewRepo;
+		this.ratingService=ratingService;
 		this.doctorSpecialtiesService=doctorSpecialtiesService;
 		this.appointmentDetailesService=appointmentDetailesService;
 	}
 	
 
 	
-	
-	/*
-	@GetMapping("reservations/{clinicId}")
-	public Page<ReservationDto> findAllReservation(@PathVariable Long clinicId,@RequestParam(defaultValue = "") int pageNum){
-		return reservationService.findAllReservation(clinicId,pageNum);
-	}
-	@GetMapping("/clinic/{id}")
-	public Clinic findClinic(@PathVariable Long id){
-		return clinicService.findById(id);
-	}*/
-	
+
 	@PostMapping("/{doctorId}/clinic")// shoud be only for the doctor who is auth(me)
 	public CreateClinicResponse createClinic(@RequestBody @Valid CreateClinicRequest request,@PathVariable Long doctorId) {
 		return clinicService.createClinic(doctorId,request);
 	}
-	@PatchMapping("/detailes")
-	public DoctorBasicDetailes updateDetailes(@RequestBody @Valid DoctorBasicDetailesRequest newData) {
-		return doctorService.updateDetailes(newData);
-	}
+
 	@GetMapping("/doctor/{username}")
 	public Doctor findDoctor(@PathVariable String username){
 		return doctorService.getDoctor(username);
@@ -139,12 +135,8 @@ public class DoctorController {
 			@PathVariable Long doctorId,
 			@RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
 			@ModelAttribute TimeInterval interval){
-		return reviewService.readReviews(doctorId,pageNum,interval);
-	}/*
-	@GetMapping("/{doctorId}/rates")
-	public List<Integer>  findRates(@PathVariable Long doctorId) {
-		return reviewRepo.findRates(doctorId);
-	}*/
+		return ratingService.readDoctorReviews(doctorId,pageNum,interval);
+	}
 	
 	@GetMapping("/me/statistics")
 	public DoctorStatistics calculateStatistics() {
@@ -200,5 +192,61 @@ public class DoctorController {
 	public Map<Days, List<LocalTime>> showSlotsPerDay(@PathVariable Long clinicId,@RequestParam(name = "workingDay",required = false,defaultValue = "") Days workingDay) {
 		return clinicService.showSlotsPerDay(clinicId,workingDay);
 	}
+	@GetMapping("/me/profile-data")
+	public DoctorProfileData getProfileData() {
+		return doctorService.getProfileData();
+	}
+	@GetMapping("/{doctorId}/basic-detailes")
+	public BasicDetailes getBasicDetailes(@PathVariable Long doctorId) {
+		return doctorService.getBasicDetailes(doctorId);
+	}
+	@PostMapping("/me/basic-detailes")
+	public BasicDetailes editBasicDetailes(@RequestBody @Valid DoctorBasicDetailesRequest request) {
+		return doctorService.editBasicDetailes(request);
+	}
+	@DeleteMapping("/me/memberships/{id}")
+	public void deletememberships(@PathVariable Long id) {
+		doctorService.DeleteMembership(id);
+	}
+	@GetMapping("/{doctorId}/experience")
+	public List<GetExperienceDto> getExperience(@PathVariable Long doctorId){
+		return doctorService.getExperience(doctorId);
+	}
+	@PostMapping("/me/experience")
+	public List<GetExperienceDto> setExperience(@RequestBody List<SetExperienceRequest> requests){
+		return doctorService.setExperience(requests);
+	}
+	@DeleteMapping("/me/experience/{id}")
+	public void deleteExperience(@PathVariable Long id) {
+		doctorService.deleteExperience(id);
+	}
+	@GetMapping("/{DoctorId}/education")
+	public List<GetEducation> getEducation(@PathVariable Long DoctorId){
+		return doctorService.getEducation(DoctorId);
+	}
+	
+	@PostMapping("/me/education")
+	public List<GetEducation> setEducation(@RequestBody List<SetEducation> requests){
+		return doctorService.setEducation(requests);
+	}
+	@DeleteMapping("/me/education/{id}")
+	public void deleteEducation(@PathVariable Long id) {
+		doctorService.deleteEducation(id);
+	}
+	
+	@GetMapping("/{doctorId}/award")
+	public List<GetAwards> getAwards(@PathVariable Long doctorId){
+		return doctorService.getAwards(doctorId);
+	}
+	
+	@PostMapping("/me/award")
+	public List<GetAwards> setawards(@RequestBody List<SetAwards> requests){
+		return doctorService.setAwards(requests);
+	}
+	@DeleteMapping("/me/award/{id}")
+	public void deleteAwards(@PathVariable Long id) {
+		doctorService.deleteAward(id);
+	}
+	
 			
 }

@@ -2,35 +2,24 @@ package com.graduation.clinic.dto;
 
 import java.util.List;
 
-import org.hibernate.validator.constraints.Length;
-
 import com.graduation.clinic.entity.Languages;
+import com.graduation.clinic.entity.Memberships;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+public class BasicDetailes {
 
-public class DoctorBasicDetailesRequest {
-
-	@NotNull
-	private  String firstName;
-	@NotNull
-	private  String lastName;
+	private String firstName;
+	private String lastName;
 	private String DisplayName;
 	private String Designation;
 	private List <String> phoneNumbers;
-	@Email
 	private String emailAddress;
-	private SetPhoto photo;
-
-	@Size(min = 1)
+	private GetPhoto photo;
 	private List<Languages> langusgaes;
-	@NotNull
-	private List<SetMemberships> membershipsRequest;
+	private List<MembershipsDto> membershipsDto;
 	
-	public DoctorBasicDetailesRequest(@NotNull String firstName, @NotNull String lastName, String displayName,
-			String designation, List<String> phoneNumbers, @Email String emailAddress, SetPhoto photo,
-			@Length(max = 1) List<Languages> langusgaes,@NotNull List<SetMemberships> membershipsRequest) {
+	public BasicDetailes(String firstName, String lastName, String displayName, String designation,
+			List<String> phoneNumbers, String emailAddress, GetPhoto photo, List<Languages> langusgaes,
+			List<MembershipsDto> membershipsDto) {
 		
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -40,46 +29,35 @@ public class DoctorBasicDetailesRequest {
 		this.emailAddress = emailAddress;
 		this.photo = photo;
 		this.langusgaes = langusgaes;
-		this.membershipsRequest = membershipsRequest;
+		this.membershipsDto = membershipsDto;
 	}
-
 	public String getFirstName() {
 		return firstName;
 	}
-
 	public String getLastName() {
 		return lastName;
 	}
-
 	public String getDisplayName() {
 		return DisplayName;
 	}
-
 	public String getDesignation() {
 		return Designation;
 	}
-
 	public List<String> getPhoneNumbers() {
 		return phoneNumbers;
 	}
-
 	public String getEmailAddress() {
 		return emailAddress;
 	}
-
-	public SetPhoto getPhoto() {
+	public GetPhoto getPhoto() {
 		return photo;
 	}
-
 	public List<Languages> getLangusgaes() {
 		return langusgaes;
 	}
-
-	public List<SetMemberships> getMembershipsRequest() {
-		return membershipsRequest;
+	public List<MembershipsDto> getMembershipsDto() {
+		return membershipsDto;
 	}
 	
-
-
-
+	
 }

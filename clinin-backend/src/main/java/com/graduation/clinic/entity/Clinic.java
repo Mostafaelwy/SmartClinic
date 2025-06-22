@@ -37,10 +37,11 @@ public class Clinic {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "clinic_id")
-	private long id;
-	@Column(name="clinic_logo",length=1000)
-	private byte[] logo;
+	@Column(name="clinic_id")
+	private Long id;
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JoinColumn(name = "photoId")
+	private Photo logo;
 	@NotNull
 	private String clinicName;
 	@NotNull
@@ -146,12 +147,24 @@ public class Clinic {
 	}
 	
 
-	public byte[] getLogo() {
+
+	public Photo getLogo() {
 		return logo;
 	}
-	public void setLogo(byte[] logo) {
+
+	public void setLogo(Photo logo) {
 		this.logo = logo;
 	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+
 	public byte[] getLocation() {
 		return location;
 	}

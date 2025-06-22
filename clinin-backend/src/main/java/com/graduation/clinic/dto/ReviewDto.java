@@ -1,44 +1,34 @@
 package com.graduation.clinic.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.graduation.clinic.entity.Doctor;
-import com.graduation.clinic.entity.Patient;
-import com.graduation.clinic.entity.Review;
-
-import jakarta.persistence.ManyToOne;
+import com.graduation.clinic.entity.Rating;
 
 public class ReviewDto {
-	
-	private final Long id;
-	private final String message;
-	private final PatientDto reviewer;
-
-	//private final DoctorDto reviewedDoctor;
+	private Long id;
+	private int rate;
+	private String Review;
+	private String patientUserName;
 	
 	
-	public ReviewDto(Review review) {
-		this.id = review.getId();
-		this.message = review.getMessage();
-		this.reviewer = new PatientDto( review.getReviewer());
-		
-		//this.reviewedDoctor =new DoctorDto( review.getReviewedDoctor());
+	public ReviewDto(Rating rating) {
+		this.id=rating.getId();
+		this.rate = rating.getRate();
+		this.Review = rating.getReview();
+		this.patientUserName=rating.getRater().getUsername();
 	}
-	
+	public int getRate() {
+		return rate;
+	}
+	public String getReview() {
+		return Review;
+	}
 	public Long getId() {
 		return id;
 	}
-	public String getMessage() {
-		return message;
+	public String getPatientUserName() {
+		return patientUserName;
 	}
-	public PatientDto getReviewer() {
-		return reviewer;
-	}
-
-
 	
-	/*
-	public DoctorDto getReviewedDoctor() {
-		return reviewedDoctor;
-	}*/
+	
+	
 
 }

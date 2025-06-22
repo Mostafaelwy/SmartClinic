@@ -29,7 +29,7 @@ public class SpecialtiesAndServices {
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private Specialties specialtiy;
+	private Specialties speciality;
 	
 	@OneToMany(mappedBy = "speciality",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@NotEmpty
@@ -56,11 +56,11 @@ public class SpecialtiesAndServices {
 	public void setDoctor(Doctor doctor) {
 		this.doctor = doctor;
 	}
-	public Specialties getSpecialtiy() {
-		return specialtiy;
+	public Specialties getSpeciality() {
+		return speciality;
 	}
-	public void setSpecialtiy(Specialties specialtiy) {
-		this.specialtiy = specialtiy;
+	public void setSpeciality(Specialties specialtiy) {
+		this.speciality = specialtiy;
 	}
 //	public void addService(SpecialityServices service) {
 //		services.add(service);

@@ -40,4 +40,13 @@ public class ReservationSpecifications {
 		return (root,query,criteriaBuilder)->doctorId==null?null:
 			criteriaBuilder.equal( root.get("doctorId"), doctorId);
 	}
+	public static Specification<Reservation> hasPatientId(Long patintId){
+		return (root,query,criteriaBuilder)->{
+			if(patintId==null)return null;
+			Join<Object, Object> patient=root.join("patient");
+			return criteriaBuilder.equal(patient.get("id"), patintId);
+		};
+			
+		}
 }
+

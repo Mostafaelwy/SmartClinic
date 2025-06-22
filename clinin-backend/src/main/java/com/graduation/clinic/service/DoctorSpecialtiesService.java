@@ -58,14 +58,14 @@ public class DoctorSpecialtiesService {
 		   // entityManager.getEntityManagerFactory().getCache().evict(Speciality.class);
 
 		 for(int i=0;i<doc.getDoctorSpecilization().size();i++) {
-			 if(request.getSpeciality()==doc.getDoctorSpecilization().get(i).getSpecialtiy()) {
+			 if(request.getSpeciality()==doc.getDoctorSpecilization().get(i).getSpeciality()) {
 				 throw  new DuplicateException("duplicate specilization");
 			 }
 		 }
 		 
 		 SpecialtiesAndServices speciality=new SpecialtiesAndServices();
 		 speciality.setDoctor(doc);
-		 speciality.setSpecialtiy(request.getSpeciality());
+		 speciality.setSpeciality(request.getSpeciality());
 		 
 		 List <SpecialityServices> SpecServices=new ArrayList<>();
 		 for(int i=0 ;i<(request.getServices()).size();i++) {

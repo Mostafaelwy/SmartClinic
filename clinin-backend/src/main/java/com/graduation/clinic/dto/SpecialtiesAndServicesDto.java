@@ -20,7 +20,7 @@ public class SpecialtiesAndServicesDto {
 	
 	public SpecialtiesAndServicesDto(SpecialtiesAndServices request) {
 		this.id = request.getId();
-		this.speciality = request.getSpecialtiy();
+		this.speciality = request.getSpeciality();
 		
 		List<SpecialityServiceDto> serviceDto=new ArrayList<>();
 		
