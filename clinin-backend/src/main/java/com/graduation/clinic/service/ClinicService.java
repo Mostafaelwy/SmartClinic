@@ -17,12 +17,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.graduation.clinic.dto.AddVisitorResponse;
-import com.graduation.clinic.dto.ClinicData;
-import com.graduation.clinic.dto.ClinicDto;
-import com.graduation.clinic.dto.CreateClinicRequest;
-import com.graduation.clinic.dto.CreateClinicResponse;
+import com.graduation.clinic.dto.GetClinic;
+import com.graduation.clinic.dto.SetClinic;
 import com.graduation.clinic.dto.SlotDto;
-import com.graduation.clinic.dto.UpdateClinicDetailesRequest;
+
 
 import com.graduation.clinic.entity.Clinic;
 import com.graduation.clinic.entity.ClinicsVistors;
@@ -35,9 +33,13 @@ import com.graduation.clinic.exceptions.GenericException;
 import com.graduation.clinic.exceptions.NotFoundException;
 import com.graduation.clinic.repos.ClinicRepo;
 import com.graduation.clinic.repos.ClinicsVisitorsRepo;
+import com.graduation.clinic.repos.GalleryRepo;
+import com.graduation.clinic.repos.PhotoRepo;
 import com.graduation.clinic.repos.SlotRepo;
 
 import jakarta.persistence.criteria.Order;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 @Service
 public class ClinicService {
@@ -47,6 +49,8 @@ public class ClinicService {
 	private final PatientService patientService;
 	private final ClinicsVisitorsRepo clinicsVisitorsRepo;
 	private final SlotRepo slotRepo;
+	private final GalleryRepo galleryRepo;
+	private final PhotoRepo photoRepo;
 
 	
 	public ClinicService(
@@ -54,32 +58,48 @@ public class ClinicService {
 			DoctorService doctorService,
 			PatientService patientService,
 			ClinicsVisitorsRepo clinicsVisitorsRepo,
-			SlotRepo slotRepo) {
+			SlotRepo slotRepo,
+			GalleryRepo galleryRepo,
+			PhotoRepo photoRepo) {
 		
 		this.clinicRepo = clinicRepo;
 		this.doctorService = doctorService;
 		this.patientService = patientService;
 		this.clinicsVisitorsRepo = clinicsVisitorsRepo;
 		this.slotRepo=slotRepo;
+		this.galleryRepo=galleryRepo;
+		this.photoRepo=photoRepo;
 	}
 
-	public CreateClinicResponse createClinic(Long doctorId,CreateClinicRequest request) {
-		Doctor doc=doctorService.findById(doctorId);
-		Clinic clinic =new Clinic(request,doc);
-		return new CreateClinicResponse(clinicRepo.save(clinic));
+
+	
+
+	@Transactional(value = TxType.REQUIRES_NEW)
+	public List<GetClinic> setClinics(List<SetClinic> request){
+		Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+		Doctor doc=(Doctor)auth.getPrincipal();
+		for(int i=0;i<request.size();i++) {
+			Clinic c=new Clinic(request.get(i));
+			c.setDoctor(doc);
+			
+			clinicRepo.save(c);/*
+			for(int j=0;j<c.getGallery().size();j++) {
+				photoRepo.save(c.getGallery().get(j).getPhoto());
+			}*/
+			//galleryRepo.saveAll(c.getGallery());
+		}
+		
+		return getClinics(doc.getId());
+		
 	}
 	
-	public List<ClinicDto> getAllClinics(){
-		
-		List <Clinic> clinics=clinicRepo.findAll();
-		List <ClinicDto> clinicDtoList=new ArrayList<>();
-		if(!clinics.isEmpty()) {
-			for(int i=0 ; i < clinics.size() ;i++) {
-				clinicDtoList.add(new ClinicDto(clinics.get(i)));
-			}
-			return clinicDtoList;
+	public List<GetClinic> getClinics(Long doctorId){
+		List<Clinic> clinicList=clinicRepo.findAllByDoctorId(doctorId);
+		List<GetClinic> getClinics=new ArrayList<>();
+		for(int i=0;i<clinicList.size();i++) {
+			getClinics.add(new GetClinic(clinicList.get(i)));
 		}
-		return clinicDtoList;
+		return getClinics;
 	}
 	
 	public AddVisitorResponse addVisitor(Long patientId,Long ClinicId) {
@@ -96,32 +116,10 @@ public class ClinicService {
 	
 	}
 	
-	public ClinicData updateClinicDetailesRequest(UpdateClinicDetailesRequest detailes) {
-		Clinic clinic =clinicRepo.findById(detailes.getId()).orElseThrow(()->new NotFoundException("clinic not found"));
-	
-
-		clinic.setClinicName(detailes.getClinicName());	
-		clinic.setOpeningTime(detailes.getOpeningTime());
-		clinic.setClosingTime(detailes.getClosingTime());
-		clinic.setPhoneNumbers(detailes.getPhoneNumbers());
-		clinic.setLocation(detailes.getLocation());
-		clinic.setLogo(detailes.getLogo());
-		
-		return  new ClinicData(clinicRepo.save(clinic));
-	}
-	
 	public Clinic findById(Long id) {
 		return clinicRepo.findById(id).orElseThrow(()->new NotFoundException("Clinic not found"));
 	}
 	
-	public List<ClinicData> findDoctorClinics(Long id){
-		List<Clinic> clinics=clinicRepo.findByDoctorId(id);
-		List<ClinicData> dtos=new ArrayList<>();
-		for(int i=0;i<clinics.size();i++) {
-			dtos.add(new ClinicData(clinics.get(i)));
-		}
-		return dtos;
-	}
 	public Map<Days, List<LocalTime>> addWorkingDay(Long clinicId,Days workingDay,SlotDto request) {
 		Clinic clinic=clinicRepo.findById(clinicId).orElseThrow(()->new NotFoundException("clinic not found"));
 		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();

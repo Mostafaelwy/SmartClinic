@@ -16,7 +16,7 @@ public interface ClinicRepo  extends JpaRepository<Clinic, Integer>{
 
 	Optional <Clinic> findById(long id);
 	Optional <Clinic> findByClinicName(String name);
-	List<Clinic> findByDoctorId(Long id);
+	List<Clinic> findAllByDoctorId(Long id);
 	
 
 	

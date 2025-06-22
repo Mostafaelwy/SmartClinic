@@ -1,6 +1,7 @@
 package com.graduation.clinic.entity;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,7 +9,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.graduation.clinic.dto.CreateClinicRequest;
+import com.graduation.clinic.dto.SetClinic;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -48,15 +49,12 @@ public class Clinic {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id")
 	private Address address;
-	@Column(name="clinic_location",length=500)
-	private byte[] location;
-
+	@Column(name="clinic_location")
+	private String location;
 	//@Pattern(regexp = "\\b(01[0-9]{9}|02[0-9]{8})\\b)")
-	@NotNull
 	private  List <String> phoneNumbers;
-	@NotNull
+
 	private String openingTime;
-	@NotNull
 	private String closingTime;
 	
     @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
@@ -73,80 +71,38 @@ public class Clinic {
 	
 	@OneToMany(mappedBy = "reservedClinic",cascade = CascadeType.ALL)
 	private List <Reservation> reservations;
+
+	@OneToMany(mappedBy = "clinic",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private List<Gallery> gallery;
 	
 	
 	
 	public Clinic() {
-		
 	}
-	
-	public Clinic(CreateClinicRequest request,Doctor doctor) {
-		this.clinicName = request.getClinicName();
-		this.address = request.getAddress();
-		this.phoneNumbers = request.getPhoneNumbers();
-		this.openingTime = request.getOpeningTime();
-		this.closingTime = request.getClosingTime();
-		this.setDoctor(doctor);
+
+	public Clinic(SetClinic c) {
+		this.id = c.getId();
+		this.logo = new Photo(c.getLogo());
+		this.clinicName = c.getClinicName();
+		this.address = c.getAddress();
+		this.location = c.getLocation();
+		List<Gallery> gList=new ArrayList<>();
+		for(int i=0;i<c.getGellery().size();i++) {
+			Gallery g=new Gallery();
+			g.setClinic(this);
+			g.setPhoto(new Photo(c.getGellery().get(i)));
+			gList.add(g);
+		}
+		this.gallery=gList;
 	}
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getClinicName() {
-		return clinicName;
-	}
-	public void setClinicName(String clinicName) {
-		this.clinicName = clinicName;
-	}
-	public Address getAddress() {
-		return address;
-	}
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-	public List<String> getPhoneNumbers() {
-		return phoneNumbers;
-	}
-	public void setPhone(List<String> phonenumbers) {
-		this.phoneNumbers = phonenumbers;
-	}
-	public String getOpeningTime() {
-		return openingTime;
-	}
-	public void setOpeningTime(String openingTime) {
-		this.openingTime = openingTime;
-	}
-	public String getClosingTime() {
-		return closingTime;
-	}
-	public void setClosingTime(String closingTime) {
-		this.closingTime = closingTime;
-	}
-
-
-	public SortedMap<Days, Slot> getWorkingDays() {
-		return workingDays;
-	}
-
-	public void setWorkingDays(SortedMap<Days, Slot> workingDays) {
-		
-		this.workingDays = workingDays;
-	}
-
-	public Doctor getDoctor() {
-		return doctor;
-	}
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
-
-	public void setPhoneNumbers(List<String> phoneNumbers) {
-		this.phoneNumbers = phoneNumbers;
-	}
-	
-
 
 	public Photo getLogo() {
 		return logo;
@@ -156,20 +112,68 @@ public class Clinic {
 		this.logo = logo;
 	}
 
-	public List<Reservation> getReservations() {
-		return reservations;
+	public String getClinicName() {
+		return clinicName;
 	}
 
-	public void setReservations(List<Reservation> reservations) {
-		this.reservations = reservations;
+	public void setClinicName(String clinicName) {
+		this.clinicName = clinicName;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
 
-	public byte[] getLocation() {
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public String getLocation() {
 		return location;
 	}
-	public void setLocation(byte[] location) {
+
+	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	public List<String> getPhoneNumbers() {
+		return phoneNumbers;
+	}
+
+	public void setPhoneNumbers(List<String> phoneNumbers) {
+		this.phoneNumbers = phoneNumbers;
+	}
+
+	public String getOpeningTime() {
+		return openingTime;
+	}
+
+	public void setOpeningTime(String openingTime) {
+		this.openingTime = openingTime;
+	}
+
+	public String getClosingTime() {
+		return closingTime;
+	}
+
+	public void setClosingTime(String closingTime) {
+		this.closingTime = closingTime;
+	}
+
+	public SortedMap<Days, Slot> getWorkingDays() {
+		return workingDays;
+	}
+
+	public void setWorkingDays(SortedMap<Days, Slot> workingDays) {
+		this.workingDays = workingDays;
+	}
+
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
 	}
 
 	public Set<ClinicsVistors> getMyVistors() {
@@ -180,6 +184,24 @@ public class Clinic {
 		this.myVistors = myVistors;
 	}
 
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+
+	public List<Gallery> getGallery() {
+		return gallery;
+	}
+
+	public void setGallery(List<Gallery> gallery) {
+		this.gallery = gallery;
+	}
+
+
+	
 	
 	
 }

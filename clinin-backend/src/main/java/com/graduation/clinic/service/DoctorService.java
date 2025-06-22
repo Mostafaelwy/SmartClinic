@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import com.graduation.clinic.Specifications.DoctorSpecifications;
 import com.graduation.clinic.dto.BasicDetailes;
 import com.graduation.clinic.dto.ChangePasswordRequest;
-import com.graduation.clinic.dto.DoctorBasicDetailes;
 import com.graduation.clinic.dto.DoctorBasicDetailesRequest;
 import com.graduation.clinic.dto.DoctorData;
 import com.graduation.clinic.dto.DoctorFilteration;
