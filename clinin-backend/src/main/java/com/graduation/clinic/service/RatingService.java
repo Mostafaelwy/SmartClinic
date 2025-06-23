@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.graduation.clinic.Specifications.ReservationSpecifications;
 import com.graduation.clinic.Specifications.ReviewSpecification;
+import com.graduation.clinic.dto.PageProperties;
 import com.graduation.clinic.dto.RatingDto;
 import com.graduation.clinic.dto.ReviewDto;
+import com.graduation.clinic.dto.SetReply;
 import com.graduation.clinic.dto.TimeInterval;
 import com.graduation.clinic.entity.Doctor;
 import com.graduation.clinic.entity.Patient;
@@ -106,8 +108,8 @@ public class RatingService {
 		Rating isPatientRevieweBefore=ratingRepo.findByRatedDoctorIdAndRaterId(doctorId, patient.getId()).orElseThrow(()->new NotFoundException("you never review before"));
 		return new ReviewDto(isPatientRevieweBefore);
 	}
-	public Page<ReviewDto> readDoctorReviews(Long doctorId,int pageNum,TimeInterval interval) {
-		Pageable page=PageRequest.of(pageNum, 2);
+	public Page<ReviewDto> readDoctorReviews(Long doctorId,PageProperties p,TimeInterval interval) {
+		Pageable page=PageRequest.of(p.getPageNum(),p.getPageSize(),p.getDir(),p.getSortAttripute());
 		
 		Page<Rating> ratingPage=ratingRepo.findAll(
 				Specification.where(ReviewSpecification.hasDoctorId(doctorId))
@@ -122,6 +124,19 @@ public class RatingService {
 	private Page<ReviewDto> paginateReviewDto(Page <Rating> reviews){
 		Page<ReviewDto> dtos= reviews.map(this::convertReviewToDto);
 		return dtos;
+	}
+	
+	public ReviewDto doctorReplyOnReview(SetReply r) {
+		Authentication auth=SecurityContextHolder.getContext().getAuthentication();
+		Doctor doc=(Doctor) auth.getPrincipal();
+		Rating rate=ratingRepo.findById(r.reviewId).orElseThrow(()-> new NotFoundException("there is not reviews"));
+		if(rate.getRatedDoctor().getId()==doc.getId()) {
+			rate.setReply(r.getReply());
+			return new ReviewDto(ratingRepo.save(rate));
+		}
+		else{
+			throw new GenericException("you are not allowed to reply, it allowed only for reviewed doctor");
+		}
 	}
 }
 

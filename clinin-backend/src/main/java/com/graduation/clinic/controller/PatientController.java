@@ -14,12 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.graduation.clinic.dto.DoctorData;
 import com.graduation.clinic.dto.DoctorFilteration;
+import com.graduation.clinic.dto.FilterReservations;
+import com.graduation.clinic.dto.GetAppointmentsForOnePatient;
+import com.graduation.clinic.dto.GetPatientProfileData;
 import com.graduation.clinic.dto.PageProperties;
+import com.graduation.clinic.dto.PatientData;
 import com.graduation.clinic.dto.PatientDto;
 import com.graduation.clinic.dto.RatingDto;
 import com.graduation.clinic.dto.ReservationDto;
 import com.graduation.clinic.dto.ReservationRequest;
 import com.graduation.clinic.dto.ReviewDto;
+import com.graduation.clinic.dto.SetPatientProfileData;
 import com.graduation.clinic.dto.TimeInterval;
 import com.graduation.clinic.dto.WriteReviewRequest;
 import com.graduation.clinic.entity.Patient;
@@ -56,12 +61,17 @@ public class PatientController {
 		this.doctorService=doctorService;
 		this.ratingService = ratingService;
 	}
+	
+	/*
 	@PostMapping("/insert")
 	public PatientDto insertPatient(@RequestBody Patient patient){
 		return patientService.insertPatient(patient);
-	}
+	}*/
 
-	
+	@GetMapping("/me/profile-data")
+	public PatientData getprofileData() {
+		return patientService.getPatientData();
+	}
 	@PostMapping("/me/reservation/clinic/{clinicId}")// fix this ############
 	public ReservationDto makeReservation(@RequestBody @Valid ReservationRequest request,@PathVariable Long clinicId) {
 		return reservationService.makeReservation(request,clinicId);
@@ -82,6 +92,19 @@ public class PatientController {
 	public Page<DoctorData> doctorSearch(@ModelAttribute DoctorFilteration filter,@ModelAttribute PageProperties p ) {
 		return doctorService.doctorSearch(filter, p);
 	}
+	@GetMapping("/{patientId}/profile-data")
+	public GetPatientProfileData getData(@PathVariable Long patientId ) {
+		return patientService.getPatientData(patientId);
+	}
+	@PostMapping("/me/profile-data")
+	public GetPatientProfileData setData(@RequestBody SetPatientProfileData request) {
+		return patientService.setPatientData(request);
+	}
+	@GetMapping("/{id}/appointments")
+	public Page<GetAppointmentsForOnePatient> getAppoinments(@PathVariable Long id ,@ModelAttribute FilterReservations filter,@ModelAttribute PageProperties p) {
+		return reservationService.getPatientAppointments(id,filter, p);
+	}
+	
 	
 	
 }

@@ -22,9 +22,6 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> ,JpaSp
 	
 	
 	
-	
-	
-	
 	Page<Reservation> findByReservedClinicId(Long id,Pageable page);
 	
 	Page<Reservation> findByReservedClinicIdAndStatus(Long id,ReservationStatus Status,Pageable page);
@@ -33,7 +30,7 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> ,JpaSp
 	Page<Reservation> findByDoctorIdAndReservationDateBetweenAndStatus(Long doctorId,LocalDate startDate,LocalDate endDate,ReservationStatus status,Pageable page);
 	Page<Reservation> findByDoctorId(Long doctorId,Pageable page);
 	Page<Reservation> findByDoctorIdAndStatus(Long doctorId,ReservationStatus status,Pageable page);
-	
+	Page<Reservation> findByPatientId(Long patientId,Pageable page);
 	Long countByDoctorIdAndStatusAndReservationDate(Long doctorId,ReservationStatus Status,LocalDate date);
 	
 	

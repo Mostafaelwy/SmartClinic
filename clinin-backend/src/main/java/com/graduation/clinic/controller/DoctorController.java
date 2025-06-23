@@ -25,16 +25,20 @@ import com.graduation.clinic.dto.DoctorBasicDetailesRequest;
 import com.graduation.clinic.dto.DoctorProfileData;
 import com.graduation.clinic.dto.DoctorStatistics;
 import com.graduation.clinic.dto.FilterReservations;
+import com.graduation.clinic.dto.GetAppointmentsForOnePatient;
 import com.graduation.clinic.dto.GetAwards;
 import com.graduation.clinic.dto.GetClinic;
 import com.graduation.clinic.dto.GetEducation;
 import com.graduation.clinic.dto.GetExperienceDto;
+import com.graduation.clinic.dto.GetPatient;
+import com.graduation.clinic.dto.PageProperties;
 import com.graduation.clinic.dto.ReservationDto;
 import com.graduation.clinic.dto.ReviewDto;
 import com.graduation.clinic.dto.SetAwards;
 import com.graduation.clinic.dto.SetClinic;
 import com.graduation.clinic.dto.SetEducation;
 import com.graduation.clinic.dto.SetExperienceRequest;
+import com.graduation.clinic.dto.SetReply;
 import com.graduation.clinic.dto.SlotDto;
 import com.graduation.clinic.dto.SpecialityServiceDto;
 import com.graduation.clinic.dto.SpecialtiesAndServicesDto;
@@ -118,9 +122,13 @@ public class DoctorController {
 	@GetMapping("/{doctorId}/reviews")
 	public Page<ReviewDto> readAllReviews(
 			@PathVariable Long doctorId,
-			@RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
+			@ModelAttribute PageProperties p,
 			@ModelAttribute TimeInterval interval){
-		return ratingService.readDoctorReviews(doctorId,pageNum,interval);
+		return ratingService.readDoctorReviews(doctorId,p,interval);
+	}
+	@PostMapping("/me/reply")
+	public ReviewDto replyOnReview(@RequestBody SetReply reply) {
+		return ratingService.doctorReplyOnReview(reply);
 	}
 	
 	@GetMapping("/me/statistics")
@@ -164,7 +172,7 @@ public class DoctorController {
 		 return appointmentDetailesService.startAppointment(reservationId);
 	}
 	
-	@PostMapping("/me/appointment/reservation/{reservationID}")
+	@PostMapping("/me/appointment/{reservationID}")
 	public ReservationStatus endAppointment(@RequestBody AppointmentDetailesRequest request,@PathVariable Long reservationID) {
 		
 		return appointmentDetailesService.endAppointment(reservationID, request);
@@ -243,6 +251,14 @@ public class DoctorController {
 	@DeleteMapping("/me/clinic/{id}")
 	public void deleteClinic(@PathVariable Long id) {
 		clinicService.deleteClinic(id);
+	}
+	@GetMapping("/me/patients")
+	public Page<GetPatient> getPatient(@ModelAttribute FilterReservations filter,@ModelAttribute PageProperties page ){
+		return reservationService.getDoctorPatient(filter, page);
+	}
+	@GetMapping("/patient/{id}/appointments")
+	public Page<GetAppointmentsForOnePatient> getPatientAppointments(@PathVariable Long id,@ModelAttribute FilterReservations filter,@ModelAttribute PageProperties p) {
+		return reservationService.getPatientAppointments(id, filter, p);
 	}
 	
 			

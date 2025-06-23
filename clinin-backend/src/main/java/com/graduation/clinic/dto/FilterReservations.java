@@ -18,16 +18,19 @@ public class FilterReservations {
 	private VisitType visitType;
 	
 	private String patientName;
+	
+	private String doctorName;
 
 
 
 	public FilterReservations(ReservationStatus status, LocalDate startTime, LocalDate endTime, VisitType visitType,
-			String patientName) {
+			String patientName,String doctorName) {
 		this.status = status;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.visitType = visitType;
 		this.patientName = patientName;
+		this.doctorName=doctorName;
 	}
 
 	public ReservationStatus getStatus() {
@@ -50,6 +53,10 @@ public class FilterReservations {
 
 	public String getPatientName() {
 		return patientName;
+	}
+
+	public String getDoctorName() {
+		return doctorName;
 	}
 	
 	

@@ -22,7 +22,7 @@ public class AppointmentDetailesRequest {
 		this.clinicalNotes = clinicalNotes;
 		this.laboratoryTests = laboratoryTests;
 		this.complaints = complaints;
-		this.medications = medications;
+		this.medications = medicationrequest;
 		this.advice = advice;
 		this.followUp = followUp;
 	}
@@ -42,10 +42,6 @@ public class AppointmentDetailesRequest {
 	public List<String> getComplaints() {
 		return complaints;
 	}
-
-
-
-
 
 	public List<MedicationCreation> getMedications() {
 		return medications;

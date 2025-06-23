@@ -73,14 +73,7 @@ public class AppointmentDetailesService {
 			PatientDto patient=new PatientDto(reservation.getPatient());
 			
 			int numOfvisits=appointmentDetailesRepo.countByDoctorIdAndPatientId(doc.getId(),patient.getId());
-			return new StartAppointment(
-					patient,
-					numOfvisits,
-					reservation.getReservationDate(),
-					reservation.getReservedClinic().getClinicName(),
-					reservation.getReservedClinic().getAddress(),
-					reservation.getVisitType()
-					);
+			return new StartAppointment(reservation,numOfvisits);
 		
 		}else {
 			throw new GenericException("Status should be ACCEPTED. the status of this reservation is : "+reservation.getStatus());

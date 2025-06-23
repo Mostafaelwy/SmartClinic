@@ -48,5 +48,14 @@ public class ReservationSpecifications {
 		};
 			
 		}
+	public static Specification<Reservation> hasDoctorName(String doctorName){
+		return (root,query,criteriaBuilder)->{
+			if(doctorName==null) return null;
+			Join<Object, Object> clinic= root.join("reservedClinic");
+			Join<Object, Object> doc= clinic.join("doctor");
+			return criteriaBuilder.like(criteriaBuilder.lower(doc.get("firstName")), "%"+ doctorName.toLowerCase()+"%");
+		};
+	}
+	
 }
 

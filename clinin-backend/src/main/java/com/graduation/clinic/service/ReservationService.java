@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import com.graduation.clinic.Specifications.ReservationSpecifications;
 import com.graduation.clinic.dto.FilterReservations;
+import com.graduation.clinic.dto.GetAppointmentsForOnePatient;
+import com.graduation.clinic.dto.GetPatient;
+import com.graduation.clinic.dto.PageProperties;
 import com.graduation.clinic.dto.ReservationDto;
 import com.graduation.clinic.dto.ReservationRequest;
 import com.graduation.clinic.entity.Clinic;
@@ -47,7 +50,18 @@ public class ReservationService {
 		Page<ReservationDto> dtos=reservations.map(this::convertReservationToDto);
 		return dtos;
 	}
-	
+	private GetPatient convertReservationToGetPatient(Reservation r) {
+		return new GetPatient(r);
+	}
+	private Page<GetPatient> paginateGetPatient(Page<Reservation> reservationPage){
+		return reservationPage.map(this::convertReservationToGetPatient);
+	}
+	private GetAppointmentsForOnePatient converReservationToGetAppoinment(Reservation r) {
+		return new GetAppointmentsForOnePatient(r);
+	}
+	private Page<GetAppointmentsForOnePatient> paginateAppoinments(Page<Reservation> reservationPage){
+		return reservationPage.map(this:: converReservationToGetAppoinment );
+	}
 
 	
 	public ReservationDto makeReservation(ReservationRequest request,Long clinicId) {
@@ -105,6 +119,42 @@ public class ReservationService {
 		
 		return paginateReservationDto(reservationPage);
 	}
+	
+	public Page<GetPatient> getDoctorPatient(FilterReservations filter,PageProperties pageDetailes){
+		Pageable p=PageRequest.of(pageDetailes.getPageNum(), pageDetailes.getPageSize(), pageDetailes.getDir(), pageDetailes.getSortAttripute());
+		
+		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		Doctor doc=(Doctor) auth.getPrincipal();
+		
+		Page<Reservation> reservationPage=reservationRepo.findAll(
+				
+				Specification.where(ReservationSpecifications.hasDoctorId(doc.getId()))
+							.and(ReservationSpecifications.hasStatus(ReservationStatus.COMPLETED))
+							.and(ReservationSpecifications.hasCreationDate(filter.getStartTime(), filter.getEndTime()))
+							.and(ReservationSpecifications.hasPatientName(filter.getPatientName()))
+							.and(ReservationSpecifications.hasVisitType(filter.getVisitType()))
+				,p);
+		
+		return paginateGetPatient(reservationPage);
+	}
+
+	public Page<GetAppointmentsForOnePatient> getPatientAppointments(Long patientId ,FilterReservations filter,PageProperties pageDetailes){
+		
+		Pageable p=PageRequest.of(pageDetailes.getPageNum(), pageDetailes.getPageSize(), pageDetailes.getDir(), pageDetailes.getSortAttripute());
+
+		Page<Reservation> reservationPage=reservationRepo.findAll(
+				
+				Specification.where(ReservationSpecifications.hasPatientId(patientId))
+							.and(ReservationSpecifications.hasStatus(filter.getStatus()))
+							.and(ReservationSpecifications.hasCreationDate(filter.getStartTime(), filter.getEndTime()))
+							.and(ReservationSpecifications.hasDoctorName(filter.getDoctorName()))
+							.and(ReservationSpecifications.hasVisitType(filter.getVisitType()))
+				,p);
+		
+		return paginateAppoinments(reservationPage);
+		
+	}
+	
 	
 
 }

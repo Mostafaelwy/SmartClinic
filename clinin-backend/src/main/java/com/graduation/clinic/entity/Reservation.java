@@ -1,6 +1,7 @@
 package com.graduation.clinic.entity;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -41,12 +42,16 @@ public class Reservation {
 	@NotNull
 	private LocalDate reservationDate;
 	
+	private LocalTime reservationTime;
+	
 	@NotNull
 	private LocalDate creationDate;
 	@NotNull
 	private VisitType visitType;
 	@OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private AppointmentDetailes appointmentDetailes;
+	
+	private String cost;
 
 	
 	public AppointmentDetailes getAppointmentDetailes() {
@@ -119,6 +124,22 @@ public class Reservation {
 
 	public void setVisitType(VisitType visitType) {
 		this.visitType = visitType;
+	}
+
+	public LocalTime getReservationTime() {
+		return reservationTime;
+	}
+
+	public void setReservationTime(LocalTime reservationTime) {
+		this.reservationTime = reservationTime;
+	}
+
+	public String getCost() {
+		return cost;
+	}
+
+	public void setCost(String cost) {
+		this.cost = cost;
 	}
 	
 	

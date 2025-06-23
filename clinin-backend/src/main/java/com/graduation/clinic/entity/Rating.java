@@ -37,6 +37,16 @@ public class Rating {
 	
 	private LocalDate creationDate;
 	
+	private String Reply;
+	
+	
+	
+	public String getReply() {
+		return Reply;
+	}
+	public void setReply(String reply) {
+		Reply = reply;
+	}
 	public Long getId() {
 		return id;
 	}

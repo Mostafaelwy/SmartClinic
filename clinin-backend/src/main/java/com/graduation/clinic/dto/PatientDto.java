@@ -3,6 +3,7 @@ package com.graduation.clinic.dto;
 import java.util.List;
 
 import com.graduation.clinic.entity.Address;
+import com.graduation.clinic.entity.BloodGroub;
 import com.graduation.clinic.entity.Gender;
 import com.graduation.clinic.entity.Patient;
 
@@ -22,6 +23,8 @@ public class PatientDto {
 	
 	private final List<String> phoneNumbers;
 	
+	private BloodGroub blood;
+	
 
 
 	public PatientDto(Patient patient) {
@@ -33,6 +36,7 @@ public class PatientDto {
 		this.userName=patient.getUsername();
 		this.phoneNumbers=patient.getPhoneNumbers();
 		this.address=patient.getAddress();
+		this.blood=patient.getBlood();
 		
 	}
 
@@ -75,6 +79,11 @@ public class PatientDto {
 
 	public Address getAddress() {
 		return address;
+	}
+
+
+	public BloodGroub getBlood() {
+		return blood;
 	}
 	
 	

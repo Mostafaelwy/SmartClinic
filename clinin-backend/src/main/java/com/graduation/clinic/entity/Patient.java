@@ -1,5 +1,6 @@
 package com.graduation.clinic.entity;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -7,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
@@ -33,9 +36,29 @@ public class Patient extends UsersBaseEntity {
 	private List<Rating> ratings;
 	@OneToMany(mappedBy = "patient",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<AppointmentDetailes> patientAppointmentDetailes;
+	@Enumerated(EnumType.STRING)
+	private BloodGroub blood;
+	private LocalDate dateOfBirth;
 	
 	
 	
+	
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public BloodGroub getBlood() {
+		return blood;
+	}
+
+	public void setBlood(BloodGroub blood) {
+		this.blood = blood;
+	}
+
 	public List<AppointmentDetailes> getPatientAppointmentDetailes() {
 		return patientAppointmentDetailes;
 	}
