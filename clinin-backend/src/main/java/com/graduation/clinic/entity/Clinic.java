@@ -72,29 +72,29 @@ public class Clinic {
 	@OneToMany(mappedBy = "reservedClinic",cascade = CascadeType.ALL)
 	private List <Reservation> reservations;
 
-	@OneToMany(mappedBy = "clinic",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-	private List<Gallery> gallery;
+
+	@Column(name = "photosId")
+	private List<Long> gallery;
 	
 	
 	
 	public Clinic() {
 	}
+	
 
-	public Clinic(SetClinic c) {
+
+
+	public Clinic( SetClinic c,List<Long> gallery) {
 		this.id = c.getId();
 		this.logo = new Photo(c.getLogo());
-		this.clinicName = c.getClinicName();
+		this.clinicName = c.getLocation();
 		this.address = c.getAddress();
 		this.location = c.getLocation();
-		List<Gallery> gList=new ArrayList<>();
-		for(int i=0;i<c.getGellery().size();i++) {
-			Gallery g=new Gallery();
-			g.setClinic(this);
-			g.setPhoto(new Photo(c.getGellery().get(i)));
-			gList.add(g);
-		}
-		this.gallery=gList;
+		this.gallery = gallery;
 	}
+
+
+
 
 	public Long getId() {
 		return id;
@@ -192,11 +192,11 @@ public class Clinic {
 		this.reservations = reservations;
 	}
 
-	public List<Gallery> getGallery() {
+	public List<Long> getGallery() {
 		return gallery;
 	}
 
-	public void setGallery(List<Gallery> gallery) {
+	public void setGallery(List<Long> gallery) {
 		this.gallery = gallery;
 	}
 

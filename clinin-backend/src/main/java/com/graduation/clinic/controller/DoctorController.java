@@ -240,6 +240,10 @@ public class DoctorController {
 	public List<GetClinic> setClinics(@RequestBody @Valid List<SetClinic> request){
 		return clinicService.setClinics(request);
 	}
+	@DeleteMapping("/me/clinic/{id}")
+	public void deleteClinic(@PathVariable Long id) {
+		clinicService.deleteClinic(id);
+	}
 	
 			
 }

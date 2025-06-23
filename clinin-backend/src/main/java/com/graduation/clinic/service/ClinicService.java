@@ -27,13 +27,14 @@ import com.graduation.clinic.entity.ClinicsVistors;
 import com.graduation.clinic.entity.Days;
 import com.graduation.clinic.entity.Doctor;
 import com.graduation.clinic.entity.Patient;
+import com.graduation.clinic.entity.Photo;
 import com.graduation.clinic.entity.Slot;
 import com.graduation.clinic.exceptions.DuplicateException;
 import com.graduation.clinic.exceptions.GenericException;
 import com.graduation.clinic.exceptions.NotFoundException;
 import com.graduation.clinic.repos.ClinicRepo;
 import com.graduation.clinic.repos.ClinicsVisitorsRepo;
-import com.graduation.clinic.repos.GalleryRepo;
+
 import com.graduation.clinic.repos.PhotoRepo;
 import com.graduation.clinic.repos.SlotRepo;
 
@@ -49,7 +50,6 @@ public class ClinicService {
 	private final PatientService patientService;
 	private final ClinicsVisitorsRepo clinicsVisitorsRepo;
 	private final SlotRepo slotRepo;
-	private final GalleryRepo galleryRepo;
 	private final PhotoRepo photoRepo;
 
 	
@@ -59,7 +59,6 @@ public class ClinicService {
 			PatientService patientService,
 			ClinicsVisitorsRepo clinicsVisitorsRepo,
 			SlotRepo slotRepo,
-			GalleryRepo galleryRepo,
 			PhotoRepo photoRepo) {
 		
 		this.clinicRepo = clinicRepo;
@@ -67,7 +66,6 @@ public class ClinicService {
 		this.patientService = patientService;
 		this.clinicsVisitorsRepo = clinicsVisitorsRepo;
 		this.slotRepo=slotRepo;
-		this.galleryRepo=galleryRepo;
 		this.photoRepo=photoRepo;
 	}
 
@@ -79,27 +77,38 @@ public class ClinicService {
 		Authentication auth= SecurityContextHolder.getContext().getAuthentication();
 		Doctor doc=(Doctor)auth.getPrincipal();
 		for(int i=0;i<request.size();i++) {
-			Clinic c=new Clinic(request.get(i));
+			List<Long> photosIds=new ArrayList<>();
+			for(int j=0;j<request.get(i).getGellery().size();j++) {
+				Long id =photoRepo.save(new Photo( request.get(i).getGellery().get(j))).getId();
+				photosIds.add(id);
+			}
+			Clinic c=new Clinic(request.get(i), photosIds);
 			c.setDoctor(doc);
-			
-			clinicRepo.save(c);/*
-			for(int j=0;j<c.getGallery().size();j++) {
-				photoRepo.save(c.getGallery().get(j).getPhoto());
-			}*/
-			//galleryRepo.saveAll(c.getGallery());
+			clinicRepo.save(c);
 		}
-		
+
 		return getClinics(doc.getId());
-		
 	}
 	
 	public List<GetClinic> getClinics(Long doctorId){
 		List<Clinic> clinicList=clinicRepo.findAllByDoctorId(doctorId);
+		
 		List<GetClinic> getClinics=new ArrayList<>();
 		for(int i=0;i<clinicList.size();i++) {
-			getClinics.add(new GetClinic(clinicList.get(i)));
+			
+			List<Photo> photos=photoRepo.findAllById(clinicList.get(i).getGallery());
+			getClinics.add(new GetClinic(clinicList.get(i),photos));
+			
 		}
 		return getClinics;
+	}
+	@Transactional(value = TxType.REQUIRES_NEW)
+	public void deleteClinic(Long clinicId) {
+		Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+		Doctor doc=(Doctor)auth.getPrincipal();
+		Clinic c= clinicRepo.findByIdAndDoctorId(clinicId, doc.getId()).orElseThrow(()->new NotFoundException("there is no clinic to delete"));
+		photoRepo.deleteAllById(c.getGallery());
+		clinicRepo.delete(c);
 	}
 	
 	public AddVisitorResponse addVisitor(Long patientId,Long ClinicId) {
