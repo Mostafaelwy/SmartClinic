@@ -1,6 +1,7 @@
 package com.graduation.clinic.entity;
 
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +60,7 @@ public class Clinic {
 	
     @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @MapKeyEnumerated(EnumType.STRING)
-	private SortedMap<Days,Slot>workingDays =new TreeMap<>();
+	private SortedMap<DayOfWeek,Slot>workingDays =new TreeMap<>();
 	@ManyToOne
 	@JoinColumn(name = "doctor_id")
 	@JsonBackReference
@@ -75,8 +76,8 @@ public class Clinic {
 
 	@Column(name = "photosId")
 	private List<Long> gallery;
-	
-	
+	@OneToMany(mappedBy = "clinic",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private List<ReservedTime> reservedTimes;
 	
 	public Clinic() {
 	}
@@ -160,11 +161,11 @@ public class Clinic {
 		this.closingTime = closingTime;
 	}
 
-	public SortedMap<Days, Slot> getWorkingDays() {
+	public SortedMap<DayOfWeek, Slot> getWorkingDays() {
 		return workingDays;
 	}
 
-	public void setWorkingDays(SortedMap<Days, Slot> workingDays) {
+	public void setWorkingDays(SortedMap<DayOfWeek, Slot> workingDays) {
 		this.workingDays = workingDays;
 	}
 
@@ -201,7 +202,17 @@ public class Clinic {
 	}
 
 
-	
-	
-	
+
+
+	public List<ReservedTime> getReservedTimes() {
+		return reservedTimes;
+	}
+
+
+
+
+	public void setReservedTimes(List<ReservedTime> reservedTimes) {
+		this.reservedTimes = reservedTimes;
+	}
+
 }

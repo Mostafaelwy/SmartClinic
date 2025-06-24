@@ -21,14 +21,17 @@ import com.graduation.clinic.dto.GetPatient;
 import com.graduation.clinic.dto.PageProperties;
 import com.graduation.clinic.dto.ReservationDto;
 import com.graduation.clinic.dto.ReservationRequest;
+import com.graduation.clinic.dto.ReserveTime;
 import com.graduation.clinic.entity.Clinic;
 import com.graduation.clinic.entity.Doctor;
 import com.graduation.clinic.entity.Patient;
 import com.graduation.clinic.entity.Reservation;
 import com.graduation.clinic.entity.ReservationStatus;
+import com.graduation.clinic.entity.SpecialityServices;
 import com.graduation.clinic.exceptions.NotFoundException;
 import com.graduation.clinic.exceptions.TimeException;
 import com.graduation.clinic.repos.ReservationRepo;
+import com.graduation.clinic.repos.SpecialityServiceRepo;
 
 @Service
 public class ReservationService {
@@ -36,11 +39,15 @@ public class ReservationService {
 	private final ReservationRepo reservationRepo;
 	private final ClinicService clinicService;
 	private final PatientService patientService;
+	private final SpecialityServiceRepo  specialityServiceRepo;
 
-	public ReservationService(ReservationRepo reservationRepo,ClinicService clinicService,PatientService patientService) {
+	public ReservationService(ReservationRepo reservationRepo,ClinicService clinicService,PatientService patientService,
+			SpecialityServiceRepo specialityServiceRepo) {
 		this.reservationRepo = reservationRepo;
 		this.clinicService=clinicService;
 		this.patientService=patientService;
+		this.specialityServiceRepo=specialityServiceRepo;
+		
 	}
 	
 	private ReservationDto convertReservationToDto(Reservation reservation) {
@@ -72,16 +79,22 @@ public class ReservationService {
 			Authentication auth =SecurityContextHolder.getContext().getAuthentication();
 			Patient patient=(Patient) auth.getPrincipal();
 			
+			SpecialityServices service=specialityServiceRepo.findById(clinicId).orElseThrow(()-> new NotFoundException("service not found"));
+			
 			Long doctorId=clinic.getDoctor().getId();
 			
 			Reservation reservation=new Reservation();
+			reservation.setService(service);
 			reservation.setPatient(patient);
 			reservation.setReservedClinic(clinic);
 			reservation.setStatus(ReservationStatus.PENDING);
 			reservation.setReservationDate(request.getReservationDate());
 			reservation.setDoctorId(doctorId);
 			reservation.setCreationDate(LocalDate.now());
+			reservation.setReservationTime(request.getReservationTime());
 			reservation.setVisitType(request.getVisitType());
+			ReserveTime time=new ReserveTime( request.getReservationDate(),request.getReservationTime());
+			clinicService.reserveTime(time, clinicId);
 			return new ReservationDto(reservationRepo.save(reservation));
 		}else {
 			throw new TimeException("reservation date must be at least after one day from reservation Request time.");

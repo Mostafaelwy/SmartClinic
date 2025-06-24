@@ -52,6 +52,8 @@ public class Reservation {
 	private AppointmentDetailes appointmentDetailes;
 	
 	private String cost;
+	@ManyToOne
+	private SpecialityServices service;
 
 	
 	public AppointmentDetailes getAppointmentDetailes() {
@@ -140,6 +142,14 @@ public class Reservation {
 
 	public void setCost(String cost) {
 		this.cost = cost;
+	}
+
+	public SpecialityServices getService() {
+		return service;
+	}
+
+	public void setService(SpecialityServices service) {
+		this.service = service;
 	}
 	
 	

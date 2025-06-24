@@ -1,5 +1,6 @@
 package com.graduation.clinic.controller;
 
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
@@ -78,9 +79,9 @@ public class DoctorController {
 	private final ClinicService clinicService;
 	private final ReservationService reservationService;
 	private final RatingService ratingService;
-
 	private final DoctorSpecialtiesService doctorSpecialtiesService;
 	private final AppointmentDetailesService appointmentDetailesService;
+	
 
 	public DoctorController(
 			DoctorService doctorService,
@@ -137,7 +138,7 @@ public class DoctorController {
 		return doctorService.calculateStatistics();
 	}
 
-	@PostMapping("/me/reservations")
+	@GetMapping("/me/reservations")
 	public Page<ReservationDto> reservationSearch(@ModelAttribute FilterReservations filter,
 			@RequestParam(name ="pageNum" , required = false , defaultValue = "0") int pageNum,
 			@RequestParam(name ="pageSize" , required = false , defaultValue = "5") int pageSize){
@@ -179,11 +180,11 @@ public class DoctorController {
 		return appointmentDetailesService.endAppointment(reservationID, request);
 	}
 	@PatchMapping("/me/workingdays/{workingDay}/clinic/{clinicId}")
-	public Map<Days, List<LocalTime>> addWorkingDay(@PathVariable Long clinicId,@PathVariable Days workingDay,@RequestBody SlotDto slot){
+	public Map<DayOfWeek, List<LocalTime>> addWorkingDay(@PathVariable Long clinicId,@PathVariable DayOfWeek workingDay,@RequestBody SlotDto slot){
 		 return clinicService.addWorkingDay(clinicId, workingDay, slot);
 	}
 	@GetMapping("/avilable-timings/clinic/{clinicId}")
-	public Map<Days, List<LocalTime>> showSlotsPerDay(@PathVariable Long clinicId,@RequestParam(name = "workingDay",required = false,defaultValue = "") Days workingDay) {
+	public Map<DayOfWeek, List<LocalTime>> showSlotsPerDay(@PathVariable Long clinicId,@RequestParam(name = "workingDay",required = false,defaultValue = "") DayOfWeek workingDay) {
 		return clinicService.showSlotsPerDay(clinicId,workingDay);
 	}
 	@GetMapping("/me/profile-data")

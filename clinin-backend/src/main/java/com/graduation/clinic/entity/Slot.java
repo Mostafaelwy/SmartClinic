@@ -1,5 +1,6 @@
 package com.graduation.clinic.entity;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
 
@@ -30,7 +31,7 @@ public class Slot {
 	@ManyToOne
 	private Clinic clinic;
 	@Enumerated(EnumType.STRING)
-	private Days day;
+	private DayOfWeek day;
 	
 	public Long getId() {
 		return id;
@@ -69,10 +70,10 @@ public class Slot {
 	public void setClinic(Clinic clinic) {
 		this.clinic = clinic;
 	}
-	public Days getDay() {
+	public DayOfWeek getDay() {
 		return day;
 	}
-	public void setDay(Days day) {
+	public void setDay(DayOfWeek day) {
 		this.day = day;
 	}
 

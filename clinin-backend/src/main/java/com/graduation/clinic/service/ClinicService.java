@@ -1,5 +1,6 @@
 package com.graduation.clinic.service;
 
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.graduation.clinic.dto.AddVisitorResponse;
 import com.graduation.clinic.dto.GetClinic;
+import com.graduation.clinic.dto.ReserveTime;
 import com.graduation.clinic.dto.SetClinic;
 import com.graduation.clinic.dto.SlotDto;
 
@@ -28,6 +30,7 @@ import com.graduation.clinic.entity.Days;
 import com.graduation.clinic.entity.Doctor;
 import com.graduation.clinic.entity.Patient;
 import com.graduation.clinic.entity.Photo;
+import com.graduation.clinic.entity.ReservedTime;
 import com.graduation.clinic.entity.Slot;
 import com.graduation.clinic.exceptions.DuplicateException;
 import com.graduation.clinic.exceptions.GenericException;
@@ -36,6 +39,7 @@ import com.graduation.clinic.repos.ClinicRepo;
 import com.graduation.clinic.repos.ClinicsVisitorsRepo;
 
 import com.graduation.clinic.repos.PhotoRepo;
+import com.graduation.clinic.repos.ReservedTimesRepo;
 import com.graduation.clinic.repos.SlotRepo;
 
 import jakarta.persistence.criteria.Order;
@@ -51,6 +55,7 @@ public class ClinicService {
 	private final ClinicsVisitorsRepo clinicsVisitorsRepo;
 	private final SlotRepo slotRepo;
 	private final PhotoRepo photoRepo;
+	private final ReservedTimesRepo reservedTimesRepo;
 
 	
 	public ClinicService(
@@ -59,7 +64,8 @@ public class ClinicService {
 			PatientService patientService,
 			ClinicsVisitorsRepo clinicsVisitorsRepo,
 			SlotRepo slotRepo,
-			PhotoRepo photoRepo) {
+			PhotoRepo photoRepo,
+			ReservedTimesRepo reservedTimesRepo) {
 		
 		this.clinicRepo = clinicRepo;
 		this.doctorService = doctorService;
@@ -67,6 +73,7 @@ public class ClinicService {
 		this.clinicsVisitorsRepo = clinicsVisitorsRepo;
 		this.slotRepo=slotRepo;
 		this.photoRepo=photoRepo;
+		this.reservedTimesRepo=reservedTimesRepo;
 	}
 
 
@@ -129,7 +136,7 @@ public class ClinicService {
 		return clinicRepo.findById(id).orElseThrow(()->new NotFoundException("Clinic not found"));
 	}
 	
-	public Map<Days, List<LocalTime>> addWorkingDay(Long clinicId,Days workingDay,SlotDto request) {
+	public Map<DayOfWeek, List<LocalTime>> addWorkingDay(Long clinicId,DayOfWeek workingDay,SlotDto request) {
 		Clinic clinic=clinicRepo.findById(clinicId).orElseThrow(()->new NotFoundException("clinic not found"));
 		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
 		 Doctor doc=(Doctor)auth.getPrincipal();
@@ -159,29 +166,28 @@ public class ClinicService {
 		 
 
 	}
-	public Map<Days, List<LocalTime>> showSlotsPerDay(Long clinicId,Days workingDay) {
+	public Map<DayOfWeek, List<LocalTime>> showSlotsPerDay(Long clinicId,DayOfWeek workingDay) {
 		try {
 
 			Clinic clinic=clinicRepo.findById(clinicId).orElseThrow(()->new NotFoundException("clinic not found"));
 
-				Map<Days, List<LocalTime>> SlotsPerDay=new HashMap<>();
+				Map<DayOfWeek, List<LocalTime>> SlotsPerDay=new HashMap<>();
 	
 			if(workingDay==null||workingDay.name()=="")
 			{
-				workingDay=clinic.getWorkingDays().firstKey();
+				workingDay=clinic.getWorkingDays().firstKey(); 
 			}
 			
 		
 			
-				Slot slot =clinic.getWorkingDays().get(workingDay);
-			
+				Slot slot =clinic.getWorkingDays().get(workingDay);			
 
 			
 			
 				Duration DoctotalTimeToday = Duration.between(slot.getStartTime(),slot.getEndTime());
 
 				if (DoctotalTimeToday.isNegative()) {
-					DoctotalTimeToday = DoctotalTimeToday.plusHours(24); // Adjust for crossing midnight
+					DoctotalTimeToday = DoctotalTimeToday.plusHours(24); 
 				}
 			
 				DoctotalTimeToday.toMinutes();
@@ -203,6 +209,43 @@ public class ClinicService {
 			throw new NotFoundException("no slots for :"+workingDay);
 			
 		}
+	}
+	
+	public Map<LocalTime,Boolean> getAvilableTimes(LocalDate date ,Long ClinicId){
+		DayOfWeek day=date.getDayOfWeek();
+		
+		List<LocalTime> times= showSlotsPerDay(ClinicId, day).get(day);
+		List<ReservedTime> r= reservedTimesRepo.findByClinicIdAndDate(ClinicId, date);
+		
+		
+		Map<LocalTime,Boolean> timeAvilability= new HashMap<>();
+	
+		if(r.isEmpty()) {
+			for(int i=0;i<times.size();i++) {
+				timeAvilability.put(times.get(i), true);
+			}
+		}
+		else {
+			for(int i=0;i<times.size();i++) {
+				for(int j=0;j<r.size();j++) {
+					if(times.get(i).equals(r.get(j).getTime())) {
+						timeAvilability.put(times.get(i),false);
+					}
+					else {
+						timeAvilability.put(times.get(i),true);
+					}
+				}
+			}
+		}
+
+	return timeAvilability;	
+	}
+	
+	public LocalDateTime reserveTime(ReserveTime time , Long ClinicId ) {
+		Clinic clinic=clinicRepo.findById(ClinicId).orElseThrow(()->new NotFoundException("clinic not Found"));
+		ReservedTime reserved= new ReservedTime(time,clinic);
+		ReservedTime Rtime= reservedTimesRepo.save(reserved);
+		return Rtime.getDate().atTime(Rtime.getTime());
 	}
 	
 	

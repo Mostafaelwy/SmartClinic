@@ -1,13 +1,17 @@
 package com.graduation.clinic.entity;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 @Entity
 public class SpecialityServices {
@@ -26,6 +30,8 @@ public class SpecialityServices {
 	private  SpecialityService serviceType;
 	private double price;
 	private String hint;
+	@OneToMany(mappedBy = "service",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	private List<Reservation> reservations;
 	
 	public Long getId() {
 		return id;
@@ -56,6 +62,12 @@ public class SpecialityServices {
 	}
 	public void setHint(String hint) {
 		this.hint = hint;
+	}
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
 	}
 	
 	
