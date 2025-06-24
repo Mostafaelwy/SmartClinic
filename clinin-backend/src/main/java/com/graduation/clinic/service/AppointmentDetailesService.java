@@ -1,18 +1,20 @@
 package com.graduation.clinic.service;
 
-import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.graduation.clinic.dto.AppointmentDetailesRequest;
+import com.graduation.clinic.dto.GetPrescriptions;
+import com.graduation.clinic.dto.PageProperties;
 import com.graduation.clinic.dto.PatientDto;
 import com.graduation.clinic.dto.StartAppointment;
 import com.graduation.clinic.entity.AppointmentDetailes;
 import com.graduation.clinic.entity.Doctor;
-import com.graduation.clinic.entity.Medications;
-import com.graduation.clinic.entity.Patient;
 import com.graduation.clinic.entity.Reservation;
 import com.graduation.clinic.entity.ReservationStatus;
 import com.graduation.clinic.exceptions.GenericException;
@@ -38,6 +40,14 @@ public class AppointmentDetailesService {
 		this.appointmentDetailesRepo = appointmentDetailesRepo;
 		this.reservationRepo = reservationRepo;
 		this.patientService=patientService;
+	}
+	
+	private GetPrescriptions getPrescriptionFromAppoinmentDetailes(AppointmentDetailes p) {
+		return new GetPrescriptions(p);
+		
+	}
+	private Page<GetPrescriptions> paginateGetPrescriptions(Page<AppointmentDetailes> det){
+		return det.map(this::getPrescriptionFromAppoinmentDetailes);
 	}
 
 	@Transactional(value = TxType.REQUIRES_NEW)
@@ -78,6 +88,12 @@ public class AppointmentDetailesService {
 		}else {
 			throw new GenericException("Status should be ACCEPTED. the status of this reservation is : "+reservation.getStatus());
 		}
+	}
+	
+	public Page<GetPrescriptions> getPrescriptions(Long PatientId,PageProperties p){
+		Pageable page=PageRequest.of(p.getPageNum(), p.getPageSize(),p.getDir(),p.getSortAttripute());
+		Page<AppointmentDetailes>  detPage=appointmentDetailesRepo.findByPatientId(PatientId,page);
+		return paginateGetPrescriptions(detPage);
 	}
 	
 }

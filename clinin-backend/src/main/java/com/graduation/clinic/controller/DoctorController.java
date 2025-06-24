@@ -31,6 +31,7 @@ import com.graduation.clinic.dto.GetClinic;
 import com.graduation.clinic.dto.GetEducation;
 import com.graduation.clinic.dto.GetExperienceDto;
 import com.graduation.clinic.dto.GetPatient;
+import com.graduation.clinic.dto.GetPrescriptions;
 import com.graduation.clinic.dto.PageProperties;
 import com.graduation.clinic.dto.ReservationDto;
 import com.graduation.clinic.dto.ReviewDto;
@@ -259,6 +260,10 @@ public class DoctorController {
 	@GetMapping("/patient/{id}/appointments")
 	public Page<GetAppointmentsForOnePatient> getPatientAppointments(@PathVariable Long id,@ModelAttribute FilterReservations filter,@ModelAttribute PageProperties p) {
 		return reservationService.getPatientAppointments(id, filter, p);
+	}
+	@GetMapping("/patient/{id}/prescriptions")
+	public Page<GetPrescriptions> getPatientPrescriptions(@PathVariable Long id ,@ModelAttribute PageProperties page){
+		return appointmentDetailesService.getPrescriptions(id, page);
 	}
 	
 			

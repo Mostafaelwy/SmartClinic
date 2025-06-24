@@ -1,5 +1,6 @@
 package com.graduation.clinic.entity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class AppointmentDetailes {
 	private List<Medications> medications;
 	private String advice;
 	private String followUp;
+	private LocalDate issuedDate;
 	
 	
 	
@@ -42,6 +44,7 @@ public class AppointmentDetailes {
 		
 	}
 	public AppointmentDetailes(AppointmentDetailesRequest request) {
+		this.issuedDate=LocalDate.now();
 		this.advice= request.getAdvice();
 		this.clinicalNotes= request.getClinicalNotes();
 		this.complaints= request.getComplaints();
@@ -125,5 +128,12 @@ public class AppointmentDetailes {
 	public void setFollowUp(String followUp) {
 		this.followUp = followUp;
 	}
+	public LocalDate getIssuedDate() {
+		return issuedDate;
+	}
+	public void setIssuedDate(LocalDate issuedDate) {
+		this.issuedDate = issuedDate;
+	}
+	
 	
 }
