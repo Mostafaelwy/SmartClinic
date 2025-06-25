@@ -51,7 +51,7 @@ public class Reservation {
 	@OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private AppointmentDetailes appointmentDetailes;
 	
-	private String cost;
+	private double cost;
 	@ManyToOne
 	private SpecialityServices service;
 
@@ -136,11 +136,11 @@ public class Reservation {
 		this.reservationTime = reservationTime;
 	}
 
-	public String getCost() {
+	public double getCost() {
 		return cost;
 	}
 
-	public void setCost(String cost) {
+	public void setCost(double cost) {
 		this.cost = cost;
 	}
 

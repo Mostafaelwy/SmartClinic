@@ -31,7 +31,7 @@ import com.graduation.clinic.dto.SetDate;
 import com.graduation.clinic.dto.SetPatientProfileData;
 import com.graduation.clinic.dto.SpecialityServiceDto;
 import com.graduation.clinic.dto.SpecialtiesAndServicesDto;
-import com.graduation.clinic.dto.TimeInterval;
+import com.graduation.clinic.dto.DateInterval;
 import com.graduation.clinic.dto.WriteReviewRequest;
 import com.graduation.clinic.entity.Patient;
 import com.graduation.clinic.entity.Rating;

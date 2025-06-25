@@ -20,6 +20,8 @@ public class FilterReservations {
 	private String patientName;
 	
 	private String doctorName;
+	
+	
 
 
 
@@ -31,6 +33,7 @@ public class FilterReservations {
 		this.visitType = visitType;
 		this.patientName = patientName;
 		this.doctorName=doctorName;
+		
 	}
 
 	public ReservationStatus getStatus() {
@@ -58,6 +61,10 @@ public class FilterReservations {
 	public String getDoctorName() {
 		return doctorName;
 	}
+
+
+
+
 	
 	
 }

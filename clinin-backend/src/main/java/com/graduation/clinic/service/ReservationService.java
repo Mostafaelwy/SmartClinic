@@ -1,8 +1,12 @@
 package com.graduation.clinic.service;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,10 +31,12 @@ import com.graduation.clinic.entity.Doctor;
 import com.graduation.clinic.entity.Patient;
 import com.graduation.clinic.entity.Reservation;
 import com.graduation.clinic.entity.ReservationStatus;
+import com.graduation.clinic.entity.ReservedTime;
 import com.graduation.clinic.entity.SpecialityServices;
 import com.graduation.clinic.exceptions.NotFoundException;
 import com.graduation.clinic.exceptions.TimeException;
 import com.graduation.clinic.repos.ReservationRepo;
+import com.graduation.clinic.repos.ReservedTimesRepo;
 import com.graduation.clinic.repos.SpecialityServiceRepo;
 
 @Service
@@ -40,13 +46,16 @@ public class ReservationService {
 	private final ClinicService clinicService;
 	private final PatientService patientService;
 	private final SpecialityServiceRepo  specialityServiceRepo;
+	private final ReservedTimesRepo reservedTimesRepo;
 
 	public ReservationService(ReservationRepo reservationRepo,ClinicService clinicService,PatientService patientService,
-			SpecialityServiceRepo specialityServiceRepo) {
+			SpecialityServiceRepo specialityServiceRepo
+			,ReservedTimesRepo reservedTimesRepo) {
 		this.reservationRepo = reservationRepo;
 		this.clinicService=clinicService;
 		this.patientService=patientService;
 		this.specialityServiceRepo=specialityServiceRepo;
+		this.reservedTimesRepo =reservedTimesRepo;
 		
 	}
 	
@@ -73,32 +82,40 @@ public class ReservationService {
 	
 	public ReservationDto makeReservation(ReservationRequest request,Long clinicId) {
 		
-		if(request.getReservationDate().isAfter(LocalDate.now())) {
-			Clinic clinic=clinicService.findById(clinicId);
-			
-			Authentication auth =SecurityContextHolder.getContext().getAuthentication();
-			Patient patient=(Patient) auth.getPrincipal();
-			
-			SpecialityServices service=specialityServiceRepo.findById(clinicId).orElseThrow(()-> new NotFoundException("service not found"));
-			
-			Long doctorId=clinic.getDoctor().getId();
-			
-			Reservation reservation=new Reservation();
-			reservation.setService(service);
-			reservation.setPatient(patient);
-			reservation.setReservedClinic(clinic);
-			reservation.setStatus(ReservationStatus.PENDING);
-			reservation.setReservationDate(request.getReservationDate());
-			reservation.setDoctorId(doctorId);
-			reservation.setCreationDate(LocalDate.now());
-			reservation.setReservationTime(request.getReservationTime());
-			reservation.setVisitType(request.getVisitType());
-			ReserveTime time=new ReserveTime( request.getReservationDate(),request.getReservationTime());
-			clinicService.reserveTime(time, clinicId);
-			return new ReservationDto(reservationRepo.save(reservation));
+		Optional<ReservedTime> reserved =reservedTimesRepo.findByClinicIdAndDateAndTime(clinicId, request.getReservationDate(), request.getReservationTime());
+		if(!reserved.isPresent()) {
+			if(request.getReservationDate().isAfter(LocalDate.now())) {
+				Clinic clinic=clinicService.findById(clinicId);
+				
+				Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+				Patient patient=(Patient) auth.getPrincipal();
+				
+				SpecialityServices service=specialityServiceRepo.findById(request.getServiceId()).orElseThrow(()-> new NotFoundException("service not found"));
+				
+				Long doctorId=clinic.getDoctor().getId();
+				
+				Reservation reservation=new Reservation();
+				reservation.setService(service);
+				reservation.setPatient(patient);
+				reservation.setReservedClinic(clinic);
+				reservation.setStatus(ReservationStatus.PENDING);
+				reservation.setReservationDate(request.getReservationDate());
+				reservation.setDoctorId(doctorId);
+				reservation.setCreationDate(LocalDate.now());
+				reservation.setReservationTime(request.getReservationTime());
+				reservation.setVisitType(request.getVisitType());
+				reservation.setCost(service.getPrice());
+				ReserveTime time=new ReserveTime( request.getReservationDate(),request.getReservationTime());
+				clinicService.reserveTime(time, clinicId);
+				return new ReservationDto(reservationRepo.save(reservation));
+			}else {
+				throw new TimeException("reservation date must be at least after one day from reservation Request time.");
+			}
 		}else {
-			throw new TimeException("reservation date must be at least after one day from reservation Request time.");
+			throw new TimeException("this time is reserved before");
 		}
+			
+
 
 	}
 	
@@ -120,7 +137,7 @@ public class ReservationService {
 		
 		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
 		Doctor doc=(Doctor) auth.getPrincipal();
-		
+
 		Page<Reservation> reservationPage=reservationRepo.findAll(
 	
 				Specification.where(ReservationSpecifications.hasDoctorId(doc.getId()))
@@ -128,6 +145,7 @@ public class ReservationService {
 							.and(ReservationSpecifications.hasCreationDate(filter.getStartTime(), filter.getEndTime()))
 							.and(ReservationSpecifications.hasPatientName(filter.getPatientName()))
 							.and(ReservationSpecifications.hasVisitType(filter.getVisitType()))
+							
 				,page);
 		
 		return paginateReservationDto(reservationPage);
@@ -166,6 +184,17 @@ public class ReservationService {
 		
 		return paginateAppoinments(reservationPage);
 		
+	}
+	
+	public Page<ReservationDto> getUpCommingAppointment() {
+		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		Doctor doc=(Doctor) auth.getPrincipal();
+		
+		Pageable p=PageRequest.of(0,3, Direction.ASC, "reservationTime");
+
+		Page<Reservation> r =reservationRepo.findByDoctorIdAndStatusAndReservationTimeBefore(doc.getId(), ReservationStatus.ACCEPTED, LocalTime.now(), p);
+		
+		return paginateReservationDto(r);
 	}
 	
 	

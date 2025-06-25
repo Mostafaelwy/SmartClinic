@@ -2,12 +2,12 @@ package com.graduation.clinic.dto;
 
 import java.time.LocalDate;
 
-public class TimeInterval {
+public class DateInterval {
 
 	private LocalDate startDate;
 	private LocalDate endDate;
 	
-	public TimeInterval(LocalDate startDate, LocalDate endDate) {
+	public DateInterval(LocalDate startDate, LocalDate endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}

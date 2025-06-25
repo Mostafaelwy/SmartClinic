@@ -1,6 +1,8 @@
 package com.graduation.clinic.Specifications;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -55,6 +57,11 @@ public class ReservationSpecifications {
 			Join<Object, Object> doc= clinic.join("doctor");
 			return criteriaBuilder.like(criteriaBuilder.lower(doc.get("firstName")), "%"+ doctorName.toLowerCase()+"%");
 		};
+	}
+	
+	public static Specification<Reservation> hasTime(Duration d){
+		return(root,quert,criteriaBuilder)->(d==null ) ?null:
+			criteriaBuilder.between(root.get("reservationTime"),LocalTime.now(),LocalTime.now().plus(d) );
 	}
 	
 }

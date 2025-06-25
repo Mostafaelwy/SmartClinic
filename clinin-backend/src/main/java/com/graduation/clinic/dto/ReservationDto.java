@@ -10,24 +10,26 @@ import com.graduation.clinic.entity.VisitType;
 public class ReservationDto {
 
 	private Long id;
-	private String patientUserName;
+	private Long patientId;
 	private String patientName;
 	private String clinicName;
 	private ReservationStatus status;
 	private LocalDate reservationDate;
 	private LocalDate creationDate;
 	private VisitType visitType;
+	private GetPhoto photo;
 	
 	
 	public ReservationDto(Reservation reservation) {
-		this.patientUserName = reservation.getPatient().getUsername();
+		
 		this.status = reservation.getStatus();
 		this.id=reservation.getId();
 		this.reservationDate=reservation.getReservationDate();
-		this.patientName=reservation.getPatient().getFirstName();
+		this.patientName=reservation.getPatient().getFirstName()+reservation.getPatient().getSecondName();
 		this.clinicName=reservation.getReservedClinic().getClinicName();
 		this.creationDate=reservation.getCreationDate();
 		this.visitType=reservation.getVisitType();
+		this.photo=new GetPhoto(reservation.getPatient().getProfilePhoto());
 	}
 
 
@@ -36,8 +38,15 @@ public class ReservationDto {
 	}
 
 
-	public String getPatientUserName() {
-		return patientUserName;
+
+
+	public Long getPatientId() {
+		return patientId;
+	}
+
+
+	public GetPhoto getPhoto() {
+		return photo;
 	}
 
 

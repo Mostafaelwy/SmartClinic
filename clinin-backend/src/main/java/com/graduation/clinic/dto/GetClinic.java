@@ -1,11 +1,15 @@
 package com.graduation.clinic.dto;
 
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import com.graduation.clinic.entity.Address;
 import com.graduation.clinic.entity.Clinic;
 import com.graduation.clinic.entity.Photo;
+import com.graduation.clinic.entity.Slot;
 
 public class GetClinic {
 
@@ -15,6 +19,7 @@ public class GetClinic {
 	private Address address;
 	private String location;
 	private List<GetPhoto> gellery;
+	private SortedMap<DayOfWeek,TimeInterval>workingHoursMap =new TreeMap<>();
 	
 	public GetClinic(Clinic c,List<Photo> photos)  {
 		this.id = c.getId();
@@ -27,6 +32,10 @@ public class GetClinic {
 			getPhotos.add(new GetPhoto(photos.get(i)));
 		}
 		this.gellery=getPhotos;
+		
+		c.getWorkingDays().forEach((day, slot) -> {
+		    workingHoursMap.put(day, new TimeInterval(slot));
+		});
 		
 		
 
@@ -48,6 +57,9 @@ public class GetClinic {
 	}
 	public List<GetPhoto> getGellery() {
 		return gellery;
+	}
+	public SortedMap<DayOfWeek, TimeInterval> getWorkingHoursMap() {
+		return workingHoursMap;
 	}
 	
 	

@@ -45,7 +45,7 @@ import com.graduation.clinic.dto.SlotDto;
 import com.graduation.clinic.dto.SpecialityServiceDto;
 import com.graduation.clinic.dto.SpecialtiesAndServicesDto;
 import com.graduation.clinic.dto.StartAppointment;
-import com.graduation.clinic.dto.TimeInterval;
+import com.graduation.clinic.dto.DateInterval;
 
 import com.graduation.clinic.dto.AddSpecialityRequest;
 import com.graduation.clinic.dto.AddSpecialityServiceRequest;
@@ -125,7 +125,7 @@ public class DoctorController {
 	public Page<ReviewDto> readAllReviews(
 			@PathVariable Long doctorId,
 			@ModelAttribute PageProperties p,
-			@ModelAttribute TimeInterval interval){
+			@ModelAttribute DateInterval interval){
 		return ratingService.readDoctorReviews(doctorId,p,interval);
 	}
 	@PostMapping("/me/reply")
@@ -265,6 +265,10 @@ public class DoctorController {
 	@GetMapping("/patient/{id}/prescriptions")
 	public Page<GetPrescriptions> getPatientPrescriptions(@PathVariable Long id ,@ModelAttribute PageProperties page){
 		return appointmentDetailesService.getPrescriptions(id, page);
+	}
+	@GetMapping("/me/upcomming-appointment")
+	public Page<ReservationDto> getUpcommingAppointment(){
+		return reservationService.getUpCommingAppointment();
 	}
 	
 			

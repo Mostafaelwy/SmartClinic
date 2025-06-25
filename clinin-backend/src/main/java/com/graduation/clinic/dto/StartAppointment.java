@@ -17,7 +17,7 @@ public class StartAppointment {
 	private String clinicName;
 	private Address clinicLocation;
 	private VisitType visitType;
-	private String cost;
+	private double cost;
 	
 	
 	
@@ -60,7 +60,7 @@ public class StartAppointment {
 		return appointmentTime;
 	}
 
-	public String getCost() {
+	public double getCost() {
 		return cost;
 	}
 	

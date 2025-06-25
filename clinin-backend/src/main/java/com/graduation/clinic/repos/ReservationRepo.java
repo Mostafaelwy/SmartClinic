@@ -2,7 +2,9 @@ package com.graduation.clinic.repos;
 
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> ,JpaSp
 	
 	
 	Page<Reservation> findByDoctorId(Long doctorId,Specification<Reservation> spec,Pageable page);
+	Page<Reservation> findByDoctorIdAndStatusAndReservationTimeBefore(Long doctorId,ReservationStatus status,LocalTime time,Pageable page);
 	
 	
 	

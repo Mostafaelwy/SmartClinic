@@ -19,7 +19,7 @@ import com.graduation.clinic.dto.PageProperties;
 import com.graduation.clinic.dto.RatingDto;
 import com.graduation.clinic.dto.ReviewDto;
 import com.graduation.clinic.dto.SetReply;
-import com.graduation.clinic.dto.TimeInterval;
+import com.graduation.clinic.dto.DateInterval;
 import com.graduation.clinic.entity.Doctor;
 import com.graduation.clinic.entity.Patient;
 import com.graduation.clinic.entity.Rating;
@@ -108,7 +108,7 @@ public class RatingService {
 		Rating isPatientRevieweBefore=ratingRepo.findByRatedDoctorIdAndRaterId(doctorId, patient.getId()).orElseThrow(()->new NotFoundException("you never review before"));
 		return new ReviewDto(isPatientRevieweBefore);
 	}
-	public Page<ReviewDto> readDoctorReviews(Long doctorId,PageProperties p,TimeInterval interval) {
+	public Page<ReviewDto> readDoctorReviews(Long doctorId,PageProperties p,DateInterval interval) {
 		Pageable page=PageRequest.of(p.getPageNum(),p.getPageSize(),p.getDir(),p.getSortAttripute());
 		
 		Page<Rating> ratingPage=ratingRepo.findAll(

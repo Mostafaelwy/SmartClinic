@@ -25,6 +25,9 @@ public class ReservedTime {
 	
 	
 	
+	public ReservedTime() {
+;
+	}
 	public ReservedTime(ReserveTime t,Clinic c) {
 		this.date = t.getDate();
 		this.time = t.getTime();

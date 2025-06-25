@@ -21,7 +21,7 @@ public class GetAppointmentsForOnePatient {
 	public LocalTime appointmentTime;
 	public LocalDate bookingDate;
 	public ReservationStatus status;
-	public String cost;
+	public double cost;
 	public String clinicName;
 	public Address clinicLocation;
 	public VisitType visitType;
@@ -65,7 +65,7 @@ public class GetAppointmentsForOnePatient {
 	public ReservationStatus getStatus() {
 		return status;
 	}
-	public String getCost() {
+	public double getCost() {
 		return cost;
 	}
 	public GetPhoto getdoctorPhoto() {
