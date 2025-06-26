@@ -20,16 +20,12 @@ import jakarta.persistence.OneToOne;
 @Entity
 public class Patient extends UsersBaseEntity {
 
-	@ManyToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id")
 	private Address address;
 	
-	@ManyToOne
-	@JoinColumn(name ="birth_address_id")
-	private Address placeOfBirth;
 	@OneToMany(mappedBy = "visitor",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private Set<ClinicsVistors> visitedClinics;
-	
 	@OneToMany(mappedBy = "patient",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private List<Reservation> reservations;
 	@OneToMany(mappedBy = "rater")
@@ -75,14 +71,6 @@ public class Patient extends UsersBaseEntity {
 
 	public void setAddress(Address address) {
 		this.address = address;
-	}
-
-	public Address getPlaceOfBirth() {
-		return placeOfBirth;
-	}
-
-	public void setPlaceOfBirth(Address placeOfBirth) {
-		this.placeOfBirth = placeOfBirth;
 	}
 
 	public Set<ClinicsVistors> getVisitedClinics() {

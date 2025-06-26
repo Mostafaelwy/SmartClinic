@@ -1,6 +1,7 @@
 package com.graduation.clinic.dto;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import com.graduation.clinic.entity.Days;
 import com.graduation.clinic.entity.Reservation;
@@ -15,13 +16,14 @@ public class ReservationDto {
 	private String clinicName;
 	private ReservationStatus status;
 	private LocalDate reservationDate;
+	private LocalTime reservationTime;
 	private LocalDate creationDate;
 	private VisitType visitType;
 	private GetPhoto photo;
 	
 	
 	public ReservationDto(Reservation reservation) {
-		
+		this.patientId=reservation.getPatient().getId();
 		this.status = reservation.getStatus();
 		this.id=reservation.getId();
 		this.reservationDate=reservation.getReservationDate();
@@ -29,6 +31,7 @@ public class ReservationDto {
 		this.clinicName=reservation.getReservedClinic().getClinicName();
 		this.creationDate=reservation.getCreationDate();
 		this.visitType=reservation.getVisitType();
+		this.reservationTime=reservation.getReservationTime();
 		this.photo=new GetPhoto(reservation.getPatient().getProfilePhoto());
 	}
 
@@ -36,9 +39,6 @@ public class ReservationDto {
 	public Long getId() {
 		return id;
 	}
-
-
-
 
 	public Long getPatientId() {
 		return patientId;
@@ -77,6 +77,11 @@ public class ReservationDto {
 
 	public VisitType getVisitType() {
 		return visitType;
+	}
+
+
+	public LocalTime getReservationTime() {
+		return reservationTime;
 	}
 	
 

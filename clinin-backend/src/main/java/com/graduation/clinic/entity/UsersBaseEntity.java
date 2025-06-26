@@ -60,7 +60,7 @@ public abstract class UsersBaseEntity implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private Role roles;
 	
-	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinColumn(name = "photoId")
 	private Photo profilePhoto;
 
