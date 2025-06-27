@@ -1,0 +1,170 @@
+<div class="col-xl-8 d-flex">
+    <div class="dashboard-card w-100">
+        <div class="dashboard-card-head">
+            <div class="header-title">
+                <h5>Appointment</h5>
+            </div>
+
+            <div class="dropdown header-dropdown">
+                 <select class="dropdown-toggle nav-tog" [(ngModel)]="selectedRange" (change)="updateDateRange(selectedRange)">
+                    <option *ngFor="let option of dateRangeOptions" [ngValue]="option">
+                        {{ option }}
+                    </option>
+                </select>
+                <!-- <a class="dropdown-toggle nav-tog" data-bs-toggle="dropdown" href="javascript:void(0);">
+                    Last 7 Days
+                </a>
+                <div class="dropdown-menu dropdown-menu-end">
+                    <a href="javascript:void(0);" class="dropdown-item">
+                        Today
+                    </a>
+                    <a href="javascript:void(0);" class="dropdown-item">
+                        This Month
+                    </a>
+                    <a href="javascript:void(0);" class="dropdown-item">
+                        Last 7 Days
+                    </a>
+                </div> -->
+            </div>
+
+        </div>
+        <div class="dashboard-card-body">
+            <div class="table-responsive">
+                <table class="table dashboard-table appoint-table">
+                    <tbody>
+                        <tr *ngFor="let reservation of reservationItems">
+                            <td>
+                                <div class="patient-info-profile">
+                                <a href="appointments.html" class="table-avatar">
+                                    <img src="assets/img/doctors-dashboard/profile-01.jpg" alt="Img">
+                                </a>
+                                <div class="patient-name-info">
+                                    <span>#{{ reservation.id }}</span>
+                                    <h5><a href="appointments.html">{{ reservation.patientName }}</a></h5>
+                                </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="appointment-date-created">
+                                    <h6>{{ reservation.reservationDate | date:'dd MMM yyyy hh:mm a' }}</h6>
+                                <span class="badge table-badge">{{ reservation.visitType }}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="apponiment-actions d-flex align-items-center">
+                                <a (click)="onAccept(reservation.id)" class="text-success-icon me-2"><i class="fa-solid fa-check"></i></a>
+                                <a (click)="onReject(reservation.id)" class="text-danger-icon"><i class="fa-solid fa-xmark"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td>
+                                <div class="patient-info-profile">
+                                    <a href="appointments.html" class="table-avatar">
+                                        <img src="assets/img/doctors-dashboard/profile-02.jpg" alt="Img">
+                                    </a>
+                                    <div class="patient-name-info">
+                                        <span>#Apt0002</span>
+                                        <h5><a href="appointments.html">Kelly Stevens</a></h5>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td>
+                                <div class="appointment-date-created">
+                                    <h6>10 Nov 2024 11.00 AM</h6>
+                                    <span class="badge table-badge">Clinic Consulting</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="apponiment-actions d-flex align-items-center">
+                                    <a href="#" class="text-success-icon me-2"><i class="fa-solid fa-check"></i></a>
+                                    <a href="#" class="text-danger-icon"><i class="fa-solid fa-xmark"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="patient-info-profile">
+                                    <a href="appointments.html" class="table-avatar">
+                                        <img src="assets/img/doctors-dashboard/profile-03.jpg" alt="Img">
+                                    </a>
+                                    <div class="patient-name-info">
+                                        <span>#Apt0003</span>
+                                        <h5><a href="appointments.html">Samuel Anderson</a></h5>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td>
+                                <div class="appointment-date-created">
+                                    <h6>03 Nov 2024 02.00 PM</h6>
+                                    <span class="badge table-badge">General</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="apponiment-actions d-flex align-items-center">
+                                    <a href="#" class="text-success-icon me-2"><i class="fa-solid fa-check"></i></a>
+                                    <a href="#" class="text-danger-icon"><i class="fa-solid fa-xmark"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="patient-info-profile">
+                                    <a href="appointments.html" class="table-avatar">
+                                        <img src="assets/img/doctors-dashboard/profile-04.jpg" alt="Img">
+                                    </a>
+                                    <div class="patient-name-info">
+                                        <span>#Apt0004</span>
+                                        <h5><a href="appointments.html">Catherine Griffin</a></h5>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td>
+                                <div class="appointment-date-created">
+                                    <h6>01 Nov 2024 04.00 PM</h6>
+                                    <span class="badge table-badge">Clinic Consulting</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="apponiment-actions d-flex align-items-center">
+                                    <a href="#" class="text-success-icon me-2"><i class="fa-solid fa-check"></i></a>
+                                    <a href="#" class="text-danger-icon"><i class="fa-solid fa-xmark"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="patient-info-profile">
+                                    <a href="appointments.html" class="table-avatar">
+                                        <img src="assets/img/doctors-dashboard/profile-05.jpg" alt="Img">
+                                    </a>
+                                    <div class="patient-name-info">
+                                        <span>#Apt0005</span>
+                                        <h5><a href="appointments.html">Robert Hutchinson</a></h5>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td>
+                                <div class="appointment-date-created">
+                                    <h6>28 Oct 2024 05.30 PM</h6>
+                                    <span class="badge table-badge">General</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="apponiment-actions d-flex align-items-center">
+                                    <a href="#" class="text-success-icon me-2"><i class="fa-solid fa-check"></i></a>
+                                    <a href="#" class="text-danger-icon"><i class="fa-solid fa-xmark"></i></a>
+                                </div>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

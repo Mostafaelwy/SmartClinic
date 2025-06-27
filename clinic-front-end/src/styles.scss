@@ -1,0 +1,54 @@
+// /* You can add global styles to this file, and also import other style files */
+// // 5. Your custom styles (import last to allow overrides)
+// @import './assets/css/custom.css';
+// // url('assets/css/fonts.css');
+
+
+// @import url('assets/css/custom.css');
+
+
+
+// // 1. Bootstrap
+// @import './assets/css/bootstrap.min.css';
+
+// // // // 2. Font Awesome (using all.min.css covers both regular and solid icons)
+// @import './assets/plugins/fontawesome/css/all.min.css';
+
+// // // 3. Iconsax
+// @import './assets/css/iconsax.css';
+
+// // // 4. Feather Icons
+// @import './assets/css/feather.css';
+
+
+
+// Bootstrap
+@import "assets/css/bootstrap.min";
+
+// Animate.css
+@import "assets/css/animate";
+
+// Font Awesome
+@import "assets/plugins/fontawesome/css/fontawesome.min";
+@import "assets/plugins/fontawesome/css/all.min";
+
+// Iconsax
+@import "assets/css/iconsax";
+
+// Feather Icons
+@import "assets/css/feather";
+
+// Datepicker
+@import "assets/css/bootstrap-datetimepicker.min";
+
+// Owl Carousel
+@import "assets/css/owl.carousel.min";
+
+// AOS Animation
+@import "assets/css/aos";
+
+// Select2
+@import "assets/plugins/select2/css/select2.min";
+
+// Custom Styles (always last to override others)
+@import "assets/css/custom";
