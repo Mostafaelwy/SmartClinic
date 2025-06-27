@@ -51,7 +51,7 @@ public class Reservation {
 	@OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	private AppointmentDetailes appointmentDetailes;
 	
-	private double cost;
+	private Double cost;
 	@ManyToOne
 	private SpecialityServices service;
 

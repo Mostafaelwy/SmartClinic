@@ -29,7 +29,9 @@ public class ReservationDto {
 		this.clinicName=reservation.getReservedClinic().getClinicName();
 		this.creationDate=reservation.getCreationDate();
 		this.visitType=reservation.getVisitType();
-		this.photo=new GetPhoto(reservation.getPatient().getProfilePhoto());
+		if (reservation.getPatient().getProfilePhoto() != null){
+			this.photo=new GetPhoto(reservation.getPatient().getProfilePhoto());
+		}
 	}
 
 
