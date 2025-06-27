@@ -39,7 +39,11 @@ import com.graduation.clinic.repos.ReservationRepo;
 import com.graduation.clinic.repos.ReservedTimesRepo;
 import com.graduation.clinic.repos.SpecialityServiceRepo;
 
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
+
 @Service
+
 public class ReservationService {
 
 	private final ReservationRepo reservationRepo;
@@ -80,6 +84,7 @@ public class ReservationService {
 	}
 
 	
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public ReservationDto makeReservation(ReservationRequest request,Long clinicId) {
 		
 		Optional<ReservedTime> reserved =reservedTimesRepo.findByClinicIdAndDateAndTime(clinicId, request.getReservationDate(), request.getReservationTime());
@@ -190,7 +195,10 @@ public class ReservationService {
 		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
 		Doctor doc=(Doctor) auth.getPrincipal();
 		
-		Pageable p=PageRequest.of(0,3, Direction.ASC, "reservationTime");
+		Sort sort=Sort.by("reservationDate").ascending()
+				.and(Sort.by("reservationTime").ascending());
+		
+		Pageable p=PageRequest.of(0,3, sort);
 
 		Page<Reservation> r =reservationRepo.findByDoctorIdAndStatusAndReservationTimeBefore(doc.getId(), ReservationStatus.ACCEPTED, LocalTime.now(), p);
 		

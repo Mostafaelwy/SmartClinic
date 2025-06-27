@@ -18,7 +18,10 @@ import com.graduation.clinic.dto.DoctorData;
 import com.graduation.clinic.dto.DoctorFilteration;
 import com.graduation.clinic.dto.FilterReservations;
 import com.graduation.clinic.dto.GetAppointmentsForOnePatient;
+import com.graduation.clinic.dto.GetAwards;
 import com.graduation.clinic.dto.GetClinic;
+import com.graduation.clinic.dto.GetEducation;
+import com.graduation.clinic.dto.GetExperienceDto;
 import com.graduation.clinic.dto.GetPatientProfileData;
 import com.graduation.clinic.dto.PageProperties;
 import com.graduation.clinic.dto.PatientData;
@@ -31,6 +34,7 @@ import com.graduation.clinic.dto.SetDate;
 import com.graduation.clinic.dto.SetPatientProfileData;
 import com.graduation.clinic.dto.SpecialityServiceDto;
 import com.graduation.clinic.dto.SpecialtiesAndServicesDto;
+import com.graduation.clinic.dto.ChangePasswordRequest;
 import com.graduation.clinic.dto.DateInterval;
 import com.graduation.clinic.dto.WriteReviewRequest;
 import com.graduation.clinic.entity.Patient;
@@ -129,5 +133,30 @@ public class PatientController {
 	public Map<LocalTime,Boolean> getTimeAvilabilty(@RequestBody SetDate date,@PathVariable Long id){
 		return clinicService.getAvilableTimes(date.getDate(), id);
 	}
+	@PostMapping("/me/change-password")
+	public void changePassword(@RequestBody ChangePasswordRequest request) {
+		patientService.ChangePassword(request);
+	}
+	@GetMapping("/doctor/{doctorId}/experience")
+	public List<GetExperienceDto> getExperience(@PathVariable Long doctorId){
+		return doctorService.getExperience(doctorId);
+	}
+	@GetMapping("/doctor/{DoctorId}/education")
+	public List<GetEducation> getEducation(@PathVariable Long DoctorId){
+		return doctorService.getEducation(DoctorId);
+	}
+	@GetMapping("/doctor/{doctorId}/awards")
+	public List<GetAwards> getAwards(@PathVariable Long doctorId){
+		return doctorService.getAwards(doctorId);
+	}
+	@GetMapping("/doctor/{doctorId}/reviews")
+	public Page<ReviewDto> readAllReviews(
+			@PathVariable Long doctorId,
+			@ModelAttribute PageProperties p,
+			@ModelAttribute DateInterval interval
+			){
+		return ratingService.readDoctorReviews(doctorId,p,interval);
+	}
+	
 	
 }

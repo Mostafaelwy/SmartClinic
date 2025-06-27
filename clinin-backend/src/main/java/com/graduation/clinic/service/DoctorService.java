@@ -200,30 +200,31 @@ public class DoctorService {
 		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
 		 Doctor doctor=(Doctor)auth.getPrincipal();
 		 Doctor doc=doctorRepo.findById(doctor.getId()).orElseThrow();
-		 
-		 Optional <UsersBaseEntity> user =baseUserRepo.findByUserName(request.getEmailAddress());
-		 if(user.isPresent()) {
-			 throw new DuplicateException("you are not allowed to use this email 'it is already used'");
-		 }
-		 else {
-			 doc.setFirstName(request.getFirstName());
-			 doc.setSecondName(request.getLastName());
-			 doc.setDisplayName(request.getDisplayName());
-			 doc.setDesignation(request.getDesignation());
-			 doc.setPhoneNumbers(request.getPhoneNumbers());
-			 doc.setUserName(request.getEmailAddress());
-			 doc.setProfilePhoto(new Photo(request.getPhoto()));
-			 doc.setLanguages(request.getLangusgaes());
-			 
-			 for(int i=0;i<request.getMembershipsRequest().size();i++) {
-				Memberships m= new Memberships(request.getMembershipsRequest().get(i));
-				m.setDoctor(doc);
-				membershipRepo.save(m);
-				 
-				 
+		 if(!doc.getUsername().equals(request.getEmailAddress())) {
+			 Optional <UsersBaseEntity> user =baseUserRepo.findByUserName(request.getEmailAddress());
+			 if(user.isPresent()) {
+				 throw new DuplicateException("you are not allowed to use this email 'it is already used'");
 			 }
-			 
+			 else {
+				 doc.setUserName(request.getEmailAddress()); 
+			 }
 		 }
+
+		 doc.setFirstName(request.getFirstName());
+		 doc.setSecondName(request.getLastName());
+		 doc.setDisplayName(request.getDisplayName());
+		 doc.setDesignation(request.getDesignation());
+		 doc.setPhoneNumbers(request.getPhoneNumbers());
+		 doc.setUserName(request.getEmailAddress());
+		 doc.setProfilePhoto(new Photo(request.getPhoto()));
+		 doc.setLanguages(request.getLangusgaes());
+		 
+		 for(int i=0;i<request.getMembershipsRequest().size();i++) {
+			Memberships m= new Memberships(request.getMembershipsRequest().get(i));
+			m.setDoctor(doc);
+			membershipRepo.save(m);
+		 }
+		 
 		 doctorRepo.save(doc);
 		 return getBasicDetailes(doc.getId());
 	 }
