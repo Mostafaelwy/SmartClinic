@@ -200,7 +200,7 @@ public class ReservationService {
 		
 		Pageable p=PageRequest.of(0,3, sort);
 
-		Page<Reservation> r =reservationRepo.findByDoctorIdAndStatusAndReservationTimeBefore(doc.getId(), ReservationStatus.ACCEPTED, LocalTime.now(), p);
+		Page<Reservation> r =reservationRepo.findByDoctorIdAndStatusAndReservationTimeGreaterThanAndReservationDateGreaterThanEqual(doc.getId(), ReservationStatus.ACCEPTED, LocalTime.now(),LocalDate.now() ,p);
 		
 		return paginateReservationDto(r);
 	}
