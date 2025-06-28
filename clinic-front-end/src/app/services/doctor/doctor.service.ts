@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtService } from '../jwt.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Clinic, DayOfWeek, DaySlot, DaySlotMap, DoctorStatistics, PaginatedReservations, PagingFilter, ReservationFilter, ReservationStatus, SlotDTO, SpecialityDto, WorkingHoursMap } from '../../../types';
+import { Clinic, DayOfWeek, DaySlot, DaySlotMap, DoctorStatistics, PaginatedReservations, PagingFilter, ReservationFilter, ReservationStatus, SlotDTO, SpecialityDto, WorkingHoursMap, PagedReviews } from '../../../types';
 import { API_ENDPOINTS } from '../../config/api-endpoints';
 
 @Injectable({
@@ -75,6 +75,17 @@ export class DoctorService {
 
   saveSpeciality(data: SpecialityDto): Observable<any> {
     return this.http.post(`${API_ENDPOINTS.DOCTOR.SPECIALITY}`, data);
+  }
+
+  getReviews(params: {
+    pageNum: number;
+    pageSize: number;
+    sortAttripute: string;
+    dir: 'ASC' | 'DESC';
+    startDate: string;
+    endDate: string;
+  }): Observable<PagedReviews> {
+    return this.http.get<PagedReviews>(API_ENDPOINTS.DOCTOR.REVIEWS, { params });
   }
 
 }

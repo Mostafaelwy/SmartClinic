@@ -1,18 +1,10 @@
 package com.graduation.clinic.entity;
 
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.Collate;
 
 import com.graduation.clinic.dto.SetPhoto;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class Photo {
@@ -21,17 +13,19 @@ public class Photo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "photoId")
 	private Long Id;
-	private byte [] URl;
+
+
+	@Lob
+	private String url;
 	private String type;
 
-	
 	
 	
 	public Photo() {
 	}
 	public Photo(SetPhoto p) {
 		Id = p.getId();
-		URl = p.getURl();
+		url = p.getUrl();
 		this.type = p.getType();
 	}
 	public Long getId() {
@@ -40,11 +34,11 @@ public class Photo {
 	public void setId(Long id) {
 		Id = id;
 	}
-	public byte[] getURl() {
-		return URl;
+	public String getURl() {
+		return url;
 	}
-	public void setURl(byte[] uRl) {
-		URl = uRl;
+	public void setURl(String url) {
+		this.url = url;
 	}
 	public String getType() {
 		return type;

@@ -17,7 +17,8 @@ const API_ENDPOINTS_RAW = {
       WORKING_DAY_SLOT:'/me/workingdays',
       SPECIALITIES:'/me/specialties',
       SPECIALITY:'/me/speciality',
-      SERVICE:'/me/service'
+      SERVICE:'/me/service',
+      REVIEWS:'/me/reviews'
     }
     // Add other endpoint groups as needed
   };

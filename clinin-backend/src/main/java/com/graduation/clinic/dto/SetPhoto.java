@@ -3,24 +3,24 @@ package com.graduation.clinic.dto;
 public class SetPhoto {
  
 	private Long Id;
-	private byte [] URl;
+	private String url;
 	private String type;
 	
 	public Long getId() {
 		return Id;
 	}
 
-	public byte[] getURl() {
-		return URl;
+	public String getUrl() {
+		return url;
 	}
 
 	public String getType() {
 		return type;
 	}
 
-	public SetPhoto(Long id, byte[] uRl, String type) {
+	public SetPhoto(Long id, String url, String type) {
 		Id = id;
-		URl = uRl;
+		this.url = url;
 		this.type = type;
 	}
 	

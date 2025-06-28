@@ -5,7 +5,7 @@ import com.graduation.clinic.entity.Photo;
 public class GetPhoto {
 
 	private Long Id;
-	private byte [] URl;
+	private String URl;
 	private String type;
 	
 	
@@ -18,7 +18,7 @@ public class GetPhoto {
 	public Long getId() {
 		return Id;
 	}
-	public byte[] getURl() {
+	public String getURl() {
 		return URl;
 	}
 	public String getType() {

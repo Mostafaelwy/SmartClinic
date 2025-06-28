@@ -241,3 +241,34 @@ export interface SpecialityDto {
   speciality: Specialties;
   services: SpecialityServiceDto[];
 }
+
+export interface ReviewPatientPhoto {
+  type: string;
+  id: number;
+  url: string;
+}
+
+export interface Review {
+  id: number;
+  rate: number;
+  patientId: number;
+  patientName: string;
+  creatDate: string;
+  patientPhoto: ReviewPatientPhoto;
+  reply: string;
+  review: string;
+}
+
+export interface PagedReviews {
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  content: Review[];
+  number: number;
+  sort: any;
+  numberOfElements: number;
+  first: boolean;
+  last: boolean;
+  pageable: any;
+  empty: boolean;
+}
