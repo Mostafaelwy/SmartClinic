@@ -117,3 +117,106 @@ export enum ReservationStatus {
   PENDING = 'PENDING',
   COMPLETED = 'COMPLETED'
 }
+
+
+export interface Time {
+  hour: number;
+  minute: number;
+  second: number;
+  nano: number;
+}
+
+export interface TimeRange {
+  startTime: Time;
+  endTime: Time;
+}
+
+export interface Clinic {
+  id: number;
+  clinicName: string;
+  logo: { url: string };
+  workingHoursMap: Record<string, TimeRange>;
+}
+
+
+export interface DaySlot 
+{ hour: number,
+   minute: number }
+
+   export type DayOfWeek =
+  | 'MONDAY'
+  | 'TUESDAY'
+  | 'WEDNESDAY'
+  | 'THURSDAY'
+  | 'FRIDAY'
+  | 'SATURDAY'
+  | 'SUNDAY';
+
+export type DaySlotMap = {
+  [key in DayOfWeek]?: DaySlot[];
+};
+
+export interface SlotModel {
+  startTime: string;       // Example: '04:00 PM'
+  endTime: string;         // Example: '05:00 PM'
+  interval: string;        // Example: '10 Minutes'
+  duration: string;        // Example: '30 Minutes'
+  space: number;           // 1–4
+}
+
+
+// slot.model.ts
+export interface TimeObject {
+  hour: number;
+  minute: number;
+  second: number;
+  nano: number;
+}
+
+export interface SlotFormModel {
+  startTimeStr: string;
+  endTimeStr: string;
+  durationMinutes: number;
+  intervalMinutes: number;
+}
+
+export interface SlotDTO {
+  startTime: string; // ISO time format "HH:mm"
+  endTime: string;
+  duration:string
+  interval: string
+}
+
+
+export type WorkingHoursMap = Partial<Record<DayOfWeek, TimeObject[]>>;
+
+
+
+// enums.ts
+export enum Specialties {
+  CARDIOLOGY = 'CARDIOLOGY',
+  DERMATOLOGY = 'DERMATOLOGY',
+  // ... Add more based on your backend enum values
+}
+
+export enum SpecialityService {
+  CONSULTATION = 'CONSULTATION',
+  SURGERY = 'SURGERY',
+  // ... Add more based on your backend enum values
+}
+
+
+export interface SpecialityServiceDto {
+  id: number;
+  serviceType: SpecialityService;
+  price: number;
+  hint: string;
+}
+
+
+
+export interface SpecialityDto {
+  id: number;
+  speciality: Specialties;
+  services: SpecialityServiceDto[];
+}

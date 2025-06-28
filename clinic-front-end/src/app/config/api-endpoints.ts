@@ -11,7 +11,11 @@ const API_ENDPOINTS_RAW = {
       _prefix: 'smart/doctor',
       STAISTICS:'/me/statistics',
       RESERVATIONS:'/me/reservations',
-      RESERVATION:'/reservation'
+      RESERVATION:'/reservation',
+      MY_CLINICS:'/me/clinics',
+      AVAILABLE_TIMINGS:'/available-timings/clinic',
+      WORKING_DAY_SLOT:'/me/workingdays',
+      SPECIALITIES:'/me/specialties'
     }
     // Add other endpoint groups as needed
   };

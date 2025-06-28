@@ -153,6 +153,10 @@ public class DoctorController {
 	public  List <SpecialtiesAndServicesDto> findSpecialties (@PathVariable Long doctorId){
 		return doctorSpecialtiesService.findSpecialties(doctorId);
 	}
+	@GetMapping("/me/specialties")
+	public  List <SpecialtiesAndServicesDto> findMySpecialties (){
+		return doctorSpecialtiesService.findSpecialties();
+	}
 	@PostMapping("/me/speciality/{specialityId}/service")
 	public SpecialityServiceDto addSpecialityService(@RequestBody AddSpecialityServiceRequest request,@PathVariable Long specialityId) {
 		return doctorSpecialtiesService.addServicetoSpeciality(specialityId, request);
@@ -183,7 +187,7 @@ public class DoctorController {
 	public Map<DayOfWeek, List<LocalTime>> addWorkingDay(@PathVariable Long clinicId,@PathVariable DayOfWeek workingDay,@RequestBody SlotDto slot){
 		 return clinicService.addWorkingDay(clinicId, workingDay, slot);
 	}
-	@GetMapping("/avilable-timings/clinic/{clinicId}")
+	@GetMapping("/available-timings/clinic/{clinicId}")
 	public Map<DayOfWeek, List<LocalTime>> showSlotsPerDay(@PathVariable Long clinicId,@RequestParam(name = "workingDay",required = false,defaultValue = "") DayOfWeek workingDay) {
 		return clinicService.showSlotsPerDay(clinicId,workingDay);
 	}
@@ -245,6 +249,10 @@ public class DoctorController {
 	@GetMapping("/{doctorId}/clinics")
 	public List<GetClinic> getClinics(@PathVariable Long doctorId){
 		return clinicService.getClinics(doctorId);
+	}
+	@GetMapping("/me/clinics")
+	public List<GetClinic> getClinics(){
+		return clinicService.getCurrntDoctorClinics();
 	}
 	@PostMapping("/me/clinics")
 	public List<GetClinic> setClinics(@RequestBody @Valid List<SetClinic> request){

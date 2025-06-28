@@ -77,8 +77,12 @@ public class ClinicService {
 	}
 
 
-	
 
+	public List<GetClinic> getCurrntDoctorClinics(){
+		Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+		Doctor doc=(Doctor)auth.getPrincipal();
+		return getClinics(doc.getId());
+	}
 	@Transactional(value = TxType.REQUIRES_NEW)
 	public List<GetClinic> setClinics(List<SetClinic> request){
 		Authentication auth= SecurityContextHolder.getContext().getAuthentication();

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtService } from '../jwt.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { DoctorStatistics, PaginatedReservations, PagingFilter, ReservationFilter, ReservationStatus } from '../../../types';
+import { Clinic, DayOfWeek, DaySlot, DaySlotMap, DoctorStatistics, PaginatedReservations, PagingFilter, ReservationFilter, ReservationStatus, SlotDTO, SpecialityDto, WorkingHoursMap } from '../../../types';
 import { API_ENDPOINTS } from '../../config/api-endpoints';
 
 @Injectable({
@@ -47,4 +47,30 @@ export class DoctorService {
   rejectReservation(id: number): Observable<any> {
     return this.updateStatus(id, ReservationStatus.REJECTED);
   }
+
+  getMyClinics(): Observable<Clinic[]> {
+    console.log(API_ENDPOINTS.DOCTOR.MY_CLINICS)
+    return this.http.get<Clinic[]>(API_ENDPOINTS.DOCTOR.MY_CLINICS, {});
+  }
+  getDaySlots(clinicId: number, day: DayOfWeek): Observable<DaySlotMap> {
+    const params = {workingDay:day}
+    return this.http.get<DaySlotMap>(`${API_ENDPOINTS.DOCTOR.AVAILABLE_TIMINGS}/${clinicId}`,{params:params});
+  }
+
+  postSlots(day: DayOfWeek, clinicId: number, slot: SlotDTO): Observable<WorkingHoursMap> {
+    const url = `${API_ENDPOINTS.DOCTOR.WORKING_DAY_SLOT}/${day}/clinic/${clinicId}`;
+    return this.http.patch<WorkingHoursMap>(url, slot);
+  }
+
+   getSpecialties(): Observable<SpecialityDto[]> {
+    return this.http.get<SpecialityDto[]>(`${API_ENDPOINTS.DOCTOR.SPECIALITIES}`);
+  }
+    deleteSpeciality(id: number): Observable<void> {
+    return this.http.delete<void>(`/smart/doctor/me/speciality/${id}`);
+  }
+
+  deleteService(id: number): Observable<void> {
+    return this.http.delete<void>(`/smart/doctor/me/service/${id}`);
+  }
+
 }
