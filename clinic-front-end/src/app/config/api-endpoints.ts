@@ -3,22 +3,27 @@ import { environment } from "../../env/enviroment";
 const BASE_URL = environment.apiBaseUrl;
 
 const API_ENDPOINTS_RAW = {
-  AUTH: {
-    _prefix: 'auth',
-    LOGIN: '/login',
-  },
-  DOCTOR: {
-    _prefix: 'smart/doctor',
-    STAISTICS: '/me/statistics',
-    RESERVATIONS: '/me/reservations',
-    RESERVATION: '/reservation',
-    PATIENTS: '/me/patients',
-    UPCOMING_APPOINTMENT: '/me/upcomming-appointment',
-    CLINICS: '/clinics',
-    BASIC_DETAILS: '/me/basic-detailes'
-  }
-  // Add other endpoint groups as needed
-};
+    AUTH: {
+      _prefix: 'auth',
+      LOGIN: '/login',
+    },
+    DOCTOR:{
+      _prefix: 'smart/doctor',
+      STAISTICS:'/me/statistics',
+      RESERVATIONS:'/me/reservations',
+      RESERVATION:'/reservation',
+      MY_CLINICS:'/me/clinics',
+      AVAILABLE_TIMINGS:'/available-timings/clinic',
+      WORKING_DAY_SLOT:'/me/workingdays',
+      SPECIALITIES:'/me/specialties',
+      PATIENTS: '/me/patients',
+      UPCOMING_APPOINTMENT: '/me/upcomming-appointment',
+      CLINICS: '/clinics',
+      BASIC_DETAILS: '/me/basic-detailes'
+
+    }
+    // Add other endpoint groups as needed
+  };
 
 
 function wrapNode(node: any, parentPrefix: string = ''): any {
