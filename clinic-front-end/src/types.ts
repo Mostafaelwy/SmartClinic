@@ -1,23 +1,22 @@
-
-export interface LoginRequest{
-    email:String,
-    password:String
+export interface LoginRequest {
+  email: String,
+  password: String
 }
 
-export interface AuthenticatedUser{
-    firstName:String,
-    lastName:String,
-    email:string,
-    roles:[String]
+export interface AuthenticatedUser {
+  firstName: String,
+  lastName: String,
+  email: string,
+  roles: [String]
 }
 
-export interface AuthorizedUser{
-    token:String;
+export interface AuthorizedUser {
+  token: String;
 }
 
 
-export interface Authority{
-    authority:String;
+export interface Authority {
+  authority: String;
 }
 // jwt.interfaces.ts
 export interface JwtPayload {
@@ -26,7 +25,7 @@ export interface JwtPayload {
   iat: number;         // Issued at
   roles?: Authority[];     // User roles
   email?: string;       // User email
-[key: string]: unknown;
+  [key: string]: unknown;
   // Add other custom claims you expect
 }
 
@@ -41,14 +40,14 @@ export interface encodedToken<T = any> {
   signature: string;
 }
 
-export interface DoctorStatistics{
+export interface DoctorStatistics {
   totalPatient: number,
   totalPatientToday: number,
   totalAppointmentsToday: number
 }
 
 
-export interface ReservationFilter{
+export interface ReservationFilter {
   status?: string;
   startTime?: string;
   endTime?: string;
@@ -57,9 +56,9 @@ export interface ReservationFilter{
   doctorName?: string;
 };
 
-export interface PagingFilter{
-  pageNum?:number;
-  pageSize?:number;
+export interface PagingFilter {
+  pageNum?: number;
+  pageSize?: number;
 }
 
 export interface ReservationItem {
@@ -116,4 +115,155 @@ export enum ReservationStatus {
   REJECTED = 'REJECTED',
   PENDING = 'PENDING',
   COMPLETED = 'COMPLETED'
+}
+
+// New interfaces for patients API
+export interface PatientAddress {
+  id: number;
+  country: string;
+  state: string;
+  city: string;
+  street: string;
+}
+
+export interface PatientReservationTime {
+  hour: number;
+  minute: number;
+  second: number;
+  nano: number;
+}
+
+export interface PatientData {
+  patientId: number;
+  name: string;
+  age: number;
+  sex: string;
+  blood: string;
+  address: PatientAddress;
+  reservationDate: string;
+  reservationTime: PatientReservationTime;
+}
+
+export interface PatientsApiResponse {
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  content: PatientData[];
+  number: number;
+  sort: SortInfo;
+  first: boolean;
+  last: boolean;
+  numberOfElements: number;
+  pageable: Pageable;
+  empty: boolean;
+}
+
+// New interfaces for upcoming appointment API
+export interface AppointmentPhoto {
+  type: string;
+  id: number;
+  url: string;
+}
+
+export interface UpcomingAppointmentData {
+  id: number;
+  patientId: number;
+  patientName: string;
+  clinicName: string;
+  status: string;
+  reservationDate: string;
+  reservationTime: PatientReservationTime;
+  creationDate: string;
+  visitType: string;
+  photo: AppointmentPhoto;
+}
+
+export interface UpcomingAppointmentResponse {
+  totalElements: number;
+  totalPages: number;
+  size: number;
+  content: UpcomingAppointmentData[];
+  number: number;
+  sort: SortInfo;
+  first: boolean;
+  last: boolean;
+  numberOfElements: number;
+  pageable: Pageable;
+  empty: boolean;
+}
+
+// New interfaces for clinics API
+export interface ClinicLogo {
+  type: string;
+  id: number;
+  url: string;
+}
+
+export interface ClinicGalleryItem {
+  type: string;
+  id: number;
+  url: string;
+}
+
+export interface WorkingTime {
+  hour: number;
+  minute: number;
+  second: number;
+  nano: number;
+}
+
+export interface WorkingHours {
+  startTime: string;
+  endTime: string;
+}
+
+export interface WorkingHoursMap {
+  [key: string]: WorkingHours;
+}
+
+export interface ClinicData {
+  id: number;
+  logo: ClinicLogo;
+  clinicName: string;
+  address: PatientAddress;
+  location: string;
+  gellery: ClinicGalleryItem[];
+  workingHoursMap: WorkingHoursMap;
+}
+
+// Doctor Basic Details interfaces
+export interface DoctorMembershipDto {
+  id: number;
+  title: string;
+  about: string;
+}
+
+export interface DoctorMembershipRequest {
+  id: number;
+  title: string;
+  about: string;
+}
+
+export interface DoctorBasicDetailsResponse {
+  firstName: string;
+  lastName: string;
+  phoneNumbers: string[];
+  emailAddress: string;
+  photo: AppointmentPhoto;
+  langusgaes: string[];
+  membershipsDto: DoctorMembershipDto[];
+  displayName: string;
+  designation: string;
+}
+
+export interface DoctorBasicDetailsRequest {
+  firstName: string;
+  lastName: string;
+  phoneNumbers: string[];
+  emailAddress: string;
+  photo: AppointmentPhoto;
+  langusgaes: string[];
+  membershipsRequest: DoctorMembershipRequest[];
+  displayName: string;
+  designation: string;
 }
