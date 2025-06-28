@@ -6,6 +6,16 @@ import jakarta.validation.constraints.NotNull;
 
 public class AddSpecialityServiceRequest {
 
+	private Long id;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long specialityId) {
+		this.id = specialityId;
+	}
+
 	@NotNull
 	private  SpecialityService serviceType;
 	@NotNull

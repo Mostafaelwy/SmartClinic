@@ -8,6 +8,15 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public class AddSpecialityRequest {
+	private Long id;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	@NotNull
 	private Specialties speciality;

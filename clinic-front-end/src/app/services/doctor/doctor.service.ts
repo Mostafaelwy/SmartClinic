@@ -66,11 +66,15 @@ export class DoctorService {
     return this.http.get<SpecialityDto[]>(`${API_ENDPOINTS.DOCTOR.SPECIALITIES}`);
   }
     deleteSpeciality(id: number): Observable<void> {
-    return this.http.delete<void>(`/smart/doctor/me/speciality/${id}`);
+    return this.http.delete<void>(`${API_ENDPOINTS.DOCTOR.SPECIALITY}/${id}`);
   }
 
   deleteService(id: number): Observable<void> {
-    return this.http.delete<void>(`/smart/doctor/me/service/${id}`);
+    return this.http.delete<void>(`${API_ENDPOINTS.DOCTOR.SERVICE}/${id}`);
+  }
+
+  saveSpeciality(data: SpecialityDto): Observable<any> {
+    return this.http.post(`${API_ENDPOINTS.DOCTOR.SPECIALITY}`, data);
   }
 
 }

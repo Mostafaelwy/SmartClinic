@@ -34,6 +34,10 @@ public class Medications {
 		this.instructions = request.getInstructions();
 	}
 
+	public Medications() {
+
+	}
+
 	public Long getId() {
 		return id;
 	}

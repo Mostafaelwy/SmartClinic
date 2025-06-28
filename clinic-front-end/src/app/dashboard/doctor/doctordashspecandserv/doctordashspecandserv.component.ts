@@ -15,6 +15,8 @@ export class DoctordashspecandservComponent {
   specialties: SpecialityDto[] = [];
   allSpecialtyOptions: string[] = Object.values(Specialties);
   allServiceOptions: string[] = Object.values(SpecialityService);
+  editedSpecialtyIds = new Set<number>();
+
 
   constructor(private doctorService: DoctorService) {}
 
@@ -26,6 +28,7 @@ export class DoctordashspecandservComponent {
     this.doctorService.getSpecialties().subscribe({
       next: (data) => {
         this.specialties = data;
+        console.log(this.specialties)
       },
       error: (err) => {
         console.error('Failed to load specialties:', err);
@@ -38,7 +41,7 @@ export class DoctordashspecandservComponent {
   if (confirm('Are you sure you want to delete this speciality?')) {
     this.doctorService.deleteSpeciality(specialityId).subscribe({
       next: () => {
-        this.specialties = this.specialties.filter(s => s.id !== specialityId);
+        this.specialties = this.specialties.filter(s => s.id != specialityId);
       },
       error: err => {
         console.error('Failed to delete speciality', err);
@@ -64,5 +67,64 @@ deleteServiceById(serviceId: number, specialityId: number): void {
     });
   }
   }
+  onChange(specialtyId: number) {
+  this.editedSpecialtyIds.add(specialtyId);
+}
+isEdited(specialtyId: number): boolean {
+  return this.editedSpecialtyIds.has(specialtyId);
+}
+saveChanges(specialtyId: number) {
+  const specialty = this.specialties.find(s => s.id === specialtyId);
+  if (!specialty) {
+    console.error('Specialty not found:', specialtyId);
+    return;
+  }
+
+  const payload: SpecialityDto = {
+    id: specialty.id,
+    speciality: specialty.speciality,
+    services: specialty.services.map(service => ({
+      id: service.id ?? null,
+      serviceType: service.serviceType,
+      price: service.price,
+      hint: service.hint
+    }))
+  };
+
+  this.doctorService.saveSpeciality(payload).subscribe({
+    next: () => {
+      this.editedSpecialtyIds.delete(specialtyId);
+      // Optionally notify success
+    },
+    error: (err) => {
+      console.error('Failed to save specialty:', err);
+    }
+  });
+}
+
+addNewSpeciality() {
+  this.specialties.push({
+    id: null,
+    speciality: this.allSpecialtyOptions[0] as Specialties,
+    services: []
+  });
+  // Optionally, you may want to track this as edited for immediate saving
+  // this.editedSpecialtyIds.add(null); // Only if your logic supports null as a key
+}
+
+addNewService(specialtyId: number | null) {
+  const specialty = this.specialties.find(s => s.id === specialtyId);
+  if (specialty) {
+    specialty.services.push({
+      id: null,
+      serviceType: this.allServiceOptions[0] as SpecialityService,
+      price: 0,
+      hint: ''
+    });
+    if (specialtyId !== null) {
+      this.editedSpecialtyIds.add(specialtyId);
+    }
+  }
+}
 
 }

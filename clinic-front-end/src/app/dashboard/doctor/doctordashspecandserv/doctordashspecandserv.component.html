@@ -4,7 +4,7 @@
         <h3>Speciality &amp; Services</h3>
         <ul>
             <li>
-                <a href="#" class="btn btn-primary prime-btn add-speciality">Add New Speciality</a>
+                <a href="#" class="btn btn-primary prime-btn add-speciality" (click)="addNewSpeciality(); $event.preventDefault();">Add New Speciality</a>
             </li>
         </ul>
     </div>
@@ -21,7 +21,7 @@
                 data-bs-toggle="collapse" 
                 [attr.data-bs-target]="'#specialty-' + i">
                 {{ specialty.speciality }}
-                <span (click)="deleteSpecialityById(specialty.id)">Delete</span>
+                <span (click)="deleteSpecialityById(specialty.id!)">Delete</span>
             </a>
 
             <div class="accordion-collapse collapse show" 
@@ -34,8 +34,8 @@
                         <div class="col-md-4">
                         <div class="form-wrap">
                             <label class="form-label">Speciality <span class="text-danger">*</span></label>
-                            <select class="form-select" [(ngModel)]="specialty.speciality">
-                            <option *ngFor="let s of allSpecialtyOptions" [value]="s">{{ s }}</option>
+                            <select class="form-select" [(ngModel)]="specialty.speciality" (ngModelChange)="onChange(specialty.id!)">
+                                <option *ngFor="let s of allSpecialtyOptions" [ngValue]="s">{{ s }}</option>
                             </select>
                         </div>
                         </div>
@@ -45,7 +45,7 @@
                         <div class="col-md-3">
                         <div class="form-wrap">
                             <label class="form-label">Service <span class="text-danger">*</span></label>
-                            <select class="form-select" [(ngModel)]="service.serviceType">
+                            <select class="form-select" [(ngModel)]="service.serviceType" (ngModelChange)="onChange(specialty.id!)">
                             <option *ngFor="let type of allServiceOptions" [value]="type">{{ type }}</option>
                             </select>
                         </div>
@@ -53,18 +53,18 @@
                         <div class="col-md-2">
                         <div class="form-wrap">
                             <label class="form-label">Price ($) <span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" [(ngModel)]="service.price" />
+                            <input type="number" class="form-control" [(ngModel)]="service.price" (ngModelChange)="onChange(specialty.id!)" />
                         </div>
                         </div>
                         <div class="col-md-7">
                         <div class="d-flex align-items-center">
                             <div class="form-wrap w-100">
                             <label class="form-label">About Service</label>
-                            <input type="text" class="form-control" [(ngModel)]="service.hint" />
+                            <input type="text" class="form-control" [(ngModel)]="service.hint" (ngModelChange)="onChange(specialty.id!)" />
                             </div>
                             <div class="form-wrap ms-2">
                             <label class="col-form-label d-block">&nbsp;</label>
-                            <a href="#" class="trash-icon trash" (click)="deleteServiceById(service.id, specialty.id)">Delete</a>
+                                <a class="trash-icon trash" (click)="deleteServiceById(service.id!, specialty.id!)" >Delete</a>
                             </div>
                         </div>
                         </div>
@@ -72,7 +72,12 @@
                     </div>
 
                     <div class="text-end">
-                    <a href="#" class="add-serv more-item mb-0" (click)="1">Add New Service</a>
+                        <div class="modal-btn text-end">
+                            <button class="btn btn-primary prime-btn"   [disabled]="!isEdited(specialty.id!)" (click)="saveChanges(specialty.id!)">Save Changes</button>
+                            <button href="#" class="btn add-serv" (click)="addNewService(specialty.id); $event.preventDefault();">Add New Service</button>
+                        </div>
+                    <!-- <a href="#" class="add-serv more-item mb-0" (click)="1">Add New Service</a>
+                    <a href="#" class="add-serv more-item mb-0" (click)="1">Save changes</a> -->
                     </div>
                 </div>
                 </div>
@@ -83,9 +88,9 @@
 
     </div>
 
-    <div class="modal-btn text-end">
+    <!-- <div class="modal-btn text-end">
         <a href="#" class="btn btn-gray">Cancel</a>
         <button class="btn btn-primary prime-btn">Save Changes</button>
-    </div>
+    </div> -->
 
 </div>

@@ -1,4 +1,3 @@
-
 export interface LoginRequest{
     email:String,
     password:String
@@ -194,20 +193,42 @@ export type WorkingHoursMap = Partial<Record<DayOfWeek, TimeObject[]>>;
 
 // enums.ts
 export enum Specialties {
-  CARDIOLOGY = 'CARDIOLOGY',
-  DERMATOLOGY = 'DERMATOLOGY',
-  // ... Add more based on your backend enum values
+  Dermatology = 'Dermatology',
+  Neurology = 'Neurology',
+  Radiology = 'Radiology',
+  Anesthesiology = 'Anesthesiology',
+  Emergency_medicine = 'Emergency_medicine',
+  Family_medicine = 'Family_medicine',
+  Oncology = 'Oncology',
+  Cardiology = 'Cardiology',
+  Orthopedic_Surgery = 'Orthopedic_Surgery',
+  Plastic_surgery = 'Plastic_surgery',
+  Psychiatrist = 'Psychiatrist',
+  ENT = 'ENT',
+  Gastroenterology = 'Gastroenterology',
+  Geriatric_medicine = 'Geriatric_medicine',
+  Gynecology = 'Gynecology',
+  Ophthalmology = 'Ophthalmology',
+  Pathologists = 'Pathologists',
+  Pediatrician = 'Pediatrician'
 }
 
 export enum SpecialityService {
-  CONSULTATION = 'CONSULTATION',
-  SURGERY = 'SURGERY',
-  // ... Add more based on your backend enum values
+  Surgery = 'Surgery',
+  General_checkup = 'General_checkup',
+  Consultation = 'Consultation',
+  Vaccination = 'Vaccination',
+  Physical_Therapy = 'Physical_Therapy',
+  Lab_Test = 'Lab_Test',
+  Imaging = 'Imaging',
+  Follow_up = 'Follow_up',
+  Prescription_renewal = 'Prescription_renewal',
+  Telemedicine = 'Telemedicine'
 }
 
 
 export interface SpecialityServiceDto {
-  id: number;
+  id: number | null;
   serviceType: SpecialityService;
   price: number;
   hint: string;
@@ -216,7 +237,7 @@ export interface SpecialityServiceDto {
 
 
 export interface SpecialityDto {
-  id: number;
+  id: number | null;
   speciality: Specialties;
   services: SpecialityServiceDto[];
 }

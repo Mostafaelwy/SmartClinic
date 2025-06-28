@@ -64,12 +64,19 @@ public class DoctorSpecialtiesService {
 		 }
 		 
 		 SpecialtiesAndServices speciality=new SpecialtiesAndServices();
+		 if (request.getId()!=null){
+			 speciality = specialtiesAndServicesRepo.findById(request.getId()).orElseThrow();
+		 }
 		 speciality.setDoctor(doc);
 		 speciality.setSpeciality(request.getSpeciality());
 		 
 		 List <SpecialityServices> SpecServices=new ArrayList<>();
 		 for(int i=0 ;i<(request.getServices()).size();i++) {
 			 SpecialityServices service=new SpecialityServices();
+			 if (request.getServices().get(i).getId() != null) {
+		 		service = specialityServiceRepo.findById(request.getServices().get(i).getId()).orElseThrow(()-> new NotFoundException("service not found"));
+			 }
+			 service.setId(request.getServices().get(i).getId());
 			 service.setSpeciality(speciality);
 			 service.setServiceType(request.getServices().get(i).getServiceType());
 			 service.setPrice(request.getServices().get(i).getPrice());

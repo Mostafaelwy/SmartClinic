@@ -15,7 +15,9 @@ const API_ENDPOINTS_RAW = {
       MY_CLINICS:'/me/clinics',
       AVAILABLE_TIMINGS:'/available-timings/clinic',
       WORKING_DAY_SLOT:'/me/workingdays',
-      SPECIALITIES:'/me/specialties'
+      SPECIALITIES:'/me/specialties',
+      SPECIALITY:'/me/speciality',
+      SERVICE:'/me/service'
     }
     // Add other endpoint groups as needed
   };
