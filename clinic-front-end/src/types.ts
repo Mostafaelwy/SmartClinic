@@ -193,12 +193,12 @@ export interface SlotDTO {
 
 
 
-export interface SpecialityServiceDto {
-  id: number;
-  serviceType: SpecialityService;
-  price: number;
-  hint: string;
-}
+// export interface SpecialityServiceDto {
+//   id: number;
+//   serviceType: SpecialityService;
+//   price: number;
+//   hint: string;
+// }
 
 
 export interface PatientData {
