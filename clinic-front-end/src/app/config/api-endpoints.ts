@@ -20,7 +20,6 @@ const API_ENDPOINTS_RAW = {
       UPCOMING_APPOINTMENT: '/me/upcomming-appointment',
       CLINICS: '/clinics',
       BASIC_DETAILS: '/me/basic-detailes'
-
     }
     // Add other endpoint groups as needed
   };

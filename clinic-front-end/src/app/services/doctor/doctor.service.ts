@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtService } from '../jwt.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Clinic, DayOfWeek, DaySlot, DaySlotMap, DoctorStatistics, PaginatedReservations, PagingFilter, ReservationFilter, ReservationStatus, SlotDTO, SpecialityDto, WorkingHoursMap, PatientsApiResponse, UpcomingAppointmentResponse, ClinicData, DoctorBasicDetailsResponse, DoctorBasicDetailsRequest  } from '../../../types';
+import { Clinic, DayOfWeek, DaySlot, DaySlotMap, DoctorStatistics, PaginatedReservations, PagingFilter, ReservationFilter, ReservationStatus, SlotDTO, SpecialityDto, WorkingHoursMap,PatientsApiResponse, UpcomingAppointmentResponse, ClinicData, DoctorBasicDetailsResponse, DoctorBasicDetailsRequest } from '../../../types';
 import { API_ENDPOINTS } from '../../config/api-endpoints';
 
 @Injectable({
@@ -72,8 +72,6 @@ export class DoctorService {
   deleteService(id: number): Observable<void> {
     return this.http.delete<void>(`/smart/doctor/me/service/${id}`);
   }
-
-
   getPatients(): Observable<PatientsApiResponse> {
     const token = this.jwtService.getToken();
     const headers = new HttpHeaders({
@@ -129,4 +127,5 @@ export class DoctorService {
       { headers: headers }
     );
   }
+
 }
