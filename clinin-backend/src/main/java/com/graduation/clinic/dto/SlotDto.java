@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 import jakarta.validation.constraints.NotNull;
 
-public class 	SlotDto {
+public class SlotDto {
 	@NotNull
 	private LocalTime startTime;
 	@NotNull

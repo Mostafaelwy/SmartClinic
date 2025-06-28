@@ -118,11 +118,6 @@ public class RatingService {
 		return paginateReviewDto(ratingPage);
 		
 	}
-	public Page<ReviewDto> readDoctorReviews(PageProperties p,DateInterval interval){
-		Authentication auth=SecurityContextHolder.getContext().getAuthentication();
-		Doctor doc=(Doctor)auth.getPrincipal();
-		return readDoctorReviews(doc.getId(),p ,interval);
-	}
 	private ReviewDto convertReviewToDto(Rating review) {
 		return new ReviewDto(review);
 	}

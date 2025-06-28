@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtService } from '../jwt.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Clinic, DayOfWeek, DaySlot, DaySlotMap, DoctorStatistics, PaginatedReservations, PagingFilter, ReservationFilter, ReservationStatus, SlotDTO, SpecialityDto, WorkingHoursMap, PagedReviews } from '../../../types';
+import { Clinic, DayOfWeek, DaySlot, DaySlotMap, DoctorStatistics, PaginatedReservations, PagingFilter, ReservationFilter, ReservationStatus, SlotDTO, SpecialityDto, WorkingHoursMap, PagedReviews, PatientsApiResponse, UpcomingAppointmentResponse, ClinicData, DoctorBasicDetailsResponse, DoctorBasicDetailsRequest } from '../../../types';
 import { API_ENDPOINTS } from '../../config/api-endpoints';
 
 @Injectable({
@@ -86,6 +86,61 @@ export class DoctorService {
     endDate: string;
   }): Observable<PagedReviews> {
     return this.http.get<PagedReviews>(API_ENDPOINTS.DOCTOR.REVIEWS, { params });
+  }
+  getPatients(): Observable<PatientsApiResponse> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<PatientsApiResponse>(
+      API_ENDPOINTS.DOCTOR.PATIENTS,
+      { headers: headers }
+    );
+  }
+
+  getUpcomingAppointment(): Observable<UpcomingAppointmentResponse> {
+    return this.http.get<UpcomingAppointmentResponse>(
+      API_ENDPOINTS.DOCTOR.UPCOMING_APPOINTMENT
+    );
+  }
+
+  getClinics(): Observable<ClinicData[]> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<ClinicData[]>(
+      API_ENDPOINTS.DOCTOR.CLINICS,
+      { headers: headers }
+    );
+  }
+
+  getBasicDetails(): Observable<DoctorBasicDetailsResponse> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    return this.http.get<DoctorBasicDetailsResponse>(
+      API_ENDPOINTS.DOCTOR.BASIC_DETAILS,
+      { headers: headers }
+    );
+  }
+
+  updateBasicDetails(basicDetails: DoctorBasicDetailsRequest): Observable<any> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post(
+      API_ENDPOINTS.DOCTOR.BASIC_DETAILS,
+      basicDetails,
+      { headers: headers }
+    );
   }
 
 }

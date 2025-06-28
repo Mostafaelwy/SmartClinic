@@ -121,11 +121,12 @@ public class DoctorController {
 	public AddVisitorResponse addVisitor(@PathVariable Long patientId,@PathVariable Long cLinicId) {
 		return clinicService.addVisitor(patientId,cLinicId);
 	}
-	@GetMapping("/me/reviews")
+	@GetMapping("/{doctorId}/reviews")
 	public Page<ReviewDto> readAllReviews(
+			@PathVariable Long doctorId,
 			@ModelAttribute PageProperties p,
 			@ModelAttribute DateInterval interval){
-		return ratingService.readDoctorReviews(p,interval);
+		return ratingService.readDoctorReviews(doctorId,p,interval);
 	}
 	@PostMapping("/me/reply")
 	public ReviewDto replyOnReview(@RequestBody SetReply reply) {
@@ -148,10 +149,9 @@ public class DoctorController {
 	public SpecialtiesAndServicesDto addSpeciality(@RequestBody AddSpecialityRequest request) {
 		return doctorSpecialtiesService.addSpeciality(request);
 	}
-
-	@GetMapping("/me/specialties")
-	public  List <SpecialtiesAndServicesDto> findMySpecialties (){
-		return doctorSpecialtiesService.findSpecialties();
+	@GetMapping("/{doctorId}/specialties")
+	public  List <SpecialtiesAndServicesDto> findSpecialties (@PathVariable Long doctorId){
+		return doctorSpecialtiesService.findSpecialties(doctorId);
 	}
 	@PostMapping("/me/speciality/{specialityId}/service")
 	public SpecialityServiceDto addSpecialityService(@RequestBody AddSpecialityServiceRequest request,@PathVariable Long specialityId) {
@@ -183,7 +183,7 @@ public class DoctorController {
 	public Map<DayOfWeek, List<LocalTime>> addWorkingDay(@PathVariable Long clinicId,@PathVariable DayOfWeek workingDay,@RequestBody SlotDto slot){
 		 return clinicService.addWorkingDay(clinicId, workingDay, slot);
 	}
-	@GetMapping("/available-timings/clinic/{clinicId}")
+	@GetMapping("/avilable-timings/clinic/{clinicId}")
 	public Map<DayOfWeek, List<LocalTime>> showSlotsPerDay(@PathVariable Long clinicId,@RequestParam(name = "workingDay",required = false,defaultValue = "") DayOfWeek workingDay) {
 		return clinicService.showSlotsPerDay(clinicId,workingDay);
 	}
@@ -191,9 +191,9 @@ public class DoctorController {
 	public DoctorProfileData getProfileData() {
 		return doctorService.getProfileData();
 	}
-	@GetMapping("/me/basic-detailes")
-	public BasicDetailes getBasicDetailes() {
-		return doctorService.getBasicDetailes();
+	@GetMapping("/{doctorId}/basic-detailes")
+	public BasicDetailes getBasicDetailes(@PathVariable Long doctorId) {
+		return doctorService.getBasicDetailes(doctorId);
 	}
 	@PostMapping("/me/basic-detailes")
 	public BasicDetailes editBasicDetailes(@RequestBody @Valid DoctorBasicDetailesRequest request) {
@@ -203,9 +203,9 @@ public class DoctorController {
 	public void deletememberships(@PathVariable Long id) {
 		doctorService.DeleteMembership(id);
 	}
-	@GetMapping("/me/experience")
-	public List<GetExperienceDto> getExperience(){
-		return doctorService.getExperience();
+	@GetMapping("/{doctorId}/experience")
+	public List<GetExperienceDto> getExperience(@PathVariable Long doctorId){
+		return doctorService.getExperience(doctorId);
 	}
 	@PostMapping("/me/experience")
 	public List<GetExperienceDto> setExperience(@RequestBody List<SetExperienceRequest> requests){
@@ -215,9 +215,9 @@ public class DoctorController {
 	public void deleteExperience(@PathVariable Long id) {
 		doctorService.deleteExperience(id);
 	}
-	@GetMapping("/me/education")
-	public List<GetEducation> getEducation(){
-		return doctorService.getEducation();
+	@GetMapping("/{DoctorId}/education")
+	public List<GetEducation> getEducation(@PathVariable Long DoctorId){
+		return doctorService.getEducation(DoctorId);
 	}
 	
 	@PostMapping("/me/education")
@@ -229,9 +229,9 @@ public class DoctorController {
 		doctorService.deleteEducation(id);
 	}
 	
-	@GetMapping("/me/award")
-	public List<GetAwards> getAwards(){
-		return doctorService.getAwards();
+	@GetMapping("/{doctorId}/award")
+	public List<GetAwards> getAwards(@PathVariable Long doctorId){
+		return doctorService.getAwards(doctorId);
 	}
 	
 	@PostMapping("/me/award")
@@ -242,9 +242,9 @@ public class DoctorController {
 	public void deleteAwards(@PathVariable Long id) {
 		doctorService.deleteAward(id);
 	}
-	@GetMapping("/me/clinics")
-	public List<GetClinic> getClinics(){
-		return clinicService.getCurrntDoctorClinics();
+	@GetMapping("/{doctorId}/clinics")
+	public List<GetClinic> getClinics(@PathVariable Long doctorId){
+		return clinicService.getClinics(doctorId);
 	}
 	@PostMapping("/me/clinics")
 	public List<GetClinic> setClinics(@RequestBody @Valid List<SetClinic> request){

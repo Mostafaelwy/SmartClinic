@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { DateRangeEnum, PagingFilter, ReservationFilter, ReservationItem } from '../../../../../types';
+import { DateRangeEnum, PagingFilter, ReservationFilter, ReservationItem, UpcomingAppointmentData } from '../../../../../types';
 import { DoctorService } from '../../../../services/doctor/doctor.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +14,8 @@ import { FormsModule } from '@angular/forms';
 export class AppointmentListMiniComponent {
   private _reservationFilter: ReservationFilter = {};
   private _pagingFilter: PagingFilter = {};
-  reservationItems:ReservationItem[] = [];
+  reservationItems: ReservationItem[] = [];
+  upcomingAppointment: UpcomingAppointmentData | null = null;
   DateRangeEnum = DateRangeEnum; // to access enum in template
   dateRangeOptions = Object.values(DateRangeEnum);
   selectedRange: DateRangeEnum = DateRangeEnum.LAST_7_DAYS;
@@ -37,7 +38,7 @@ export class AppointmentListMiniComponent {
   }
 
 
-  constructor(private doctorService:DoctorService){
+  constructor(private doctorService: DoctorService) {
   }
 
   private loadReservations(): void {
@@ -45,8 +46,37 @@ export class AppointmentListMiniComponent {
       next: (res) => this.reservationItems = res.content,
       error: (err) => console.error('❌ Error loading reservations:', err)
     });
+
+    // Load upcoming appointment
+    this.doctorService.getUpcomingAppointment().subscribe({
+      next: (res) => {
+        this.upcomingAppointment = this.findUpcomingAppointment(res.content || []);
+      },
+      error: (err) => console.error('❌ Error loading upcoming appointment:', err)
+    });
   }
-   onAccept(id: number): void {
+
+  private findUpcomingAppointment(appointments: UpcomingAppointmentData[]): UpcomingAppointmentData | null {
+    if (!appointments || appointments.length === 0) {
+      return null;
+    }
+
+    const now = new Date();
+
+    // Find the first appointment that is in the future
+    const upcomingAppointment = appointments.find(appointment => {
+      const appointmentDate = new Date(appointment.reservationDate);
+      appointmentDate.setHours(appointment.reservationTime.hour);
+      appointmentDate.setMinutes(appointment.reservationTime.minute);
+      appointmentDate.setSeconds(appointment.reservationTime.second);
+
+      return appointmentDate > now;
+    });
+
+    return upcomingAppointment || null;
+  }
+
+  onAccept(id: number): void {
     this.doctorService.acceptReservation(id).subscribe({
       next: () => this.loadReservations(), // reload the list
       error: err => console.error('Accept failed', err)
@@ -84,8 +114,8 @@ export class AppointmentListMiniComponent {
         break;
     }
 
-  this._reservationFilter.startTime = start.toISOString().split('T')[0]; // '2025-06-20'
-  this._reservationFilter.endTime = end.toISOString().split('T')[0];     // '2025-06-26'
+    this._reservationFilter.startTime = start.toISOString().split('T')[0]; // '2025-06-20'
+    this._reservationFilter.endTime = end.toISOString().split('T')[0];     // '2025-06-26'
     this.loadReservations();
   }
 

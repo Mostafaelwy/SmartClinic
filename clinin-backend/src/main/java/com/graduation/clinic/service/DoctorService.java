@@ -192,13 +192,8 @@ public class DoctorService {
 		 }
 		 
 		 return new BasicDetailes(doc.getFirstName(), doc.getSecondName(), doc.getDisplayName(), doc.getDesignation(), doc.getPhoneNumbers(), doc.getUsername(), new GetPhoto(doc.getProfilePhoto()) ,doc.getLanguages(),membershipsDto);
-		  
-	 }
-	 
-	 public BasicDetailes getBasicDetailes() {
-		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
-		 Doctor doctor=(Doctor)auth.getPrincipal();
-		 return getBasicDetailes(doctor.getId());
+		 
+		 
 	 }
 	 @Transactional(value = TxType.REQUIRES_NEW)
 	 public BasicDetailes editBasicDetailes(DoctorBasicDetailesRequest request) {
@@ -249,12 +244,6 @@ public class DoctorService {
 		 }
 		 return ExperienceList;
 	 }
-	 public List<GetExperienceDto> getExperience(){
-		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
-		 Doctor doctor=(Doctor)auth.getPrincipal();
-		 return getExperience(doctor.getId());
-	 }
-	 
 	 @Transactional(value = TxType.REQUIRES_NEW)
 	 public List<GetExperienceDto> setExperience(List<SetExperienceRequest> request){
 		 
@@ -290,11 +279,6 @@ public class DoctorService {
 		 }
 		 return educationList;
 	 }
-	 public List<GetEducation> getEducation(){
-		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
-		 Doctor doctor=(Doctor)auth.getPrincipal();
-		 return getEducation(doctor.getId());
-	 }
 	 
 	 @Transactional(value = TxType.REQUIRES_NEW)
 	 public List<GetEducation> setEducation(List<SetEducation> request){
@@ -327,11 +311,7 @@ public class DoctorService {
 		 }
 		 return getAwards;
 	 }
-	 public List<GetAwards> getAwards(){
-		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
-		 Doctor doctor=(Doctor)auth.getPrincipal();
-		 return getAwards(doctor.getId());
-	 }
+	 
 	 @Transactional(value = TxType.REQUIRES_NEW)
 	 public List<GetAwards> setAwards(List<SetAwards> request){
 		 

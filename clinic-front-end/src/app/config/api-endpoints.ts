@@ -16,13 +16,17 @@ const API_ENDPOINTS_RAW = {
       AVAILABLE_TIMINGS:'/available-timings/clinic',
       WORKING_DAY_SLOT:'/me/workingdays',
       SPECIALITIES:'/me/specialties',
+      PATIENTS: '/me/patients',
+      UPCOMING_APPOINTMENT: '/me/upcomming-appointment',
+      CLINICS: '/clinics',
+      BASIC_DETAILS: '/me/basic-detailes',
       SPECIALITY:'/me/speciality',
       SERVICE:'/me/service',
       REVIEWS:'/me/reviews'
     }
     // Add other endpoint groups as needed
   };
-  
+
 
 function wrapNode(node: any, parentPrefix: string = ''): any {
   const prefix = node._prefix ? `${parentPrefix}/${node._prefix}` : parentPrefix;

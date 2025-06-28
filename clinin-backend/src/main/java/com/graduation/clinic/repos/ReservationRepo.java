@@ -20,7 +20,7 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> ,JpaSp
 	
 	
 	Page<Reservation> findByDoctorId(Long doctorId,Specification<Reservation> spec,Pageable page);
-	Page<Reservation> findByDoctorIdAndStatusAndReservationTimeGreaterThanAndReservationDateGreaterThanEqual(Long doctorId,ReservationStatus status,LocalTime time,LocalDate date,Pageable page);
+	Page<Reservation> findByDoctorIdAndStatusAndReservationTimeBefore(Long doctorId,ReservationStatus status,LocalTime time,Pageable page);
 	
 	
 	
