@@ -128,6 +128,13 @@ public class DoctorController {
 			@ModelAttribute DateInterval interval){
 		return ratingService.readDoctorReviews(doctorId,p,interval);
 	}
+
+	@GetMapping("/me/reviews")
+	public Page<ReviewDto> readAllReviews(
+			@ModelAttribute PageProperties p,
+			@ModelAttribute DateInterval interval){
+		return ratingService.readCurrentDoctorReviews(p,interval);
+	}
 	@PostMapping("/me/reply")
 	public ReviewDto replyOnReview(@RequestBody SetReply reply) {
 		return ratingService.doctorReplyOnReview(reply);
