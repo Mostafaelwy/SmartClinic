@@ -141,6 +141,10 @@ public class PatientController {
 	public List<GetExperienceDto> getExperience(@PathVariable Long doctorId){
 		return doctorService.getExperience(doctorId);
 	}
+	@GetMapping("/doctor/me/experience")
+	public List<GetExperienceDto> getExperience(){
+		return doctorService.getExperience();
+	}
 	@GetMapping("/doctor/{DoctorId}/education")
 	public List<GetEducation> getEducation(@PathVariable Long DoctorId){
 		return doctorService.getEducation(DoctorId);

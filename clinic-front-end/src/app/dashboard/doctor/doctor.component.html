@@ -9,14 +9,15 @@
                         <div class="widget-profile pro-widget-content">
                             <div class="profile-info-widget">
                                 <a href="doctor-profile.html" class="booking-doc-img">
-                                    <img src="assets/img/doctors-dashboard/doctor-profile-img.jpg" alt="User Image">
+                                    <img *ngIf="doctorProfileData?.photo?.url" [src]="doctorProfileData?.photo?.url" alt="User Image">
+                                    <img *ngIf="!doctorProfileData?.photo?.url" src="assets/img/doctors-dashboard/doctor-profile-img.jpg" alt="User Image">
                                 </a>
                                 <div class="profile-det-info">
-                                    <h3><a href="doctor-profile.html">Dr Edalin Hendry</a></h3>
+                                    <h3><a href="doctor-profile.html">{{ doctorProfileData?.name || 'Doctor' }}</a></h3>
                                     <div class="patient-details">
-                                        <h5 class="mb-0">BDS, MDS - Oral & Maxillofacial Surgery</h5>
+                                        <h5 class="mb-0">{{ doctorProfileData?.displayName }}</h5>
                                     </div>
-                                    <span class="badge doctor-role-badge"><i class="fa-solid fa-circle"></i>Dentist</span>
+                                    <span class="badge doctor-role-badge"><i class="fa-solid fa-circle"></i>{{ doctorProfileData?.specialites?.[0] }}</span>
                                 </div>
                             </div>
                         </div>
@@ -115,14 +116,15 @@
                                             <span>Social Media</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="doctor-change-password.html">
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+
+                                        <a [routerLink]="['/dashboard/doctor/change-password']">
                                             <i class="isax isax-key"></i>
                                             <span>Change Password</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="login.html">
+                                        <a href="javascript:void(0);" (click)="logout()">
                                             <i class="isax isax-logout"></i>
                                             <span>Logout</span>
                                         </a>

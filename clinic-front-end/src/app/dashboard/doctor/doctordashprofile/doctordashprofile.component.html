@@ -19,16 +19,7 @@
                     <a class="nav-link" [class.active]="activeTab === 'education'" (click)="setActiveTab('education')" href="javascript:void(0);">Education</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [class.active]="activeTab === 'awards'" (click)="setActiveTab('awards')" href="javascript:void(0);">Awards</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [class.active]="activeTab === 'insurances'" (click)="setActiveTab('insurances')" href="javascript:void(0);">Insurances</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" [class.active]="activeTab === 'clinics'" (click)="setActiveTab('clinics')" href="javascript:void(0);">Clinics</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" [class.active]="activeTab === 'business'" (click)="setActiveTab('business')" href="javascript:void(0);">Business Hours</a>
                 </li>
             </ul>
         </div>
@@ -55,7 +46,7 @@
                   Upload New
                   <input type="file" class="upload" (change)="onFileSelected($event)" accept="image/*">
                 </div>
-                <a href="javascript:void(0);" class="upload-remove" (click)="removeProfileImage()">Remove</a>
+                <a *ngIf="profileImage" href="javascript:void(0);" class="upload-remove" (click)="removeProfileImage()">Remove</a>
               </div>
               <p class="form-text">Your Image should Below 4 MB, Accepted format jpg,png,svg</p>
             </div>
@@ -209,6 +200,221 @@
       </form>
     </div>
 
+    <div *ngIf="activeTab === 'experience'">
+      <div class="dashboard-header border-0 mb-0">
+        <h3>Experience</h3>
+        <ul>
+          <li>
+            <a href="#" class="btn btn-primary prime-btn add-experiences" (click)="addNewExperience(); $event.preventDefault();">Add New Experience</a>
+          </li>
+        </ul>
+      </div>
+      <form>
+        <div class="accordions experience-infos" id="list-accord">
+          <div *ngFor="let exp of experiences; let i = index" class="user-accordion-item">
+            <a href="#" class="accordion-wrap" data-bs-toggle="collapse" [attr.data-bs-target]="'#experience' + i">
+              {{ exp.hospital || 'Experience' }}
+            </a>
+            <div class="accordion-collapse collapse show" [id]="'experience' + i" data-bs-parent="#list-accord">
+              <div class="content-collapse">
+                <div class="add-service-info">
+                  <div class="add-info">
+                    <div class="row align-items-center">
+                      <div class="col-md-12">
+                        <div class="form-wrap mb-2">
+                          <div class="change-avatar img-upload">
+                            <div class="profile-img">
+                              <img *ngIf="exp.logo?.url" [src]="exp.logo.url" alt="Logo" style="width: 60px; height: 60px;">
+                              <i *ngIf="!exp.logo?.url" class="fa-solid fa-file-image"></i>
+                            </div>
+                            <div class="upload-img">
+                              <h5>Hospital Logo</h5>
+                              <div class="imgs-load d-flex align-items-center">
+                                <div class="change-photo">
+                                  Upload New
+                                  <input type="file" (change)="onExperienceLogoSelected($event, exp)" [name]="'logo' + i" accept="image/*">
+                                </div>
+                              </div>
+                              <p class="form-text">Your Image should Below 4 MB, Accepted format jpg,png,svg</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Title</label>
+                          <input type="text" class="form-control" [(ngModel)]="exp.title" [name]="'title' + i" (ngModelChange)="onExperienceChange(exp.id)">
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Hospital <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="exp.hospital" [name]="'hospital' + i" (ngModelChange)="onExperienceChange(exp.id)">
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Year of Experience <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="exp.yearOfExperience" [name]="'yearOfExperience' + i" (ngModelChange)="onExperienceChange(exp.id)">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Location <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="exp.location" [name]="'location' + i" (ngModelChange)="onExperienceChange(exp.id)">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Employement</label>
+                          <select class="form-select" [(ngModel)]="exp.employment" [name]="'employment' + i" (ngModelChange)="onExperienceChange(exp.id)">
+                            <option value="Full Time">Full Time</option>
+                            <option value="Part Time">Part Time</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Job Description <span class="text-danger">*</span></label>
+                          <textarea class="form-control" rows="3" [(ngModel)]="exp.jobDescription" [name]="'jobDescription' + i" (ngModelChange)="onExperienceChange(exp.id)"></textarea>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Start Date <span class="text-danger">*</span></label>
+                          <div class="form-icon">
+                            <input type="text" class="form-control" [(ngModel)]="exp.startDate" [name]="'startDate' + i" (ngModelChange)="onExperienceChange(exp.id)">
+                            <span class="icon"><i class="fa-regular fa-calendar-days"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">End Date <span class="text-danger">*</span></label>
+                          <div class="form-icon">
+                            <input type="text" class="form-control" [(ngModel)]="exp.endDate" [name]="'endDate' + i" (ngModelChange)="onExperienceChange(exp.id)">
+                            <span class="icon"><i class="fa-regular fa-calendar-days"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">&nbsp;</label>
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input class="form-check-input" type="checkbox" [(ngModel)]="exp.currentlyWorking" [name]="'currentlyWorking' + i" (ngModelChange)="onExperienceChange(exp.id)"> I Currently Working Here
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-end">
+                  <button type="button" class="btn btn-success" [disabled]="!isExperienceEdited(exp.id)" (click)="saveExperience(exp)">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div *ngIf="activeTab === 'education'">
+      <div class="dashboard-header border-0 mb-0">
+        <h3>Education</h3>
+        <ul>
+          <li>
+            <a href="#" class="btn btn-primary prime-btn add-educations" (click)="addNewEducation(); $event.preventDefault();">Add New Education</a>
+          </li>
+        </ul>
+      </div>
+      <form>
+        <div class="accordions education-infos" id="list-accord">
+          <div *ngFor="let edu of educations; let i = index" class="user-accordion-item">
+            <a href="#" class="accordion-wrap" data-bs-toggle="collapse" [attr.data-bs-target]="'#education' + i">
+              {{ edu.institution || 'Education' }}
+            </a>
+            <div class="accordion-collapse collapse show" [id]="'education' + i" data-bs-parent="#list-accord">
+              <div class="content-collapse">
+                <div class="add-service-info">
+                  <div class="add-info">
+                    <div class="row align-items-center">
+                      <div class="col-md-12">
+                        <div class="form-wrap mb-2">
+                          <div class="change-avatar img-upload">
+                            <div class="profile-img">
+                              <img *ngIf="edu.logo?.url" [src]="edu.logo.url" alt="Logo" style="width: 60px; height: 60px;">
+                              <i *ngIf="!edu.logo?.url" class="fa-solid fa-file-image"></i>
+                            </div>
+                            <div class="upload-img">
+                              <h5>Logo</h5>
+                              <div class="imgs-load d-flex align-items-center">
+                                <div class="change-photo">
+                                  Upload New
+                                  <input type="file" (change)="onEducationLogoSelected($event, edu)" [name]="'logo' + i" accept="image/*">
+                                </div>
+                              </div>
+                              <p class="form-text">Your Image should Below 4 MB, Accepted format jpg,png,svg</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Name of the institution</label>
+                          <input type="text" class="form-control" [(ngModel)]="edu.institution" [name]="'institution' + i" (ngModelChange)="onEducationChange(edu.id)">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Course</label>
+                          <input type="text" class="form-control" [(ngModel)]="edu.course" [name]="'course' + i" (ngModelChange)="onEducationChange(edu.id)">
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Start Date <span class="text-danger">*</span></label>
+                          <div class="form-icon">
+                            <input type="text" class="form-control" [(ngModel)]="edu.startDate" [name]="'startDate' + i" (ngModelChange)="onEducationChange(edu.id)">
+                            <span class="icon"><i class="fa-regular fa-calendar-days"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">End Date <span class="text-danger">*</span></label>
+                          <div class="form-icon">
+                            <input type="text" class="form-control" [(ngModel)]="edu.endDate" [name]="'endDate' + i" (ngModelChange)="onEducationChange(edu.id)">
+                            <span class="icon"><i class="fa-regular fa-calendar-days"></i></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">No of Years <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" [(ngModel)]="edu.years" [name]="'years' + i" (ngModelChange)="onEducationChange(edu.id)">
+                        </div>
+                      </div>
+                      <div class="col-lg-12">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Description <span class="text-danger">*</span></label>
+                          <textarea class="form-control" rows="3" [(ngModel)]="edu.description" [name]="'description' + i" (ngModelChange)="onEducationChange(edu.id)"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-end">
+                    <button type="button" class="btn btn-success" [disabled]="!isEducationEdited(edu.id)" (click)="saveEducation(edu)">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
     <div *ngIf="activeTab === 'clinics'">
       <div class="dashboard-header border-0 mb-0">
         <h3>Clinics</h3>
@@ -287,6 +493,9 @@
                       </div>
                     </div>
                   </div>
+                </div>
+                <div class="text-end">
+                  <button type="button" class="btn btn-success" [disabled]="!isClinicEdited(clinic.id)" (click)="saveClinic(clinic)">Save</button>
                 </div>
               </div>
             </div>

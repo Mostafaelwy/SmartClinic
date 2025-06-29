@@ -9,13 +9,19 @@ import { DoctordashavailabletimingsComponent } from './dashboard/doctor/doctorda
 import { DoctordashspecandservComponent } from './dashboard/doctor/doctordashspecandserv/doctordashspecandserv.component';
 import { DoctordashreviewsComponent } from './dashboard/doctor/doctordashreviews/doctordashreviews.component';
 import { DoctordashprofileComponent } from './dashboard/doctor/doctordashprofile/doctordashprofile.component';
+import { DoctordashchangepasswordComponent } from './dashboard/doctor/doctordashchangepassword/doctordashchangepassword.component';
+import { AuthGuardService, AuthRedirectGuard } from './services/auth-service.service';
+import { RegisterComponent } from './register/register.component';
+import { DoctorRegisterComponent } from './register/doctor-register.component';
 
 export const routes: Routes = [
 
     { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: 'doctor-register', component: DoctorRegisterComponent },
     { path: 'dashboard', component: DashboardComponent,
         children:[
-            { path: 'doctor', component: DoctorComponent,
+            { path: 'doctor', component: DoctorComponent, canActivate: [AuthGuardService], data: { roles: ['DOCTOR'] },
                 children:[
                     {path:'home', component:DoctordashhomeComponent},
                     {path:'requests', component:DoctordashrequestsComponent},
@@ -24,6 +30,7 @@ export const routes: Routes = [
                     {path:'speciality-service', component:DoctordashspecandservComponent},
                     {path:'reviews', component:DoctordashreviewsComponent},
                     {path:'profile', component:DoctordashprofileComponent},
+                    {path:'change-password', component:DoctordashchangepasswordComponent},
                     {
                         path: '', // default to home if no child is specified
                         redirectTo: 'home',
@@ -32,5 +39,6 @@ export const routes: Routes = [
                 ]
              },
         ]
-     },
+     }, 
+    { path: '', canActivate: [AuthRedirectGuard], component: LoginComponent },
 ];

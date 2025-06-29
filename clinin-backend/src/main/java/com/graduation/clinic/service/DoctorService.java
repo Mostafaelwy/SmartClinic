@@ -250,6 +250,12 @@ public class DoctorService {
 		 }
 		 return ExperienceList;
 	 }
+
+	public List<GetExperienceDto> getExperience() {
+		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		Doctor doctor=(Doctor)auth.getPrincipal();
+		return getExperience(doctor.getId());
+	}
 	 @Transactional(value = TxType.REQUIRES_NEW)
 	 public List<GetExperienceDto> setExperience(List<SetExperienceRequest> request){
 		 
@@ -285,6 +291,11 @@ public class DoctorService {
 		 }
 		 return educationList;
 	 }
+	public List<GetEducation> getEducation(){
+		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		Doctor doctor=(Doctor)auth.getPrincipal();
+		return getEducation(doctor.getId())	;
+	}
 	 
 	 @Transactional(value = TxType.REQUIRES_NEW)
 	 public List<GetEducation> setEducation(List<SetEducation> request){

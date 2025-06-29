@@ -222,6 +222,10 @@ public class DoctorController {
 	public List<GetExperienceDto> getExperience(@PathVariable Long doctorId){
 		return doctorService.getExperience(doctorId);
 	}
+	@GetMapping("/me/experience")
+	public List<GetExperienceDto> getExperience(){
+		return doctorService.getExperience();
+	}
 	@PostMapping("/me/experience")
 	public List<GetExperienceDto> setExperience(@RequestBody List<SetExperienceRequest> requests){
 		return doctorService.setExperience(requests);
@@ -233,6 +237,10 @@ public class DoctorController {
 	@GetMapping("/{DoctorId}/education")
 	public List<GetEducation> getEducation(@PathVariable Long DoctorId){
 		return doctorService.getEducation(DoctorId);
+	}
+	@GetMapping("/me/education")
+	public List<GetEducation> getEducation(){
+		return doctorService.getEducation();
 	}
 	
 	@PostMapping("/me/education")
