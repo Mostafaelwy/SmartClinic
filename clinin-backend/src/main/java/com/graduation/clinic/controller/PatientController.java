@@ -117,9 +117,9 @@ public class PatientController {
 	public GetPatientProfileData setData(@RequestBody SetPatientProfileData request) {
 		return patientService.setPatientData(request);
 	}
-	@GetMapping("/{id}/appointments")
-	public Page<GetAppointmentsForOnePatient> getAppoinments(@PathVariable Long id ,@ModelAttribute FilterReservations filter,@ModelAttribute PageProperties p) {
-		return reservationService.getPatientAppointments(id,filter, p);
+	@GetMapping("/me/appointments")
+	public Page<GetAppointmentsForOnePatient> getAppoinments(@ModelAttribute FilterReservations filter,@ModelAttribute PageProperties p) {
+		return reservationService.getPatientAppointments(filter, p);
 	}
 	@GetMapping("/doctor/{id}/specialties")
 	public List<SpecialtiesAndServicesDto> getSpecialtiesAndServices(@PathVariable Long id){
@@ -140,6 +140,10 @@ public class PatientController {
 	@GetMapping("/doctor/{doctorId}/experience")
 	public List<GetExperienceDto> getExperience(@PathVariable Long doctorId){
 		return doctorService.getExperience(doctorId);
+	}
+	@GetMapping("/doctor/me/experience")
+	public List<GetExperienceDto> getExperience(){
+		return doctorService.getExperience();
 	}
 	@GetMapping("/doctor/{DoctorId}/education")
 	public List<GetEducation> getEducation(@PathVariable Long DoctorId){

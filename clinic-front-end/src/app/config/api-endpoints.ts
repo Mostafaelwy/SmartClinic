@@ -6,6 +6,7 @@ const API_ENDPOINTS_RAW = {
     AUTH: {
       _prefix: 'auth',
       LOGIN: '/login',
+      DOCTOR_REGISTER: '/Doctor',
     },
     DOCTOR:{
       _prefix: 'smart/doctor',
@@ -22,11 +23,15 @@ const API_ENDPOINTS_RAW = {
       BASIC_DETAILS: '/me/basic-detailes',
       SPECIALITY:'/me/speciality',
       SERVICE:'/me/service',
-      REVIEWS:'/me/reviews'
+      REVIEWS:'/me/reviews',
+      EXPERIENCE: '/me/experience',
+      EDUCATION: '/me/education',
+      PASSWORD: '/me/password',
+      PROFILE_DATA: '/me/profile-data', 
     }
     // Add other endpoint groups as needed
   };
-
+ 
 
 function wrapNode(node: any, parentPrefix: string = ''): any {
   const prefix = node._prefix ? `${parentPrefix}/${node._prefix}` : parentPrefix;

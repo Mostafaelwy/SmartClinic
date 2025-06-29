@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthServiceService } from '../services/auth-service.service';
 import { JwtService } from '../services/jwt.service';
@@ -13,13 +13,29 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   email: string = '';
   password: string = '';
   loginError: string | null = null;
   constructor( private loginService:AuthServiceService,private jwtService:JwtService, private router:Router) {
 
+  }
+
+  ngOnInit(): void {
+    const token = this.jwtService.getToken();
+    if (token && !this.jwtService.isTokenExpired()) {
+      const roles = this.jwtService.getClaim('roles') || [];
+      if (roles.some((role: any) => role.authority === 'DOCTOR')) {
+        this.router.navigate(['/dashboard/doctor']);
+        return;
+      }
+      if (roles.some((role: any) => role.authority === 'PATIENT')) {
+        this.router.navigate(['/dashboard/patient']);
+        return;
+      }
+      this.router.navigate(['/login']);
+    }
   }
 
   onSubmit() {

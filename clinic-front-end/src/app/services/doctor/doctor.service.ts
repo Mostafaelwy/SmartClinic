@@ -143,4 +143,61 @@ export class DoctorService {
     );
   }
 
+  updateClinic(clinic: ClinicData): Observable<any> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post(API_ENDPOINTS.DOCTOR.MY_CLINICS, [clinic], { headers });
+  }
+
+  getExperiences(): Observable<any[]> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<any[]>(API_ENDPOINTS.DOCTOR.EXPERIENCE, { headers });
+  }
+
+  updateExperience(experience: any): Observable<any> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post(API_ENDPOINTS.DOCTOR.EXPERIENCE, [experience], { headers });
+  }
+
+  getEducations(): Observable<any[]> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get<any[]>(API_ENDPOINTS.DOCTOR.EDUCATION, { headers });
+  }
+
+  updateEducation(education: any): Observable<any> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post(API_ENDPOINTS.DOCTOR.EDUCATION, [education], { headers });
+  }
+
+  changePassword(oldPassword: string, newPassword: string): Observable<any> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    return this.http.patch(API_ENDPOINTS.DOCTOR.PASSWORD, { oldPassword, newPassword }, { headers });
+  }
+
+  getProfileData(): Observable<any> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.get(API_ENDPOINTS.DOCTOR.PROFILE_DATA, { headers });
+  }
+
 }

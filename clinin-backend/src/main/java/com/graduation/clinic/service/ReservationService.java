@@ -190,6 +190,11 @@ public class ReservationService {
 		return paginateAppoinments(reservationPage);
 		
 	}
+	public Page<GetAppointmentsForOnePatient> getPatientAppointments(FilterReservations filter,PageProperties pageDetailes){
+		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		Patient patient=(Patient) auth.getPrincipal();
+		return getPatientAppointments(patient.getId(),filter,pageDetailes);
+	}
 	
 	public Page<ReservationDto> getUpCommingAppointment() {
 		Authentication auth =SecurityContextHolder.getContext().getAuthentication();

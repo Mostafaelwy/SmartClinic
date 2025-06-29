@@ -182,19 +182,25 @@ public class DoctorService {
 		 return new DoctorProfileData(name, displayName, specialties, new GetPhoto(p));
 	 }
 	 
-	 public BasicDetailes getBasicDetailes(Long doctorId) {
+	 public BasicDetailes getBasicDetailes() {
 
-		 Doctor doc=doctorRepo.findById(doctorId).orElseThrow(()->new NotFoundException("Doctor not found"));
-		 List<Memberships> m=membershipRepo.findAllByDoctorId(doctorId);
-		 List<MembershipsDto> membershipsDto=new ArrayList<>();
-		 for(int i=0;i<m.size();i++) {
-			membershipsDto.add(new MembershipsDto(m.get(i)));
-		 }
-		 
-		 return new BasicDetailes(doc.getFirstName(), doc.getSecondName(), doc.getDisplayName(), doc.getDesignation(), doc.getPhoneNumbers(), doc.getUsername(), new GetPhoto(doc.getProfilePhoto()) ,doc.getLanguages(),membershipsDto);
-		 
-		 
+		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		 Doctor doctor=(Doctor)auth.getPrincipal();
+		 return getBasicDetailes(doctor.getId());
 	 }
+	public BasicDetailes getBasicDetailes(Long doctorId) {
+
+		Doctor doc=doctorRepo.findById(doctorId).orElseThrow(()->new NotFoundException("Doctor not found"));
+		List<Memberships> m=membershipRepo.findAllByDoctorId(doctorId);
+		List<MembershipsDto> membershipsDto=new ArrayList<>();
+		for(int i=0;i<m.size();i++) {
+			membershipsDto.add(new MembershipsDto(m.get(i)));
+		}
+
+		return new BasicDetailes(doc.getFirstName(), doc.getSecondName(), doc.getDisplayName(), doc.getDesignation(), doc.getPhoneNumbers(), doc.getUsername(), new GetPhoto(doc.getProfilePhoto()) ,doc.getLanguages(),membershipsDto);
+
+
+	}
 	 @Transactional(value = TxType.REQUIRES_NEW)
 	 public BasicDetailes editBasicDetailes(DoctorBasicDetailesRequest request) {
 		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
@@ -244,6 +250,12 @@ public class DoctorService {
 		 }
 		 return ExperienceList;
 	 }
+
+	public List<GetExperienceDto> getExperience() {
+		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		Doctor doctor=(Doctor)auth.getPrincipal();
+		return getExperience(doctor.getId());
+	}
 	 @Transactional(value = TxType.REQUIRES_NEW)
 	 public List<GetExperienceDto> setExperience(List<SetExperienceRequest> request){
 		 
@@ -279,6 +291,11 @@ public class DoctorService {
 		 }
 		 return educationList;
 	 }
+	public List<GetEducation> getEducation(){
+		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		Doctor doctor=(Doctor)auth.getPrincipal();
+		return getEducation(doctor.getId())	;
+	}
 	 
 	 @Transactional(value = TxType.REQUIRES_NEW)
 	 public List<GetEducation> setEducation(List<SetEducation> request){

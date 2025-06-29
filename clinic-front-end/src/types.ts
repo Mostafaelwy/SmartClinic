@@ -1,4 +1,3 @@
-
 export interface LoginRequest{
     email:String,
     password:String
@@ -229,7 +228,7 @@ export interface PatientsApiResponse {
 // New interfaces for upcoming appointment API
 export interface AppointmentPhoto {
   type: string;
-  id: number;
+  id: number | null;
   url: string;
 }
 
@@ -263,13 +262,13 @@ export interface UpcomingAppointmentResponse {
 // New interfaces for clinics API
 export interface ClinicLogo {
   type: string;
-  id: number;
+  id: number | null;
   url: string;
 }
 
 export interface ClinicGalleryItem {
   type: string;
-  id: number;
+  id: number | null;
   url: string;
 }
 

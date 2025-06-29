@@ -4,6 +4,14 @@ import { CommonModule } from '@angular/common';
 import { DoctorService } from '../../services/doctor/doctor.service';
 import { forkJoin, Observable } from 'rxjs';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { AppComponent } from '../../app.component';
+
+interface DoctorDashboardProfileData {
+  name: string;
+  specialites: string[];
+  photo: { type: string; id: number; url: string };
+  displayName: string;
+}
 
 @Component({
   selector: 'app-doctor',
@@ -15,11 +23,23 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 export class DoctorComponent implements OnInit{
   statistics:DoctorStatistics|null = null;
   loading:boolean = true;
-  constructor(private doctorService:DoctorService){
+  doctorProfileData: DoctorDashboardProfileData | null = null;
+
+  constructor(private doctorService: DoctorService, private appComponent: AppComponent){
 
   }
   ngOnInit(): void {
-
+    this.doctorService.getProfileData().subscribe({
+      next: (data: DoctorDashboardProfileData) => {
+        this.doctorProfileData = data;
+      },
+      error: (err) => {
+        console.error('Failed to load doctor profile data', err);
+      }
+    });
   }
 
+  logout() {
+    this.appComponent.logout();
+  }
 }
