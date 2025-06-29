@@ -1,23 +1,23 @@
 
-export interface LoginRequest{
-    email:String,
-    password:String
+export interface LoginRequest {
+  email: String,
+  password: String
 }
 
-export interface AuthenticatedUser{
-    firstName:String,
-    lastName:String,
-    email:string,
-    roles:[String]
+export interface AuthenticatedUser {
+  firstName: String,
+  lastName: String,
+  email: string,
+  roles: [String]
 }
 
-export interface AuthorizedUser{
-    token:String;
+export interface AuthorizedUser {
+  token: String;
 }
 
 
-export interface Authority{
-    authority:String;
+export interface Authority {
+  authority: String;
 }
 // jwt.interfaces.ts
 export interface JwtPayload {
@@ -26,7 +26,7 @@ export interface JwtPayload {
   iat: number;         // Issued at
   roles?: Authority[];     // User roles
   email?: string;       // User email
-[key: string]: unknown;
+  [key: string]: unknown;
   // Add other custom claims you expect
 }
 
@@ -41,14 +41,14 @@ export interface encodedToken<T = any> {
   signature: string;
 }
 
-export interface DoctorStatistics{
+export interface DoctorStatistics {
   totalPatient: number,
   totalPatientToday: number,
   totalAppointmentsToday: number
 }
 
 
-export interface ReservationFilter{
+export interface ReservationFilter {
   status?: string;
   startTime?: string;
   endTime?: string;
@@ -57,9 +57,9 @@ export interface ReservationFilter{
   doctorName?: string;
 };
 
-export interface PagingFilter{
-  pageNum?:number;
-  pageSize?:number;
+export interface PagingFilter {
+  pageNum?: number;
+  pageSize?: number;
 }
 
 export interface ReservationItem {
@@ -154,9 +154,10 @@ export interface Clinic {
 }
 
 
-export interface DaySlot
-{ hour: number,
-   minute: number }
+export interface DaySlot {
+    hour: number,
+  minute: number
+}
 
 
 
@@ -187,7 +188,7 @@ export interface SlotFormModel {
 export interface SlotDTO {
   startTime: string; // ISO time format "HH:mm"
   endTime: string;
-  duration:string
+  duration: string
   interval: string
 }
 
@@ -294,7 +295,7 @@ export interface ClinicData {
   address: PatientAddress;
   location: string;
   gellery: ClinicGalleryItem[];
-  workingHoursMap: WorkingHoursMap;
+  workingHoursMap: Record<DayOfWeek, WorkingHours>;
 }
 
 // Doctor Basic Details interfaces
@@ -355,11 +356,12 @@ export interface Clinic {
 }
 
 
-export interface DaySlot
-{ hour: number,
-   minute: number }
+export interface DaySlot {
+    hour: number,
+  minute: number
+}
 
-   export type DayOfWeek =
+export type DayOfWeek =
   | 'MONDAY'
   | 'TUESDAY'
   | 'WEDNESDAY'
@@ -399,7 +401,7 @@ export interface SlotFormModel {
 export interface SlotDTO {
   startTime: string; // ISO time format "HH:mm"
   endTime: string;
-  duration:string
+  duration: string
   interval: string
 }
 

@@ -104,4 +104,11 @@ export class DoctordashhomeComponent implements OnInit {
     return timeString.substring(0, 5);
   }
 
+  isWorkingHoursMapValid(workingHoursMap: any): boolean {
+    return workingHoursMap &&
+      typeof workingHoursMap === 'object' &&
+      !Array.isArray(workingHoursMap) &&
+      Object.keys(workingHoursMap).length > 0;
+  }
+
 }
