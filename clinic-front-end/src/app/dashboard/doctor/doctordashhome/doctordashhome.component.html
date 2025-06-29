@@ -121,17 +121,11 @@
                             </div>
                             <div class="available-time">
                                 <ul>
-                                    <ng-container
-                                        *ngIf="clinic.workingHoursMap && isWorkingHoursMapValid(clinic.workingHoursMap)">
-                                        <li *ngFor="let workingHours of clinic.workingHoursMap | keyvalue">
-                                            <span>{{ workingHours.key }} :</span>
-                                            <span>{{ formatTimeString(workingHours.value.startTime) }} - {{
-                                                formatTimeString(workingHours.value.endTime) }}</span>
-                                        </li>
-                                    </ng-container>
-                                    <li
-                                        *ngIf="!clinic.workingHoursMap || !isWorkingHoursMapValid(clinic.workingHoursMap)">
-                                        <span>No working hours available</span>
+                                    <li *ngFor="let workingHours of clinic.workingHoursMap | keyvalue">
+                                        <span>{{ workingHours.key }} :</span>
+                                        <span *ngFor="let time of workingHours.value; let last = last">
+                                            {{ formatTimeString((time.hour < 10 ? '0' : '') + time.hour + ':' + (time.minute < 10 ? '0' : '') + time.minute) }}<span *ngIf="!last">, </span>
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
