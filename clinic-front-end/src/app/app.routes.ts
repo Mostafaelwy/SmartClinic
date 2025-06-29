@@ -13,6 +13,20 @@ import { DoctordashchangepasswordComponent } from './dashboard/doctor/doctordash
 import { AuthGuardService, AuthRedirectGuard } from './services/auth-service.service';
 import { RegisterComponent } from './register/register.component';
 import { DoctorRegisterComponent } from './register/doctor-register.component';
+import { PatientComponent } from './dashboard/patient/patient.component';
+import { PatientdashhomeComponent } from './dashboard/patient/patientdashhome/patientdashhome.component';
+import { PatientdashappointmentComponent } from './dashboard/patient/patientdashappointment/patientdashappointment.component';
+import { PatientdashbookappointmentComponent } from './dashboard/patient/patientdashbookappointment/patientdashbookappointment.component';
+import { PatientdashmedicalrecordsComponent } from './dashboard/patient/patientdashmedicalrecords/patientdashmedicalrecords.component';
+import { PatientdashprescriptionsComponent } from './dashboard/patient/patientdashprescriptions/patientdashprescriptions.component';
+import { PatientdashpaymentsComponent } from './dashboard/patient/patientdashpayments/patientdashpayments.component';
+import { PatientdashprofileComponent } from './dashboard/patient/patientdashprofile/patientdashprofile.component';
+import { PatientdashfavouritesComponent } from './dashboard/patient/patientdashfavourites/patientdashfavourites.component';
+import { PatientdashdependantsComponent } from './dashboard/patient/patientdashdependants/patientdashdependants.component';
+import { PatientdashwalletComponent } from './dashboard/patient/patientdashwallet/patientdashwallet.component';
+import { PatientdashinvoicesComponent } from './dashboard/patient/patientdashinvoices/patientdashinvoices.component';
+import { PatientdashmessagesComponent } from './dashboard/patient/patientdashmessages/patientdashmessages.component';
+import { PatientdashvitalsComponent } from './dashboard/patient/patientdashvitals/patientdashvitals.component';
 
 export const routes: Routes = [
 
@@ -37,8 +51,31 @@ export const routes: Routes = [
                         pathMatch: 'full'
                     }
                 ]
+            },
+            {
+                path: 'patient', component: PatientComponent,
+                children: [
+                    { path: 'home', component: PatientdashhomeComponent },
+                    { path: 'appointments', component: PatientdashappointmentComponent },
+                    { path: 'book-appointment', component: PatientdashbookappointmentComponent },
+                    { path: 'medical-records', component: PatientdashmedicalrecordsComponent },
+                    { path: 'prescriptions', component: PatientdashprescriptionsComponent },
+                    { path: 'payments', component: PatientdashpaymentsComponent },
+                    { path: 'profile', component: PatientdashprofileComponent },
+                    { path: 'favourites', component: PatientdashfavouritesComponent },
+                    { path: 'dependants', component: PatientdashdependantsComponent },
+                    { path: 'wallet', component: PatientdashwalletComponent },
+                    { path: 'invoices', component: PatientdashinvoicesComponent },
+                    { path: 'messages', component: PatientdashmessagesComponent },
+                    { path: 'vitals', component: PatientdashvitalsComponent },
+                    {
+                        path: '', // default to home if no child is specified
+                        redirectTo: 'home',
+                        pathMatch: 'full'
+                    }
+                ]
              },
         ]
-     }, 
+     },
     { path: '', canActivate: [AuthRedirectGuard], component: LoginComponent },
 ];

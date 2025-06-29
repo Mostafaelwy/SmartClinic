@@ -1,0 +1,130 @@
+<div class="content" style="transform: none; min-height: 484.812px;">
+    <div class="container" style="transform: none;">
+
+        <div class="row" style="transform: none;">
+
+            <!-- Profile Sidebar -->
+            <div class="col-lg-4 col-xl-3 theiaStickySidebar"
+                style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+                <!-- Profile Sidebar -->
+
+                <!-- /Profile Sidebar -->
+
+                <div class="theiaStickySidebar"
+                    style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 300.5px;">
+                    <div class="profile-sidebar patient-sidebar profile-sidebar-new">
+                        <div class="widget-profile pro-widget-content">
+                            <div class="profile-info-widget">
+                                <a [routerLink]="['/dashboard/patient/profile']" class="booking-doc-img">
+                                    <img src="assets/img/doctors-dashboard/profile-06.jpg" alt="User Image">
+                                </a>
+                                <div class="profile-det-info">
+                                    <h3><a [routerLink]="['/dashboard/patient/profile']">Hendrita Hayes</a></h3>
+                                    <div class="patient-details">
+                                        <h5 class="mb-0">Patient ID : PT254654</h5>
+                                    </div>
+                                    <span>Female <i class="fa-solid fa-circle"></i> 32 years 03 Months</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dashboard-widget">
+                            <nav class="dashboard-menu">
+                                <ul>
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                        <a [routerLink]="['/dashboard/patient/home']">
+                                            <i class="isax isax-category-2"></i>
+                                            <span>Dashboard</span>
+                                        </a>
+                                    </li>
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                        <a [routerLink]="['/dashboard/patient/appointments']">
+                                            <i class="isax isax-calendar-1"></i>
+                                            <span>My Appointments</span>
+                                        </a>
+                                    </li>
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                        <a [routerLink]="['/dashboard/patient/favourites']">
+                                            <i class="isax isax-star-1"></i>
+                                            <span>Favourites</span>
+                                        </a>
+                                    </li>
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                        <a [routerLink]="['/dashboard/patient/dependants']">
+                                            <i class="isax isax-user-octagon"></i>
+                                            <span>Dependants</span>
+                                        </a>
+                                    </li>
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                        <a [routerLink]="['/dashboard/patient/medical-records']">
+                                            <i class="isax isax-note-21"></i>
+                                            <span>Medical Records</span>
+                                        </a>
+                                    </li>
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                        <a [routerLink]="['/dashboard/patient/wallet']">
+                                            <i class="isax isax-wallet-2"></i>
+                                            <span>Wallet</span>
+                                        </a>
+                                    </li>
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                        <a [routerLink]="['/dashboard/patient/invoices']">
+                                            <i class="isax isax-document-text"></i>
+                                            <span>Invoices</span>
+                                        </a>
+                                    </li>
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                        <a [routerLink]="['/dashboard/patient/messages']">
+                                            <i class="isax isax-messages-1"></i>
+                                            <span>Message</span>
+                                            <small class="unread-msg">7</small>
+                                        </a>
+                                    </li>
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                        <a [routerLink]="['/dashboard/patient/vitals']">
+                                            <i class="isax isax-note-1"></i>
+                                            <span>Vitals</span>
+                                        </a>
+                                    </li>
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                        <a [routerLink]="['/dashboard/patient/profile']">
+                                            <i class="isax isax-setting-2"></i>
+                                            <span>Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="login.html">
+                                            <i class="isax isax-logout"></i>
+                                            <span>Logout</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="resize-sensor"
+                        style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;">
+                        <div class="resize-sensor-expand"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                            <div
+                                style="position: absolute; left: 0px; top: 0px; transition: all; width: 295px; height: 2094px;">
+                            </div>
+                        </div>
+                        <div class="resize-sensor-shrink"
+                            style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;">
+                            <div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- / Profile Sidebar -->
+
+            <div class="col-lg-8 col-xl-9">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+
+    </div>
+
+</div>

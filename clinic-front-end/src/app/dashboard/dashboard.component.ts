@@ -12,19 +12,19 @@ import { JwtService } from '../services/jwt.service';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-  userRole:String|null = null; // This could come from a service or token
+  userRole: String | null = null; // This could come from a service or token
 
-  constructor(private router: Router, private jwtService:JwtService){}
+  constructor(private router: Router, private jwtService: JwtService) { }
   ngOnInit() {
     // Simulate role check (you can fetch from auth service or JWT)
     const role = this.jwtService.getRole();
     if (role) this.userRole = role.authority
     console.log(role);
     console.log(this.userRole)
-    if (this.userRole === 'DOCTOR') {
-      this.router.navigate(['dashboard/doctor']);
-    } else if (this.userRole === 'PATIENT') {
-      this.router.navigate(['dashboard/patient']);
-    }
+    // if (this.userRole === 'DOCTOR') {
+    //   this.router.navigate(['dashboard/doctor']);
+    // } else if (this.userRole === 'PATIENT') {
+    this.router.navigate(['dashboard/patient']);
+    // }
   }
 }
