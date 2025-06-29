@@ -10,202 +10,289 @@
         <div class="appointment-tabs">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="doctor-profile-settings.html">Basic Details</a>
+                    <a class="nav-link" [class.active]="activeTab === 'profile'" (click)="setActiveTab('profile')" href="javascript:void(0);">Basic Details</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="doctor-experience-settings.html">Experience</a>
+                    <a class="nav-link" [class.active]="activeTab === 'experience'" (click)="setActiveTab('experience')" href="javascript:void(0);">Experience</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="doctor-education-settings.html">Education</a>
+                    <a class="nav-link" [class.active]="activeTab === 'education'" (click)="setActiveTab('education')" href="javascript:void(0);">Education</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="doctor-awards-settings.html">Awards</a>
+                    <a class="nav-link" [class.active]="activeTab === 'awards'" (click)="setActiveTab('awards')" href="javascript:void(0);">Awards</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="doctor-insurance-settings.html">Insurances</a>
+                    <a class="nav-link" [class.active]="activeTab === 'insurances'" (click)="setActiveTab('insurances')" href="javascript:void(0);">Insurances</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="doctor-clinics-settings.html">Clinics</a>
+                    <a class="nav-link" [class.active]="activeTab === 'clinics'" (click)="setActiveTab('clinics')" href="javascript:void(0);">Clinics</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="doctor-business-settings.html">Business Hours</a>
+                    <a class="nav-link" [class.active]="activeTab === 'business'" (click)="setActiveTab('business')" href="javascript:void(0);">Business Hours</a>
                 </li>
             </ul>
         </div>
     </div>
     <!-- /Settings List -->
 
-    <div class="setting-title">
+    <div *ngIf="activeTab === 'profile'">
+      <div class="setting-title">
         <h5>Profile</h5>
-    </div>
+      </div>
 
-    <form [formGroup]="profileForm" (ngSubmit)="saveChanges()">
+      <form [formGroup]="profileForm" (ngSubmit)="saveChanges()">
         <div class="setting-card">
-            <div class="change-avatar img-upload">
-                <div class="profile-img">
-                    <img *ngIf="profileImage" [src]="profileImage" alt="Profile Image"
-                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                    <i *ngIf="!profileImage" class="fa-solid fa-file-image"></i>
-                </div>
-                <div class="upload-img">
-                    <h5>Profile Image</h5>
-                    <div class="imgs-load d-flex align-items-center">
-                        <div class="change-photo">
-                            Upload New
-                            <input type="file" class="upload" (change)="onFileSelected($event)" accept="image/*">
-                        </div>
-                        <a href="javascript:void(0);" class="upload-remove" (click)="removeProfileImage()">Remove</a>
-                    </div>
-                    <p class="form-text">Your Image should Below 4 MB, Accepted format jpg,png,svg</p>
-                </div>
+          <div class="change-avatar img-upload">
+            <div class="profile-img">
+              <img *ngIf="profileImage" [src]="profileImage" alt="Profile Image"
+                style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+              <i *ngIf="!profileImage" class="fa-solid fa-file-image"></i>
             </div>
+            <div class="upload-img">
+              <h5>Profile Image</h5>
+              <div class="imgs-load d-flex align-items-center">
+                <div class="change-photo">
+                  Upload New
+                  <input type="file" class="upload" (change)="onFileSelected($event)" accept="image/*">
+                </div>
+                <a href="javascript:void(0);" class="upload-remove" (click)="removeProfileImage()">Remove</a>
+              </div>
+              <p class="form-text">Your Image should Below 4 MB, Accepted format jpg,png,svg</p>
+            </div>
+          </div>
         </div>
         <div class="setting-title">
-            <h5>Information</h5>
+          <h5>Information</h5>
         </div>
         <div class="setting-card">
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="form-wrap">
-                        <label class="form-label">First Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" formControlName="firstName">
-                        <div *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched"
-                            class="text-danger">
-                            First name is required
-                        </div>
-                    </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-6">
+              <div class="form-wrap">
+                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="firstName">
+                <div *ngIf="profileForm.get('firstName')?.invalid && profileForm.get('firstName')?.touched"
+                  class="text-danger">
+                  First name is required
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="form-wrap">
-                        <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" formControlName="lastName">
-                        <div *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched"
-                            class="text-danger">
-                            Last name is required
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="form-wrap">
-                        <label class="form-label">Display Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" formControlName="displayName">
-                        <div *ngIf="profileForm.get('displayName')?.invalid && profileForm.get('displayName')?.touched"
-                            class="text-danger">
-                            Display name is required
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="form-wrap">
-                        <label class="form-label">Designation <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" formControlName="designation">
-                        <div *ngIf="profileForm.get('designation')?.invalid && profileForm.get('designation')?.touched"
-                            class="text-danger">
-                            Designation is required
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="form-wrap">
-                        <label class="form-label">Email Address <span class="text-danger">*</span></label>
-                        <input type="email" class="form-control" formControlName="emailAddress">
-                        <div *ngIf="profileForm.get('emailAddress')?.invalid && profileForm.get('emailAddress')?.touched"
-                            class="text-danger">
-                            Valid email address is required
-                        </div>
-                    </div>
-                </div>
+              </div>
             </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="form-wrap">
+                <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="lastName">
+                <div *ngIf="profileForm.get('lastName')?.invalid && profileForm.get('lastName')?.touched"
+                  class="text-danger">
+                  Last name is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="form-wrap">
+                <label class="form-label">Display Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="displayName">
+                <div *ngIf="profileForm.get('displayName')?.invalid && profileForm.get('displayName')?.touched"
+                  class="text-danger">
+                  Display name is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="form-wrap">
+                <label class="form-label">Designation <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" formControlName="designation">
+                <div *ngIf="profileForm.get('designation')?.invalid && profileForm.get('designation')?.touched"
+                  class="text-danger">
+                  Designation is required
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="form-wrap">
+                <label class="form-label">Email Address <span class="text-danger">*</span></label>
+                <input type="email" class="form-control" formControlName="emailAddress">
+                <div *ngIf="profileForm.get('emailAddress')?.invalid && profileForm.get('emailAddress')?.touched"
+                  class="text-danger">
+                  Valid email address is required
+                </div>
+              </div>
+            </div>
+          </div>
 
-            <!-- Phone Numbers -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-wrap">
-                        <label class="form-label">Phone Numbers <span class="text-danger">*</span></label>
-                        <div formArrayName="phoneNumbers">
-                            <div *ngFor="let phoneControl of phoneNumbersArray.controls; let i = index"
-                                class="d-flex align-items-center mb-2">
-                                <input type="text" class="form-control me-2" [formControlName]="i"
-                                    placeholder="Enter phone number">
-                                <button type="button" class="btn btn-danger btn-sm" (click)="removePhoneNumber(i)">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-secondary btn-sm mt-2" (click)="addPhoneNumber()">
-                            <i class="fa-solid fa-plus"></i> Add Phone Number
-                        </button>
-                    </div>
+          <!-- Phone Numbers -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-wrap">
+                <label class="form-label">Phone Numbers <span class="text-danger">*</span></label>
+                <div formArrayName="phoneNumbers">
+                  <div *ngFor="let phoneControl of phoneNumbersArray.controls; let i = index"
+                    class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" [formControlName]="i"
+                      placeholder="Enter phone number">
+                    <button type="button" class="btn btn-danger btn-sm" (click)="removePhoneNumber(i)">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
                 </div>
+                <button type="button" class="btn btn-secondary btn-sm mt-2" (click)="addPhoneNumber()">
+                  <i class="fa-solid fa-plus"></i> Add Phone Number
+                </button>
+              </div>
             </div>
+          </div>
 
-            <!-- Languages -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-wrap">
-                        <label class="form-label">Known Languages <span class="text-danger">*</span></label>
-                        <div formArrayName="languages">
-                            <div *ngFor="let languageControl of languagesArray.controls; let i = index"
-                                class="d-flex align-items-center mb-2">
-                                <input type="text" class="form-control me-2" [formControlName]="i"
-                                    placeholder="Enter language">
-                                <button type="button" class="btn btn-danger btn-sm" (click)="removeLanguage(i)">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-secondary btn-sm mt-2" (click)="addLanguage()">
-                            <i class="fa-solid fa-plus"></i> Add Language
-                        </button>
-                    </div>
+          <!-- Languages -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="form-wrap">
+                <label class="form-label">Known Languages <span class="text-danger">*</span></label>
+                <div formArrayName="languages">
+                  <div *ngFor="let languageControl of languagesArray.controls; let i = index"
+                    class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" [formControlName]="i"
+                      placeholder="Enter language">
+                    <button type="button" class="btn btn-danger btn-sm" (click)="removeLanguage(i)">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
                 </div>
+                <button type="button" class="btn btn-secondary btn-sm mt-2" (click)="addLanguage()">
+                  <i class="fa-solid fa-plus"></i> Add Language
+                </button>
+              </div>
             </div>
+          </div>
         </div>
 
         <div class="setting-title">
-            <h5>Memberships</h5>
+          <h5>Memberships</h5>
         </div>
         <div class="setting-card">
-            <div class="add-info membership-infos">
-                <div formArrayName="memberships">
-                    <div *ngFor="let membershipGroup of membershipsArray.controls; let i = index" [formGroupName]="i"
-                        class="row membership-content mb-3">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="form-wrap">
-                                <label class="form-label">Title <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" formControlName="title" placeholder="Add Title">
-                            </div>
-                        </div>
-                        <div class="col-lg-9 col-md-6">
-                            <div class="d-flex align-items-center">
-                                <div class="form-wrap w-100">
-                                    <label class="form-label">About Membership</label>
-                                    <input type="text" class="form-control" formControlName="about">
-                                </div>
-                                <div class="form-wrap ms-2">
-                                    <label class="col-form-label d-block">&nbsp;</label>
-                                    <a href="javascript:void(0);" class="trash-icon trash"
-                                        (click)="removeMembership(i)">Delete</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+          <div class="add-info membership-infos">
+            <div formArrayName="memberships">
+              <div *ngFor="let membershipGroup of membershipsArray.controls; let i = index" [formGroupName]="i"
+                class="row membership-content mb-3">
+                <div class="col-lg-3 col-md-6">
+                  <div class="form-wrap">
+                    <label class="form-label">Title <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" formControlName="title" placeholder="Add Title">
+                  </div>
                 </div>
+                <div class="col-lg-9 col-md-6">
+                  <div class="d-flex align-items-center">
+                    <div class="form-wrap w-100">
+                      <label class="form-label">About Membership</label>
+                      <input type="text" class="form-control" formControlName="about">
+                    </div>
+                    <div class="form-wrap ms-2">
+                      <label class="col-form-label d-block">&nbsp;</label>
+                      <a href="javascript:void(0);" class="trash-icon trash"
+                        (click)="removeMembership(i)">Delete</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="text-end">
-                <a href="javascript:void(0);" class="add-membership-info more-item" (click)="addMembership()">Add
-                    New</a>
-            </div>
+          </div>
+          <div class="text-end">
+            <a href="javascript:void(0);" class="add-membership-info more-item" (click)="addMembership()">Add
+              New</a>
+          </div>
         </div>
 
         <div class="modal-btn text-end">
-            <button type="button" class="btn btn-gray" (click)="cancelChanges()">Cancel</button>
-            <button type="submit" class="btn btn-primary prime-btn" [disabled]="profileForm.invalid || saving">
-                <span *ngIf="saving" class="spinner-border spinner-border-sm me-2" role="status"></span>
-                {{ saving ? 'Saving...' : 'Save Changes' }}
-            </button>
+          <button type="button" class="btn btn-gray" (click)="cancelChanges()">Cancel</button>
+          <button type="submit" class="btn btn-primary prime-btn" [disabled]="profileForm.invalid || saving">
+            <span *ngIf="saving" class="spinner-border spinner-border-sm me-2" role="status"></span>
+            {{ saving ? 'Saving...' : 'Save Changes' }}
+          </button>
         </div>
-    </form>
-    <!-- /Profile Settings -->
+      </form>
+    </div>
+
+    <div *ngIf="activeTab === 'clinics'">
+      <div class="dashboard-header border-0 mb-0">
+        <h3>Clinics</h3>
+        <ul>
+          <li>
+            <a href="#" class="btn btn-primary prime-btn add-clinics" (click)="addNewClinic(); $event.preventDefault();">Add New Clinic</a>
+          </li>
+        </ul>
+      </div>
+      <form>
+        <div class="accordions clinic-infos" id="list-accord">
+          <div *ngIf="clinics.length === 0" class="text-center">
+            <p>No clinics found</p>
+          </div>
+          <div *ngFor="let clinic of clinics; let i = index" class="user-accordion-item">
+            <a href="#" class="accordion-wrap" data-bs-toggle="collapse" [attr.data-bs-target]="'#clinic' + i">{{ clinic.clinicName }}</a>
+            <div class="accordion-collapse collapse" [id]="'clinic' + i" data-bs-parent="#list-accord">
+              <div class="content-collapse">
+                <div class="add-service-info">
+                  <div class="add-info">
+                    <div class="row align-items-center">
+                      <div class="col-md-12">
+                        <div class="form-wrap mb-2">
+                          <div class="change-avatar img-upload">
+                            <div class="profile-img">
+                              <img *ngIf="clinic.logo?.url" [src]="clinic.logo.url" alt="Clinic Logo" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                              <i *ngIf="!clinic.logo?.url" class="fa-solid fa-file-image"></i>
+                            </div>
+                            <div class="upload-img">
+                              <h5>Logo</h5>
+                              <div class="imgs-load d-flex align-items-center">
+                                <div class="change-photo">
+                                  Upload New
+                                  <input type="file" (change)="onClinicLogoSelected($event, clinic); onClinicChange(clinic.id)" [name]="'logo' + i" accept="image/*">
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Clinic Name</label>
+                          <input type="text" class="form-control" [(ngModel)]="clinic.clinicName" [name]="'clinicName' + i" (ngModelChange)="onClinicChange(clinic.id)">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Location</label>
+                          <input type="text" class="form-control" [(ngModel)]="clinic.location" [name]="'location' + i" (ngModelChange)="onClinicChange(clinic.id)">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Address</label>
+                          <input type="text" class="form-control" [(ngModel)]="clinic.address.street" [name]="'street' + i" placeholder="Street" (ngModelChange)="onClinicChange(clinic.id)">
+                          <input type="text" class="form-control mt-1" [(ngModel)]="clinic.address.city" [name]="'city' + i" placeholder="City" (ngModelChange)="onClinicChange(clinic.id)">
+                          <input type="text" class="form-control mt-1" [(ngModel)]="clinic.address.state" [name]="'state' + i" placeholder="State" (ngModelChange)="onClinicChange(clinic.id)">
+                          <input type="text" class="form-control mt-1" [(ngModel)]="clinic.address.country" [name]="'country' + i" placeholder="Country" (ngModelChange)="onClinicChange(clinic.id)">
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-wrap">
+                          <label class="col-form-label">Gallery</label>
+                          <div class="drop-file">
+                            <p>Drop files or Click to upload</p>
+                            <input type="file" multiple (change)="onClinicGallerySelected($event, clinic); onClinicChange(clinic.id)" [name]="'gallery' + i" accept="image/*">
+                          </div>
+                          <div class="view-imgs d-flex flex-wrap">
+                            <div class="view-img me-2 mb-2" *ngFor="let img of clinic.gellery; let j = index">
+                              <img [src]="img.url" alt="img" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+                              <a href="javascript:void(0);" (click)="removeClinicGalleryImage(clinic, j)">Remove</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
 
 </div>

@@ -206,6 +206,10 @@ public class DoctorController {
 	public BasicDetailes getBasicDetailes(@PathVariable Long doctorId) {
 		return doctorService.getBasicDetailes(doctorId);
 	}
+	@GetMapping("/me/basic-detailes")
+	public BasicDetailes getBasicDetailes() {
+		return doctorService.getBasicDetailes();
+	}
 	@PostMapping("/me/basic-detailes")
 	public BasicDetailes editBasicDetailes(@RequestBody @Valid DoctorBasicDetailesRequest request) {
 		return doctorService.editBasicDetailes(request);

@@ -143,4 +143,12 @@ export class DoctorService {
     );
   }
 
+  updateClinic(clinic: ClinicData): Observable<any> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post(API_ENDPOINTS.DOCTOR.MY_CLINICS, [clinic], { headers });
+  }
+
 }

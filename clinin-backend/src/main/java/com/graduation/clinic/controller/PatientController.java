@@ -117,9 +117,9 @@ public class PatientController {
 	public GetPatientProfileData setData(@RequestBody SetPatientProfileData request) {
 		return patientService.setPatientData(request);
 	}
-	@GetMapping("/{id}/appointments")
-	public Page<GetAppointmentsForOnePatient> getAppoinments(@PathVariable Long id ,@ModelAttribute FilterReservations filter,@ModelAttribute PageProperties p) {
-		return reservationService.getPatientAppointments(id,filter, p);
+	@GetMapping("/me/appointments")
+	public Page<GetAppointmentsForOnePatient> getAppoinments(@ModelAttribute FilterReservations filter,@ModelAttribute PageProperties p) {
+		return reservationService.getPatientAppointments(filter, p);
 	}
 	@GetMapping("/doctor/{id}/specialties")
 	public List<SpecialtiesAndServicesDto> getSpecialtiesAndServices(@PathVariable Long id){

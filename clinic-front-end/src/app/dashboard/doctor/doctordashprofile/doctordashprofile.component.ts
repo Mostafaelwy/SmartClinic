@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { DoctorService } from '../../../services/doctor/doctor.service';
 import { DoctorBasicDetailsResponse, DoctorBasicDetailsRequest, DoctorMembershipRequest } from '../../../../types';
+import { ClinicData } from '../../../../types';
 
 @Component({
   selector: 'app-doctordashprofile',
@@ -17,6 +18,9 @@ export class DoctordashprofileComponent implements OnInit {
   saving: boolean = false;
   profileImage: string | null = null;
   selectedFile: File | null = null;
+  activeTab: string = 'profile';
+  clinics: ClinicData[] = [];
+  editedClinicIds = new Set<number>();
 
   constructor(
     private doctorService: DoctorService,
@@ -26,6 +30,7 @@ export class DoctordashprofileComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.loadBasicDetails();
+    this.loadClinics();
   }
 
   private initializeForm(): void {
@@ -206,5 +211,87 @@ export class DoctordashprofileComponent implements OnInit {
   // Cancel changes
   cancelChanges(): void {
     this.loadBasicDetails(); // Reload original data
+  }
+
+  setActiveTab(tab: string) {
+    this.activeTab = tab;
+  }
+
+  loadClinics(): void {
+    this.doctorService.getClinics().subscribe({
+      next: (clinics) => {
+        this.clinics = clinics || [];
+      },
+      error: (error) => {
+        console.error('Error loading clinics:', error);
+        this.clinics = [];
+      }
+    });
+  }
+
+  onClinicChange(clinicId: number): void {
+    this.editedClinicIds.add(clinicId);
+  }
+
+  isClinicEdited(clinicId: number): boolean {
+    if (clinicId === null || clinicId === 0) {
+      return true;
+    }
+    return this.editedClinicIds.has(clinicId);
+  }
+
+  saveClinic(clinic: ClinicData): void {
+    this.doctorService.updateClinic(clinic).subscribe({
+      next: () => {
+        this.editedClinicIds.delete(clinic.id);
+        // Optionally show a success message
+      },
+      error: (err) => {
+        console.error('Failed to update clinic:', err);
+        // Optionally show an error message
+      }
+    });
+  }
+
+  onClinicLogoSelected(event: any, clinic: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        clinic.logo = { ...clinic.logo, url: e.target.result };
+        clinic._logoFile = file;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onClinicGallerySelected(event: any, clinic: any) {
+    const files = event.target.files;
+    if (files && files.length) {
+      (Array.from(files) as File[]).forEach((file: File) => {
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          clinic.gellery = clinic.gellery || [];
+          clinic.gellery.push({ url: e.target.result, _file: file });
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  }
+
+  removeClinicGalleryImage(clinic: any, index: number) {
+    clinic.gellery.splice(index, 1);
+  }
+
+  addNewClinic(): void {
+    this.clinics.push({
+      id: 0,
+      logo: { url: '', type: '', id: 0 },
+      clinicName: '',
+      address: { id: 0, country: '', state: '', city: '', street: '' },
+      location: '',
+      gellery: [],
+      workingHoursMap: {}
+    });
   }
 }
