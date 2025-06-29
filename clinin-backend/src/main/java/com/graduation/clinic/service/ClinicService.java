@@ -99,16 +99,26 @@ public class ClinicService {
 	
 	public List<GetClinic> getClinics(Long doctorId){
 		List<Clinic> clinicList=clinicRepo.findAllByDoctorId(doctorId);
-		
+
 		List<GetClinic> getClinics=new ArrayList<>();
 		for(int i=0;i<clinicList.size();i++) {
-			
+
 			List<Photo> photos=photoRepo.findAllById(clinicList.get(i).getGallery());
 			getClinics.add(new GetClinic(clinicList.get(i),photos));
-			
+
 		}
 		return getClinics;
 	}
+
+
+
+	public List<GetClinic> getCurrntDoctorClinics(){
+		Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+		Doctor doc=(Doctor)auth.getPrincipal();
+
+		return getClinics(doc.getId());
+	}
+
 	@Transactional(value = TxType.REQUIRES_NEW)
 	public void deleteClinic(Long clinicId) {
 		Authentication auth= SecurityContextHolder.getContext().getAuthentication();

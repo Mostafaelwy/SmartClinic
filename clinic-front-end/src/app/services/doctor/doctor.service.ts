@@ -112,7 +112,7 @@ export class DoctorService {
     });
 
     return this.http.get<ClinicData[]>(
-      API_ENDPOINTS.DOCTOR.CLINICS,
+      API_ENDPOINTS.DOCTOR.MY_CLINICS,
       { headers: headers }
     );
   }

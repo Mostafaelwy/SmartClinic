@@ -98,6 +98,14 @@ public class DoctorSpecialtiesService {
 		 }
 		 return listDto;
 	 }
+
+	public List<SpecialtiesAndServicesDto> findSpecialties(){
+		Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		Doctor doc=doctorRepo.findById(((Doctor) auth.getPrincipal()).getId()).orElseThrow();
+
+
+		return findSpecialties(doc.getId());
+	}
 	 
 	 
 	 
