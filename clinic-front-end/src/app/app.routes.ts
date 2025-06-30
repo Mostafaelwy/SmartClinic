@@ -29,6 +29,7 @@ import { PatientdashmessagesComponent } from './dashboard/patient/patientdashmes
 import { PatientdashvitalsComponent } from './dashboard/patient/patientdashvitals/patientdashvitals.component';
 import { DoctorSearchComponent } from './search/doctors/doctor-search.component';
 import { DoctorProfileComponent } from './doctor-profile.component';
+import { PatientdashsettingsComponent } from './dashboard/patient/patientdashsettings/patientdashsettings.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -70,6 +71,7 @@ export const routes: Routes = [
                     { path: 'invoices', component: PatientdashinvoicesComponent },
                     { path: 'messages', component: PatientdashmessagesComponent },
                     { path: 'vitals', component: PatientdashvitalsComponent },
+                    { path: 'settings', component: PatientdashsettingsComponent },
                     {
                         path: '', // default to home if no child is specified
                         redirectTo: 'home',
