@@ -15,22 +15,27 @@
               </div>
               <form (ngSubmit)="onSubmit()">
                 <div class="mb-3">
-                  <label class="form-label">Name</label>
-                  <input type="text" class="form-control" [(ngModel)]="name" name="name" required>
+                  <label class="form-label">First Name</label>
+                  <input type="text" class="form-control" [(ngModel)]="firstName" name="firstName" required>
                 </div>
                 <div class="mb-3">
-                  <label class="form-label">Phone</label>
-                  <input type="text" class="form-control" [(ngModel)]="phone" name="phone" required>
+                  <label class="form-label">Second Name</label>
+                  <input type="text" class="form-control" [(ngModel)]="secondName" name="secondName" required>
                 </div>
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input type="email" class="form-control" [(ngModel)]="email" name="email" required>
+                </div>   
                 <div class="mb-3">
                   <div class="form-group-flex">
                     <label class="form-label">Create Password</label>
                   </div>
-                  <div class="pass-group">
+                  <div class="pass-group"> 
                     <input type="password" class="form-control pass-input" [(ngModel)]="password" name="password" required>
                     <span class="feather-eye-off toggle-password"></span>
                   </div>
                 </div>
+                <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
                 <div class="mb-3">
                   <button class="btn btn-primary-gradient w-100" type="submit">Sign Up</button>
                 </div>

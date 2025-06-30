@@ -21,10 +21,10 @@ public class DoctorFilteration {
 	public DoctorFilteration(Gender sex, Double totalRating, Double lowPrice, Double highPrice, Integer experienceYears,
 			Specialties speciality) {
 		this.sex = sex;
-		this.totalRating = totalRating!=null? totalRating:0 ;
-		this.lowPrice = lowPrice!=null? lowPrice:0 ;
-		this.highPrice = highPrice!=null? highPrice:0 ;
-		this.experienceYears = experienceYears!=null? experienceYears:0  ;
+		this.totalRating = totalRating!=null? totalRating:null ;
+		this.lowPrice = lowPrice!=null? lowPrice:null ;
+		this.highPrice = highPrice!=null? highPrice:null ;
+		this.experienceYears = experienceYears!=null? experienceYears:null  ;
 		this.speciality = speciality;
 	}
 
@@ -32,19 +32,19 @@ public class DoctorFilteration {
 		return sex;
 	}
 
-	public double getTotalRating() {
+	public Double getTotalRating() {
 		return totalRating;
 	}
 
-	public double getLowPrice() {
+	public Double getLowPrice() {
 		return lowPrice;
 	}
 
-	public double getHighPrice() {
+	public Double getHighPrice() {
 		return highPrice;
 	}
 
-	public int getExperienceYears() {
+	public Integer getExperienceYears() {
 		return experienceYears;
 	}
 

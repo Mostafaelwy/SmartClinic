@@ -18,7 +18,7 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
-    "@ng-select/ng-select": "^13.2.0",
+    "@ng-select/ng-select": "^13.9.1",
     "bootstrap": "^5.3.7",
     "jwt-decode": "^4.0.0",
     "ngx-daterangepicker-material": "^6.0.4",

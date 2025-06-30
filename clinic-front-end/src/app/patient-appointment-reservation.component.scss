@@ -1,0 +1,31 @@
+// Add custom styles for patient appointment reservation component here 
+.selected-service {
+  border: 2px solid #007bff;
+  background-color: #eaf4ff;
+  border-radius: 8px;
+} 
+
+.ng-select {
+  min-width: 220px;
+  background: #fff;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 2px 8px;
+  margin-bottom: 12px;
+}
+
+.ng-select .ng-select-container {
+  border: none;
+  background: transparent;
+  min-height: 40px;
+  font-size: 1rem;
+}
+
+.ng-select .ng-arrow-wrapper .ng-arrow {
+  color: #007bff;
+}
+
+.ng-select.ng-select-focused .ng-select-container {
+  box-shadow: 0 0 0 2px #007bff33;
+} 

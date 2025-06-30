@@ -7,6 +7,7 @@ const API_ENDPOINTS_RAW = {
       _prefix: 'auth',
       LOGIN: '/login',
       DOCTOR_REGISTER: '/Doctor',
+      PATIENT_REGISTER: '/patient',
     },
     DOCTOR:{
       _prefix: 'smart/doctor',
@@ -28,7 +29,14 @@ const API_ENDPOINTS_RAW = {
       EDUCATION: '/me/education',
       PASSWORD: '/me/password',
       PROFILE_DATA: '/me/profile-data', 
-    }
+    },
+    PATIENT: {
+      _prefix: 'smart/patient',
+      DOCTORS: '/doctors',
+      DOCTOR_SPECIALTIES: '/doctor',
+      RESERVATION_CLINIC: '/me/reservation/clinic',
+      DOCTOR_CLINICS: '/doctor',
+    },
     // Add other endpoint groups as needed
   };
  

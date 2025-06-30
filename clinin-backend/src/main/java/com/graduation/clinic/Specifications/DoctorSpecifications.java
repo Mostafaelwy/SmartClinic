@@ -33,9 +33,9 @@ public class DoctorSpecifications {
 			return criteriaBuilder.between(Service.get("price"), lowPrice, highPrice);
 		};
 	}
-	public static Specification<Doctor> hasExperienceYears(int years){
+	public static Specification<Doctor> hasExperienceYears(Integer years){
 		return (root,query,criteriaBuilder)->years==0? null:
-			criteriaBuilder.greaterThanOrEqualTo(root.get("experienceYears"), years);	
+			criteriaBuilder.greaterThanOrEqualTo(root.get("experienceYears"), years);
 	}
 	public static Specification<Doctor>hasRate(double rate){
 		return (root,query,criteriaBuilder)->rate==0?null:

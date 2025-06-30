@@ -28,7 +28,6 @@
                                     <div class="mb-3">
                                         <div class="form-group-flex">
                                             <label class="form-label"  >Password</label>
-                                            <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
                                         </div>
                                         <div class="pass-group">
                                             <input type="password" class="form-control pass-input"  id="password" [(ngModel)]="password" #passwordI="ngModel" name="password">
@@ -38,24 +37,13 @@
                                         {{ loginError }}
                                         </div>
                                     </div>
-                                    <div class="mb-3 form-check-box">
-                                        <div class="form-group-flex">
-                                            <div class="form-check mb-0">
-                                                <input class="form-check-input" type="checkbox" id="remember" checked>
-                                                <label class="form-check-label" for="remember">
-                                                    Remember Me  
-                                                </label>
-                                            </div>												
-                                           
-                                        </div>
-                                    </div>
                                     <div class="mb-3">
                                         <button class="btn btn-primary-gradient w-100" type="submit">Sign in</button>
                                     </div>
                                   
                                     
                                     <div class="account-signup">
-                                        <p>Don't have an account ? <a href="register.html">Sign up</a></p>
+                                        <p>Don't have an account ? <a class="btn btn-link p-0 align-baseline" (click)="onSignUpClick()">Sign up</a></p>
                                     </div>
                                 </form>
                             </div>

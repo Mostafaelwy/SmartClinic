@@ -27,12 +27,14 @@ import { PatientdashwalletComponent } from './dashboard/patient/patientdashwalle
 import { PatientdashinvoicesComponent } from './dashboard/patient/patientdashinvoices/patientdashinvoices.component';
 import { PatientdashmessagesComponent } from './dashboard/patient/patientdashmessages/patientdashmessages.component';
 import { PatientdashvitalsComponent } from './dashboard/patient/patientdashvitals/patientdashvitals.component';
+import { DoctorSearchComponent } from './search/doctors/doctor-search.component';
+import { DoctorProfileComponent } from './doctor-profile.component';
 
 export const routes: Routes = [
-
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'doctor-register', component: DoctorRegisterComponent },
+    { path: 'doctor-search', component: DoctorSearchComponent, canActivate: [AuthGuardService], data: { roles: ['PATIENT'] } },
     { path: 'dashboard', component: DashboardComponent,
         children:[
             { path: 'doctor', component: DoctorComponent, canActivate: [AuthGuardService], data: { roles: ['DOCTOR'] },
@@ -77,5 +79,11 @@ export const routes: Routes = [
              },
         ]
      },
+    { path: 'doctor-profile', component: DoctorProfileComponent },
+    { path: 'reserve-appointment/:doctorId',
+      loadComponent: () => import('./patient-appointment-reservation.component').then(m => m.PatientAppointmentReservationComponent),
+      canActivate: [AuthGuardService],
+      data: { roles: ['PATIENT'] }
+    },
     { path: '', canActivate: [AuthRedirectGuard], component: LoginComponent },
 ];

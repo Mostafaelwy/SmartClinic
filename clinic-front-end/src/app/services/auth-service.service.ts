@@ -18,6 +18,18 @@ export class AuthServiceService {
       user)
   }
 
+  reserveAppointment(clinicId: number, reservationData: any): Observable<any> {
+    return this.httpClient.post(`${API_ENDPOINTS.PATIENT.RESERVATION_CLINIC}/${clinicId}`, reservationData);
+  }
+
+  getDoctorSpecialties(doctorId: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${API_ENDPOINTS.PATIENT.DOCTOR_SPECIALTIES}/${doctorId}/specialties`);
+  }
+
+  getDoctorClinics(doctorId: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(`${API_ENDPOINTS.PATIENT.DOCTOR_CLINICS}/${doctorId}/clinics`);
+  }
+
 }
 
 @Injectable({ providedIn: 'root' })
@@ -35,7 +47,10 @@ export class AuthGuardService implements CanActivate {
       const roles = this.jwtService.getClaim('roles') || [];
       const hasRole = roles.some((role: any) => expectedRoles.includes(role.authority));
       if (!hasRole) {
-        // Redirect to appropriate dashboard or login
+        // Redirect based on user role and expected route
+        if (roles.some((role: any) => role.authority === 'DOCTOR')) {
+          return this.router.createUrlTree(['/dashboard/doctor']);
+        }
         if (roles.some((role: any) => role.authority === 'PATIENT')) {
           return this.router.createUrlTree(['/dashboard/patient']);
         }

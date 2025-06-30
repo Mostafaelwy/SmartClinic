@@ -21,10 +21,10 @@ export class DashboardComponent {
     if (role) this.userRole = role.authority
     console.log(role);
     console.log(this.userRole)
-    // if (this.userRole === 'DOCTOR') {
-    //   this.router.navigate(['dashboard/doctor']);
-    // } else if (this.userRole === 'PATIENT') {
+    if (this.userRole === 'DOCTOR') {
+      this.router.navigate(['dashboard/doctor']);
+    } else if (this.userRole === 'PATIENT') {
     this.router.navigate(['dashboard/patient']);
-    // }
+    }
   }
 }

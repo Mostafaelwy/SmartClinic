@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { API_ENDPOINTS } from '../config/api-endpoints';
+import { JwtService } from '../services/jwt.service';
 
 @Component({
   selector: 'app-register',
@@ -11,19 +14,32 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  name: string = '';
-  phone: string = '';
+  firstName: string = '';
+  secondName: string = '';
+  email: string = '';
   password: string = '';
+  error: string | null = null;
 
-  constructor(private router: Router) {}
+  constructor(private http: HttpClient, private jwtService: JwtService, private router: Router) {}
 
   onSubmit() {
-    // Registration logic here
-    // For now, just log the values
-    console.log('Name:', this.name);
-    console.log('Phone:', this.phone);
-    console.log('Password:', this.password);
-    // TODO: Call registration API
+    const payload = {
+      firstName: this.firstName,
+      secondName: this.secondName,
+      email: this.email,
+      password: this.password
+    };
+    this.http.post<{ token: string }>(API_ENDPOINTS.AUTH.PATIENT_REGISTER, payload).subscribe({
+      next: (res) => {
+        if (res.token) {
+          this.jwtService.setToken(res.token);
+        }
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.error = err?.error?.message || 'Registration failed.';
+      }
+    });
   }
 
   goToLogin() {

@@ -1,0 +1,148 @@
+<!-- Static HTML for doctor search UI -->
+<!-- (Insert the provided HTML here) -->
+<div class="breadcrumb-bar overflow-visible">
+			<div class="container">
+				<div class="row align-items-center inner-banner">
+					<div class="col-md-12 col-12 text-center">
+						<nav aria-label="breadcrumb" class="page-breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="index.html"><i class="isax isax-home-15"></i></a></li>
+								<li class="breadcrumb-item">Doctor</li>
+								<li class="breadcrumb-item active">Doctor Grid Full Width</li>
+							</ol>
+							<h2 class="breadcrumb-title">Doctor Grid Full Width</h2>
+						</nav>
+					</div>
+				</div>
+				<div class="bg-primary-gradient rounded-pill doctors-search-box">
+					<div class="search-box-one rounded-pill">
+						<form action="#" (submit)="$event.preventDefault()">
+							<div class="search-input" style="width: 100%; cursor:pointer;" >
+								<i class="isax isax-hospital5 bficon"></i>
+								<div class="mb-0">
+									<input type="text" class="form-control" placeholder="Search for Doctors, Hospitals, Clinics" style="background:#fff;">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="breadcrumb-bg">
+				<img src="assets/img/bg/breadcrumb-bg-01.png" alt="img" class="breadcrumb-bg-01">
+				<img src="assets/img/bg/breadcrumb-bg-02.png" alt="img" class="breadcrumb-bg-02">
+				<img src="assets/img/bg/breadcrumb-icon.png" alt="img" class="breadcrumb-bg-03">
+				<img src="assets/img/bg/breadcrumb-icon.png" alt="img" class="breadcrumb-bg-04">
+			</div>
+		</div>
+<div class="content mt-5" style="min-height: 269.4px;">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-4">
+							<h3>Showing <span class="text-secondary">450</span> Doctors For You</h3>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="d-flex align-items-center justify-content-end mb-4">
+							<a class="btn btn-sm head-icon me-3" id="filter_search" (click)="toggleFilters()"><i class="isax isax-sort"></i></a>
+						</div>
+					</div>
+				</div>
+				<!-- Filter form toggled by showFilters -->
+				<form [hidden]="!showFilters" (ngSubmit)="onFilter()" class="row gx-3 align-items-end mb-0">
+					<div class="col-md-2">
+						<label>Sex</label>
+						<select class="form-control" [(ngModel)]="filter.sex" name="sex">
+							<option [ngValue]="null">Any</option>
+							<option value="male">Male</option>
+							<option value="female">Female</option>
+						</select>
+					</div>
+					<div class="col-md-2">
+						<label>Total Rating</label>
+						<input type="number" class="form-control" [(ngModel)]="filter.totalRating" name="totalRating" min="0" max="5" step="0.1" placeholder="Any">
+					</div>
+					<div class="col-md-2">
+						<label>Low Price</label>
+						<input type="number" class="form-control" [(ngModel)]="filter.lowPrice" name="lowPrice" min="0" placeholder="Any">
+					</div>
+					<div class="col-md-2">
+						<label>High Price</label>
+						<input type="number" class="form-control" [(ngModel)]="filter.highPrice" name="highPrice" min="0" placeholder="Any">
+					</div>
+					<div class="col-md-2">
+						<label>Experience Years</label>
+						<input type="number" class="form-control" [(ngModel)]="filter.experienceYears" name="experienceYears" min="0" placeholder="Any">
+					</div>
+					<div class="col-md-2">
+						<label>Speciality</label>
+						<select class="form-control" [(ngModel)]="filter.speciality" name="speciality">
+							<option [ngValue]="null">Any</option>
+							<option *ngFor="let s of specialties" [value]="s">{{ s }}</option>
+						</select>
+					</div>
+				</form>
+				<div class="row mb-4">
+					<div class="col-md-12 mt-2">
+						<button class="btn btn-primary" (click)="onFilter()">Search</button>
+						<button class="btn btn-secondary ms-2" type="button" (click)="clearFilters()">Clear</button>
+					</div>
+				</div>
+				<div class="row">
+					<ng-container *ngIf="doctors && doctors.length; else noDoctors">
+						<div class="col-xxl-3 col-lg-4 col-md-6" *ngFor="let doctor of doctors">
+							<div class="card">
+								<div class="card-img card-img-hover">
+									<a href="#"><img [src]="doctor.imageUrl || 'assets/img/doctor-grid/doctor-grid-01.jpg'" alt=""></a>
+									<div class="grid-overlay-item d-flex align-items-center justify-content-between">
+										<span class="badge bg-orange"><i class="fa-solid fa-star me-1"></i>{{ doctor.totalRating || 'N/A' }}</span>
+									</div>
+								</div>
+								<div class="card-body p-0">
+									<div class="d-flex active-bar align-items-center justify-content-between p-3">
+										<a href="#" class="fw-medium fs-14">{{ doctor.speciality || 'Speciality' }}</a>
+										<span class="badge bg-success-light d-inline-flex align-items-center">
+											<i class="fa-solid fa-circle fs-5 me-1"></i>
+											{{ doctor.available ? 'Available' : 'Unavailable' }}
+										</span>
+									</div>
+									<div class="p-3 pt-0">
+										<div class="doctor-info-detail mb-3 pb-3">
+											<h3 class="mb-1"><a href="#">{{ doctor.name || (doctor.firstName + ' ' + doctor.secondName) }}</a></h3>
+											<div class="d-flex align-items-center">
+												<p class="d-flex align-items-center mb-0 fs-14"><i class="isax isax-location me-2"></i>{{ doctor.location || 'Location' }}</p>
+												<i class="fa-solid fa-circle fs-5 text-primary mx-2 me-1"></i>
+												<span class="fs-14 fw-medium">{{ doctor.consultationTime || '30 Min' }}</span>
+											</div>
+										</div>
+										<div class="d-flex align-items-center justify-content-between">
+											<div>
+												<p class="mb-1">Consultation Fees</p>
+												<h3 class="text-orange">{{ doctor.fees || '$0' }}</h3>
+											</div>
+											<a href="#" class="btn btn-md btn-dark d-inline-flex align-items-center rounded-pill">
+												<i class="isax isax-calendar-1 me-2"></i>
+												Book Now
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ng-container>
+					<ng-template #noDoctors>
+						<div class="col-12 text-center py-5">
+							<p>No doctors found.</p>
+						</div>
+					</ng-template>
+				</div>
+				<div class="col-md-12" *ngIf="hasMorePages">
+					<div class="text-center mb-4">
+						<button (click)="loadMore()" class="btn btn-md btn-primary-gradient d-inline-flex align-items-center rounded-pill">
+							<i class="isax isax-d-cube-scan5 me-2"></i>
+							Load More Doctors
+						</button>
+					</div>
+				</div>
+			</div>
+		</div> 

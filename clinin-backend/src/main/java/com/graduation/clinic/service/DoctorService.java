@@ -146,10 +146,11 @@ public class DoctorService {
 	 public Page<DoctorData> doctorSearch(DoctorFilteration filter,PageProperties p) {
 		 Pageable page=PageRequest.of(p.getPageNum(), p.getPageSize(),p.getDir(),p.getSortAttripute());
 		 Page<Doctor> docPage=doctorRepo.findAll(
-				 Specification.where(DoctorSpecifications.hasExperienceYears(filter.getExperienceYears()))
+				 Specification.where(
+						 DoctorSpecifications.hasExperienceYears(filter.getExperienceYears()!=null?filter.getExperienceYears():0))
 				 			.and(DoctorSpecifications.hasGender(filter.getSex()))
-				 			.and(DoctorSpecifications.hasRate(filter.getTotalRating()))
-				 			.and(DoctorSpecifications.hasServicePrice(filter.getLowPrice(), filter.getHighPrice()))
+				 			.and(DoctorSpecifications.hasRate(filter.getTotalRating()!=null?filter.getTotalRating():0))
+				 			.and(DoctorSpecifications.hasServicePrice(filter.getLowPrice()!=null?filter.getLowPrice():0, filter.getHighPrice()!=null?filter.getHighPrice():0))
 				 			.and(DoctorSpecifications.hasSpeciality(filter.getSpeciality()))
 				 ,page );
 		 
