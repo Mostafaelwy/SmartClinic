@@ -48,8 +48,10 @@ public class DoctorData {
 		this.totalRating = doc.getTotalRating();
 		this.firstName = doc.getFirstName();
 		this.SecondName = doc.getSecondName();
-		this.speciality=doc.getDoctorSpecilization().get(0).getSpeciality();
-		this.photo=new  GetPhoto(doc.getProfilePhoto());
+		if (!doc.getDoctorSpecilization().isEmpty())
+			this.speciality=doc.getDoctorSpecilization().getFirst().getSpeciality();
+		if (doc.getProfilePhoto() != null)
+			this.photo=new  GetPhoto(doc.getProfilePhoto());
 		this.languages=doc.getLanguages();
 		
 	}

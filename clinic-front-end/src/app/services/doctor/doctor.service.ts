@@ -232,6 +232,36 @@ export class DoctorService {
     return this.http.post(`${API_ENDPOINTS.PATIENT.POST_DOCTOR_REVIEW}/${doctorId}`, { rate, review });
   }
 
+  getAppointmentReservationDetails(reservationId: string): Observable<DoctorAppointmentReservationDetails> {
+    return this.http.get<DoctorAppointmentReservationDetails>(`${API_ENDPOINTS.DOCTOR.APPOINTMENT_RESERVATION_DETAILS}/${reservationId}`);
+  }
+
+  /**
+   * Post appointment details for a reservation
+   */
+  postAppointmentDetails(reservationId: string, details: {
+    clinicalNotes: string;
+    laboratoryTests: string[];
+    complaints: string[];
+    medications: {
+      name: string;
+      duration: string;
+      instructions: string;
+      dosage: string;
+    }[];
+    advice: string;
+    followUp: string;
+    previousMedicalHistory: string;
+  }): Observable<any> {
+    const token = this.jwtService.getToken();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+    const url = `${API_ENDPOINTS.DOCTOR.APPOINTMENT_DETAILS}/${reservationId}`;
+    return this.http.post(url, details, { headers });
+  }
+
 }
 
 export interface DoctorEducation {
@@ -311,4 +341,42 @@ export interface DoctorReviewsResponse {
   numberOfElements: number;
   first: boolean;
   last: boolean;
+}
+
+export interface DoctorAppointmentReservationDetails {
+  patient: {
+    id: number;
+    firstName: string;
+    secondName: string;
+    sex: string;
+    age: number;
+    address: {
+      id: number;
+      country: string;
+      state: string;
+      city: string;
+      street: string;
+    };
+    userName: string;
+    phoneNumbers: string[];
+    blood: string;
+  };
+  patientVisitsNum: number;
+  appointmentDate: string;
+  appointmentTime: {
+    hour: number;
+    minute: number;
+    second: number;
+    nano: number;
+  };
+  clinicName: string;
+  clinicLocation: {
+    id: number;
+    country: string;
+    state: string;
+    city: string;
+    street: string;
+  };
+  visitType: string;
+  cost: number;
 }

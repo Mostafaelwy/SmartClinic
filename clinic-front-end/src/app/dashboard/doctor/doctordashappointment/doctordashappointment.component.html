@@ -92,9 +92,9 @@
                     </li> -->
                     <li class="appointment-action">
                         <ul>
-                            <li>
+                            <!-- <li>
                                 <a href="doctor-upcoming-appointment.html">appontment details to impl<i class="isax isax-eye4"></i></a>
-                            </li>
+                            </li> -->
                             <!-- <li>
                                 <a href="#"><i class="isax isax-messages-25"></i></a>
                             </li> -->
@@ -104,7 +104,7 @@
                         </ul>
                     </li>
                     <li class="appointment-start">
-                        <a href="doctor-appointment-start.html" class="start-link">Start Now need impl</a>
+                        <a [routerLink]="['/dashboard/doctor/appointments', reservation.id]" class="start-link">Start Now</a>
                     </li>
                 </ul>
             </div>
@@ -171,9 +171,9 @@
                     </li> -->
                     <li class="appointment-action">
                         <ul>
-                            <li>
+                            <!-- <li>
                                 <a href="doctor-upcoming-appointment.html">appontment details to impl<i class="isax isax-eye4"></i></a>
-                            </li>
+                            </li> -->
                             <!-- <li>
                                 <a href="#"><i class="isax isax-messages-25"></i></a>
                             </li> -->
@@ -182,13 +182,17 @@
                             </li> -->
                         </ul>
                     </li>
-                    <li class="appointment-start">
+                    <!-- <li class="appointment-start">
                         <a href="doctor-appointment-start.html" class="start-link">Start Now need impl</a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <!-- /Appointment List -->
-            <div *ngFor="let reservation of reservationItems" class="appointment-wrap" class="appointment-wrap">
+        </div>
+        <div class="tab-pane fade" id="pills-complete"
+            [class.active]="selectedStatus == ReservationStatus.COMPLETED"
+         role="tabpanel" aria-labelledby="pills-complete-tab">
+            <div *ngFor="let reservation of reservationItems" class="appointment-wrap">
                 <ul>
                     <li>
                         <div class="patinet-information">
@@ -205,44 +209,20 @@
                         <p><i class="isax isax-clock5"></i>{{ reservation.reservationDate | date:'dd MMM yyyy hh:mm a' }}</p>
                         <ul class="d-flex apponitment-types">
                             <li>{{ reservation.visitType }}</li>
-                            <!-- <li>Video Call</li> -->
                         </ul>
-
                     </li>
-                    <!-- <li class="mail-info-patient">
-                        <ul>
-                            <li><i class="isax isax-sms5"></i>adran&#64;example.com</li>
-                            <li><i class="isax isax-call5"></i>+1 504 368 6874</li>
-                        </ul>
-                    </li> -->
                     <li class="appointment-action">
                         <ul>
-                            <li>
+                            <!-- <li>
                                 <a href="doctor-upcoming-appointment.html">appontment details to impl<i class="isax isax-eye4"></i></a>
-                            </li>
-                            <!-- <li>
-                                <a href="#"><i class="isax isax-messages-25"></i></a>
-                            </li> -->
-                            <!-- <li>
-                                <a href="#"><i class="isax isax-close-circle5"></i></a>
                             </li> -->
                         </ul>
                     </li>
-                    <li class="appointment-start">
-                        <a href="doctor-appointment-start.html" class="start-link">Start Now need impl</a>
-                    </li>
+                    <!-- <li class="appointment-start">
+                        <a [routerLink]="['/dashboard/doctor/appointments', reservation.id]" class="start-link">Start Now</a>
+                    </li> -->
                 </ul>
             </div>
-            <!-- Pagination -->
-
-            <!-- /Pagination -->
-        </div>
-        <div class="tab-pane fade" id="pills-complete"
-            [class.active]="selectedStatus == ReservationStatus.COMPLETED"
-         role="tabpanel" aria-labelledby="pills-complete-tab">
-
-
-
         </div>
     </div>
 </div>

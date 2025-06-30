@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AppointmentService, Appointment, AppointmentResponse } from '../../../services/appointment.service';
 import { PrescriptionService, Prescription, PrescriptionResponse } from '../../../services/prescription.service';
 import { PatientService, PatientProfile } from '../../../services/patient.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-patientdashhome',
@@ -34,7 +35,8 @@ export class PatientdashhomeComponent implements OnInit {
     constructor(
         private appointmentService: AppointmentService,
         private prescriptionService: PrescriptionService,
-        private patientService: PatientService
+        private patientService: PatientService,
+        private router: Router
     ) {
 
     }
@@ -245,5 +247,9 @@ export class PatientdashhomeComponent implements OnInit {
             default:
                 return 'isax-hospital5';
         }
+    }
+
+    goToDoctorSearch(): void {
+        this.router.navigate(['/doctor-search']);
     }
 } 

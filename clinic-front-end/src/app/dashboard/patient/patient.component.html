@@ -18,16 +18,17 @@
                             <div class="profile-info-widget">
                                 <a [routerLink]="['/dashboard/patient/profile']" class="booking-doc-img">
                                     <img [src]="getPatientImageUrl(patientProfile?.photo)"
-                                        [alt]="patientProfile?.name || 'Patient'">
+                                        [alt]="(patientProfile?.firstName || '') + ' ' + (patientProfile?.lastName || '') || 'Patient'">
                                 </a>
                                 <div class="profile-det-info">
-                                    <h3><a [routerLink]="['/dashboard/patient/profile']">{{patientProfile?.name ||
-                                            'Loading...'}}</a></h3>
+                                    <h3><a [routerLink]="['/dashboard/patient/profile']">{{(patientProfile?.firstName || '') + ' ' + (patientProfile?.lastName || '') || 'Loading...'}}</a></h3>
                                     <div class="patient-details">
                                         <h5 class="mb-0">Patient ID : PT{{patientProfile?.patientId || 'N/A'}}</h5>
                                     </div>
-                                    <span>{{patientProfile?.sex || 'N/A'}} <i class="fa-solid fa-circle"></i>
-                                        {{formatAge(patientProfile?.age || 0)}}</span>
+                                    <span>
+                                        <i class="fa-solid fa-circle"></i>
+                                        {{ patientAge }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -35,9 +36,9 @@
                             <nav class="dashboard-menu">
                                 <ul>
                                     <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/patient/home']">
-                                            <i class="isax isax-category-2"></i>
-                                            <span>Dashboard</span>
+                                        <a [routerLink]="['/dashboard/patient/ai-predict']">
+                                            <i class="isax isax-brain"></i>
+                                            <span>AI Predict</span>
                                         </a>
                                     </li>
                                     <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">

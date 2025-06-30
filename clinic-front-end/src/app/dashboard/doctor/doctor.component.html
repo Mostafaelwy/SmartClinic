@@ -58,12 +58,6 @@
                                             <span>Available Timings</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="my-patients.html">
-                                            <i class="fa-solid fa-user-injured"></i>
-                                            <span>My Patients</span>
-                                        </a>
-                                    </li>
                                     <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
 
                                         <a [routerLink]="['/dashboard/doctor/speciality-service']">
@@ -121,6 +115,12 @@
                                         <a [routerLink]="['/dashboard/doctor/change-password']">
                                             <i class="isax isax-key"></i>
                                             <span>Change Password</span>
+                                        </a>
+                                    </li>
+                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                        <a [routerLink]="['/dashboard/doctor/ai-predict']">
+                                            <i class="isax isax-brain"></i>
+                                            <span>AI Predict</span>
                                         </a>
                                     </li>
                                     <li>

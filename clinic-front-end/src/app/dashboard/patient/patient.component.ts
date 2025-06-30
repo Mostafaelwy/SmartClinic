@@ -71,4 +71,19 @@ export class PatientComponent implements OnInit {
         const months = age % 12;
         return `${years} years ${months} months`;
     }
+
+    get patientAge(): string {
+        if (this.patientProfile?.dateOfBirth) {
+            const dob = new Date(this.patientProfile.dateOfBirth);
+            const age = this.calculateAge(dob);
+            return this.formatAge(age);
+        }
+        return 'N/A';
+    }
+
+    private calculateAge(dob: Date): number {
+        const diff = Date.now() - dob.getTime();
+        const ageDate = new Date(diff);
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
 } 

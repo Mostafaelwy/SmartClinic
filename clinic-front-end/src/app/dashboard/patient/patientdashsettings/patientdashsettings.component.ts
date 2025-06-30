@@ -169,7 +169,7 @@ export class PatientdashsettingsComponent implements OnInit {
         const phoneNumbers = this.formData.phoneNumbers.filter(phone => phone.trim() !== '');
 
         const request: UpdateProfileRequest = {
-            photo: this.patientProfile?.photo || { type: '', id: 0, url: '' },
+            photo: (this.patientProfile?.photo as any) || { type: '', id: null, url: '' },
             firstName: this.formData.firstName,
             lastName: this.formData.lastName,
             dateOfBirth: this.formData.dateOfBirth,
@@ -303,5 +303,23 @@ export class PatientdashsettingsComponent implements OnInit {
             return `${this.patientProfile.firstName || ''} ${this.patientProfile.lastName || ''}`.trim();
         }
         return '';
+    }
+
+    onPhotoSelected(event: any): void {
+        const file: File = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+                const newPhoto = {
+                    type: file.type,
+                    id: null,
+                    url: e.target.result.split(',')[1] // base64
+                } as any; // Cast as any to allow id: null
+                if (this.patientProfile) {
+                    this.patientProfile.photo = newPhoto;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
     }
 } 

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../../../shared/sharedModule';
 import { DoctorService } from '../../../services/doctor/doctor.service';
 import { PagingFilter, ReservationFilter, ReservationItem, ReservationStatus } from '../../../../types';
+import { RouterModule } from '@angular/router';
 const DEFAULT_DATERANGEPICKER_CONFIG = {
   separator: ' - ',
   format: 'MM/DD/YYYY',
@@ -18,7 +19,8 @@ const DEFAULT_DATERANGEPICKER_CONFIG = {
   imports: [
     CommonModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    RouterModule
   ],
   templateUrl: './doctordashappointment.component.html',
   styleUrl: './doctordashappointment.component.scss'
@@ -44,6 +46,8 @@ export class DoctordashappointmentComponent {
 
   ngOnInit(){
     this.initializeLast7Days();
+    this._reservationFilter.status = this.selectedStatus;
+    this.loadReservations();
   }
 
   initializeLast7Days(): void {

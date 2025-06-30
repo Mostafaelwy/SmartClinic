@@ -25,7 +25,8 @@ public class GetPatientProfileData {
 	
 	public GetPatientProfileData(Patient p) {
 		this.patientId=p.getId();
-		this.photo = new GetPhoto(p.getProfilePhoto());
+		if (p.getProfilePhoto() != null)
+			this.photo = new GetPhoto(p.getProfilePhoto());
 		this.firstName = p.getFirstName();
 		this.lastName = p.getSecondName();
 		this.dateOfBirth = p.getDateOfBirth();

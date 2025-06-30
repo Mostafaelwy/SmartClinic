@@ -20,7 +20,7 @@
 							<div class="search-input" style="width: 100%; cursor:pointer;" >
 								<i class="isax isax-hospital5 bficon"></i>
 								<div class="mb-0">
-									<input type="text" class="form-control" placeholder="Search for Doctors, Hospitals, Clinics" style="background:#fff;">
+									<input type="text" class="form-control" placeholder="Search for Doctors, Hospitals, Clinics" style="background:#fff;" [(ngModel)]="filter.name" name="name">
 								</div>
 							</div>
 						</form>
@@ -37,11 +37,6 @@
 <div class="content mt-5" style="min-height: 269.4px;">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-6">
-						<div class="mb-4">
-							<h3>Showing <span class="text-secondary">450</span> Doctors For You</h3>
-						</div>
-					</div>
 					<div class="col-md-6">
 						<div class="d-flex align-items-center justify-content-end mb-4">
 							<a class="btn btn-sm head-icon me-3" id="filter_search" (click)="toggleFilters()"><i class="isax isax-sort"></i></a>
@@ -93,7 +88,7 @@
 						<div class="col-xxl-3 col-lg-4 col-md-6" *ngFor="let doctor of doctors">
 							<div class="card">
 								<div class="card-img card-img-hover">
-									<a href="#"><img [src]="doctor.imageUrl || 'assets/img/doctor-grid/doctor-grid-01.jpg'" alt=""></a>
+									<a (click)="goToDoctorProfile(doctor)" style="cursor:pointer;"><img [src]="doctor.imageUrl || 'assets/img/doctor-grid/doctor-grid-01.jpg'" alt=""></a>
 									<div class="grid-overlay-item d-flex align-items-center justify-content-between">
 										<span class="badge bg-orange"><i class="fa-solid fa-star me-1"></i>{{ doctor.totalRating || 'N/A' }}</span>
 									</div>
@@ -108,7 +103,7 @@
 									</div>
 									<div class="p-3 pt-0">
 										<div class="doctor-info-detail mb-3 pb-3">
-											<h3 class="mb-1"><a href="#">{{ doctor.name || (doctor.firstName + ' ' + doctor.secondName) }}</a></h3>
+											<h3 class="mb-1"><a (click)="goToDoctorProfile(doctor)" style="cursor:pointer;">{{ doctor.name || (doctor.firstName + ' ' + doctor.secondName) }}</a></h3>
 											<div class="d-flex align-items-center">
 												<p class="d-flex align-items-center mb-0 fs-14"><i class="isax isax-location me-2"></i>{{ doctor.location || 'Location' }}</p>
 												<i class="fa-solid fa-circle fs-5 text-primary mx-2 me-1"></i>
@@ -120,7 +115,7 @@
 												<p class="mb-1">Consultation Fees</p>
 												<h3 class="text-orange">{{ doctor.fees || '$0' }}</h3>
 											</div>
-											<a href="#" class="btn btn-md btn-dark d-inline-flex align-items-center rounded-pill">
+											<a (click)="bookAppointment(doctor)" class="btn btn-md btn-dark d-inline-flex align-items-center rounded-pill" style="cursor:pointer;">
 												<i class="isax isax-calendar-1 me-2"></i>
 												Book Now
 											</a>

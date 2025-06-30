@@ -51,7 +51,7 @@
                                         <label for="profile-image-upload" class="upload-btn">
                                             <i class="isax isax-camera"></i>
                                         </label>
-                                        <input type="file" id="profile-image-upload" class="d-none" accept="image/*">
+                                        <input type="file" id="profile-image-upload" class="d-none" accept="image/*" (change)="onPhotoSelected($event)">
                                     </div>
                                 </div>
                                 <h4>{{getFullName()}}</h4>

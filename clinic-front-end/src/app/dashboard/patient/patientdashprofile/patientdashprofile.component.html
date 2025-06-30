@@ -1,1 +1,59 @@
- 
+<div *ngIf="loading" class="text-center py-4">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <p>Loading profile...</p>
+</div>
+<div *ngIf="!loading && profile" class="profile-form-container">
+  <form autocomplete="off">
+    <div class="mb-3 text-center">
+      <img *ngIf="profile.photo?.url" [src]="'data:' + profile.photo.type + ';base64,' + profile.photo.url" alt="Profile Photo" class="rounded-circle" width="120" height="120">
+      <div>
+        <input type="file" accept="image/*" (change)="onPhotoSelected($event)">
+      </div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label>First Name</label>
+        <input class="form-control" [(ngModel)]="profile.firstName" name="firstName" (ngModelChange)="onFieldChange()">
+      </div>
+      <div class="col-md-6">
+        <label>Last Name</label>
+        <input class="form-control" [(ngModel)]="profile.lastName" name="lastName" (ngModelChange)="onFieldChange()">
+      </div>
+      <div class="col-md-6">
+        <label>Date of Birth</label>
+        <input class="form-control" type="date" [(ngModel)]="profile.dateOfBirth" name="dateOfBirth" (ngModelChange)="onFieldChange()">
+      </div>
+      <div class="col-md-6">
+        <label>Email</label>
+        <input class="form-control" type="email" [(ngModel)]="profile.emailAddress" name="emailAddress" (ngModelChange)="onFieldChange()">
+      </div>
+      <div class="col-md-6">
+        <label>Phone Numbers</label>
+        <input class="form-control" [(ngModel)]="profile.phoneNumbers[0]" name="phoneNumber" (ngModelChange)="onFieldChange()">
+      </div>
+      <div class="col-md-6">
+        <label>Group</label>
+        <input class="form-control" [(ngModel)]="profile.groub" name="groub" (ngModelChange)="onFieldChange()">
+      </div>
+      <div class="col-md-3">
+        <label>Country</label>
+        <input class="form-control" [(ngModel)]="profile.address.country" name="country" (ngModelChange)="onFieldChange()">
+      </div>
+      <div class="col-md-3">
+        <label>State</label>
+        <input class="form-control" [(ngModel)]="profile.address.state" name="state" (ngModelChange)="onFieldChange()">
+      </div>
+      <div class="col-md-3">
+        <label>City</label>
+        <input class="form-control" [(ngModel)]="profile.address.city" name="city" (ngModelChange)="onFieldChange()">
+      </div>
+      <div class="col-md-3">
+        <label>Street</label>
+        <input class="form-control" [(ngModel)]="profile.address.street" name="street" (ngModelChange)="onFieldChange()">
+      </div>
+    </div>
+  </form>
+</div>
+<div *ngIf="error" class="alert alert-danger mt-3">{{ error }}</div> 

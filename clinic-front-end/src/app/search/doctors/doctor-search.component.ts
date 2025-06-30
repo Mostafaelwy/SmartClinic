@@ -3,6 +3,7 @@ import { DoctorSearchService } from './doctor-search.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Specialties } from '../../../types';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctor-search',
@@ -19,7 +20,8 @@ export class DoctorSearchComponent implements OnInit {
     lowPrice: null,
     highPrice: null,
     experienceYears: null,
-    speciality: null
+    speciality: null,
+    name: ''
   };
   paging = {
     pageNum: 0,
@@ -31,7 +33,7 @@ export class DoctorSearchComponent implements OnInit {
   specialties = Object.values(Specialties);
   showFilters = false;
 
-  constructor(private doctorSearchService: DoctorSearchService) {}
+  constructor(private doctorSearchService: DoctorSearchService, private router: Router) {}
 
   ngOnInit() {
     this.fetchDoctors();
@@ -53,7 +55,8 @@ export class DoctorSearchComponent implements OnInit {
       lowPrice: null,
       highPrice: null,
       experienceYears: null,
-      speciality: null
+      speciality: null,
+      name: ''
     };
     this.paging.pageNum = 0;
     this.fetchDoctors();
@@ -78,5 +81,13 @@ export class DoctorSearchComponent implements OnInit {
 
   get hasMorePages() {
     return this.totalPages === null ? true : this.paging.pageNum < this.totalPages - 1;
+  }
+
+  bookAppointment(doctor: any) {
+    this.router.navigate(['/reserve-appointment', doctor.id || doctor.doctorId]);
+  }
+
+  goToDoctorProfile(doctor: any) {
+    this.router.navigate(['/doctor', doctor.id || doctor.doctorId]);
   }
 } 

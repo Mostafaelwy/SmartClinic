@@ -28,7 +28,9 @@ const API_ENDPOINTS_RAW = {
       EXPERIENCE: '/me/experience',
       EDUCATION: '/me/education',
       PASSWORD: '/me/password',
-      PROFILE_DATA: '/me/profile-data', 
+      PROFILE_DATA: '/me/profile-data',
+      APPOINTMENT_RESERVATION_DETAILS: '/me/appointment/reservation',
+      APPOINTMENT_DETAILS: '/me/appointment',
     },
     PATIENT: {
       _prefix: 'smart/patient',
