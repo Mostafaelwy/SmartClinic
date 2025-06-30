@@ -1,6 +1,9 @@
 package com.graduation.clinic.dto;
 
+import java.util.List;
+
 import com.graduation.clinic.entity.Doctor;
+import com.graduation.clinic.entity.Languages;
 import com.graduation.clinic.entity.Specialties;
 
 public class DoctorData {
@@ -11,6 +14,8 @@ public class DoctorData {
 	private String SecondName;
 	private Specialties speciality;
 	private GetPhoto photo;
+	private List<Languages> languages;
+	
 	
 	
 	
@@ -34,6 +39,10 @@ public class DoctorData {
 	public GetPhoto getPhoto() {
 		return photo;
 	}
+	
+	public List<Languages> getLanguages() {
+		return languages;
+	}
 	public DoctorData(Doctor doc) {
 		this.id=doc.getId();
 		this.totalRating = doc.getTotalRating();
@@ -41,6 +50,8 @@ public class DoctorData {
 		this.SecondName = doc.getSecondName();
 		this.speciality=doc.getDoctorSpecilization().get(0).getSpeciality();
 		this.photo=new  GetPhoto(doc.getProfilePhoto());
+		this.languages=doc.getLanguages();
+		
 	}
 	
 	

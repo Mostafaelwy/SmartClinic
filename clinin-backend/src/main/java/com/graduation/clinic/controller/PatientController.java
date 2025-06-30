@@ -157,6 +157,9 @@ public class PatientController {
 			){
 		return ratingService.readDoctorReviews(doctorId,p,interval);
 	}
-	
+	@GetMapping("/doctor/{id}/basic-data")
+	public DoctorData getDoctorData(@PathVariable Long id) {
+		return doctorService.getDoctorDataForPatient(id);
+	}
 	
 }

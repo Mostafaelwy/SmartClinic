@@ -332,6 +332,11 @@ public class DoctorService {
 		 Awards a= awardsRepo.findByIdAndDoctorId(id, doctor.getId()).orElseThrow(()->new NotFoundException("you don`t have award to delete"));
 		 awardsRepo.delete(a);
 	 }
+	 
+	 public DoctorData getDoctorDataForPatient(Long id) {
+		 Doctor doc= doctorRepo.findById(id).orElseThrow(()->new NotFoundException("doctor not found."));
+		 return new DoctorData(doc);
+	 }
 
 	
 }
