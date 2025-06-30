@@ -151,6 +151,7 @@ public class DoctorService {
 				 			.and(DoctorSpecifications.hasRate(filter.getTotalRating()))
 				 			.and(DoctorSpecifications.hasServicePrice(filter.getLowPrice(), filter.getHighPrice()))
 				 			.and(DoctorSpecifications.hasSpeciality(filter.getSpeciality()))
+				 			.and(DoctorSpecifications.hasname(filter.getName()))
 				 ,page );
 		 
 		 return paginateDotorData(docPage);

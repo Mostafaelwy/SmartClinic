@@ -1,6 +1,7 @@
 package com.graduation.clinic.dto;
 
 import com.graduation.clinic.entity.Doctor;
+import com.graduation.clinic.entity.Specialties;
 
 public class DoctorData {
 
@@ -8,6 +9,9 @@ public class DoctorData {
 	private double totalRating;
 	private String firstName;
 	private String SecondName;
+	private Specialties speciality;
+	private GetPhoto photo;
+	
 	
 	
 	public Long getId() {
@@ -24,11 +28,19 @@ public class DoctorData {
 	}
 	
 	
+	public Specialties getSpeciality() {
+		return speciality;
+	}
+	public GetPhoto getPhoto() {
+		return photo;
+	}
 	public DoctorData(Doctor doc) {
 		this.id=doc.getId();
 		this.totalRating = doc.getTotalRating();
 		this.firstName = doc.getFirstName();
 		this.SecondName = doc.getSecondName();
+		this.speciality=doc.getDoctorSpecilization().get(0).getSpeciality();
+		this.photo=new  GetPhoto(doc.getProfilePhoto());
 	}
 	
 	

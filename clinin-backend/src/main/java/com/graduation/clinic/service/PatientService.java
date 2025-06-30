@@ -65,9 +65,11 @@ public class PatientService  {
 		return patientRepo.findById(id).orElseThrow(()-> new NotFoundException("patient not found Exception"));
 	}
 	
-	public GetPatientProfileData getPatientData(Long id) {
-		Patient p=patientRepo.findById(id).orElseThrow(()-> new NotFoundException("patient not found"));
-		return new GetPatientProfileData(p);
+	public GetPatientProfileData getPatientBasicData() {
+		 Authentication auth =SecurityContextHolder.getContext().getAuthentication();
+		 Patient p=(Patient)auth.getPrincipal();
+		 Patient patient= patientRepo.findById(p.getId()).orElseThrow();
+		return new GetPatientProfileData(patient);
 	}
 
 	 @Transactional(value = TxType.REQUIRES_NEW)
@@ -96,7 +98,7 @@ public class PatientService  {
 			p.setBlood(request.getGroub());
 		 
 		 patientRepo.save(p);
-		 return getPatientData(p.getId());
+		 return getPatientBasicData();
 	 }
 	
 	public PatientData getPatientData() {
