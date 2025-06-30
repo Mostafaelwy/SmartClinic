@@ -109,11 +109,11 @@ public class PatientController {
 	public Page<DoctorData> doctorSearch(@ModelAttribute DoctorFilteration filter,@ModelAttribute PageProperties p ) {
 		return doctorService.doctorSearch(filter, p);
 	}
-	@GetMapping("/{patientId}/profile-data")
-	public GetPatientProfileData getData(@PathVariable Long patientId ) {
-		return patientService.getPatientData(patientId);
+	@GetMapping("/me/basic-data")
+	public GetPatientProfileData getData() {
+		return patientService.getPatientBasicData();
 	}
-	@PostMapping("/me/profile-data")
+	@PostMapping("/me/basic-data")
 	public GetPatientProfileData setData(@RequestBody SetPatientProfileData request) {
 		return patientService.setPatientData(request);
 	}
@@ -161,6 +161,9 @@ public class PatientController {
 			){
 		return ratingService.readDoctorReviews(doctorId,p,interval);
 	}
-	
+	@GetMapping("/doctor/{id}/basic-data")
+	public DoctorData getDoctorData(@PathVariable Long id) {
+		return doctorService.getDoctorDataForPatient(id);
+	}
 	
 }

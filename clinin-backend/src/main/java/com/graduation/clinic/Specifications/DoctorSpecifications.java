@@ -12,6 +12,13 @@ import jakarta.persistence.criteria.Join;
 
 public class DoctorSpecifications {
 
+	
+	public static Specification<Doctor> hasname(String name){
+		return (root,query,criteriaBuilder)->name==null?null:
+			criteriaBuilder.like(criteriaBuilder.lower(root.get("firstName")), "%"+ name.toLowerCase()+"%");
+		
+	}
+	
 	public static Specification<Doctor> hasGender(Gender gender){
 		return (root,query,criteriaBuilder)->gender==null?null:
 			criteriaBuilder.equal(root.get("sex"),gender);

@@ -152,6 +152,7 @@ public class DoctorService {
 				 			.and(DoctorSpecifications.hasRate(filter.getTotalRating()!=null?filter.getTotalRating():0))
 				 			.and(DoctorSpecifications.hasServicePrice(filter.getLowPrice()!=null?filter.getLowPrice():0, filter.getHighPrice()!=null?filter.getHighPrice():0))
 				 			.and(DoctorSpecifications.hasSpeciality(filter.getSpeciality()))
+				 			.and(DoctorSpecifications.hasname(filter.getName()))
 				 ,page );
 		 
 		 return paginateDotorData(docPage);
@@ -348,6 +349,11 @@ public class DoctorService {
 		 Doctor doctor=(Doctor)auth.getPrincipal();
 		 Awards a= awardsRepo.findByIdAndDoctorId(id, doctor.getId()).orElseThrow(()->new NotFoundException("you don`t have award to delete"));
 		 awardsRepo.delete(a);
+	 }
+	 
+	 public DoctorData getDoctorDataForPatient(Long id) {
+		 Doctor doc= doctorRepo.findById(id).orElseThrow(()->new NotFoundException("doctor not found."));
+		 return new DoctorData(doc);
 	 }
 
 	

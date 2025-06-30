@@ -17,8 +17,9 @@ public class DoctorFilteration {
 	private Double highPrice;
 	private Integer experienceYears;
 	private Specialties speciality;
+	private String name;
 	
-	public DoctorFilteration(Gender sex, Double totalRating, Double lowPrice, Double highPrice, Integer experienceYears,
+	public DoctorFilteration(String name,Gender sex, Double totalRating, Double lowPrice, Double highPrice, Integer experienceYears,
 			Specialties speciality) {
 		this.sex = sex;
 		this.totalRating = totalRating!=null? totalRating:null ;
@@ -26,6 +27,7 @@ public class DoctorFilteration {
 		this.highPrice = highPrice!=null? highPrice:null ;
 		this.experienceYears = experienceYears!=null? experienceYears:null  ;
 		this.speciality = speciality;
+		this.name=name;
 	}
 
 	public Gender getSex() {
@@ -50,6 +52,10 @@ public class DoctorFilteration {
 
 	public Specialties getSpeciality() {
 		return speciality;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 
