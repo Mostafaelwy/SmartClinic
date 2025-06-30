@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { AuthorizedUser, LoginRequest } from '../../types';
+import { AuthorizedUser, LoginRequest, ReservationRequest, ReservationResponse, DoctorBasicData } from '../../types';
 import { API_ENDPOINTS } from '../config/api-endpoints';
 import { Observable } from 'rxjs';
 import { CanActivate, Router, UrlTree } from '@angular/router';
@@ -18,8 +18,8 @@ export class AuthServiceService {
       user)
   }
 
-  reserveAppointment(clinicId: number, reservationData: any): Observable<any> {
-    return this.httpClient.post(`${API_ENDPOINTS.PATIENT.RESERVATION_CLINIC}/${clinicId}`, reservationData);
+  reserveAppointment(clinicId: number, reservationData: ReservationRequest): Observable<ReservationResponse> {
+    return this.httpClient.post<ReservationResponse>(`${API_ENDPOINTS.PATIENT.RESERVATION_CLINIC}/${clinicId}`, reservationData);
   }
 
   getDoctorSpecialties(doctorId: string): Observable<any[]> {
@@ -28,6 +28,17 @@ export class AuthServiceService {
 
   getDoctorClinics(doctorId: string): Observable<any[]> {
     return this.httpClient.get<any[]>(`${API_ENDPOINTS.PATIENT.DOCTOR_CLINICS}/${doctorId}/clinics`);
+  }
+
+  getClinicTimeAvailability(clinicId: number, date: string): Observable<{ [key: string]: boolean }> {
+    return this.httpClient.get<{ [key: string]: boolean }>(
+      `${API_ENDPOINTS.PATIENT.TIME_AVAILABILITY}/${clinicId}/time-avilabilty`,
+      { params: { date } }
+    );
+  }
+
+  getDoctorBasicData(doctorId: string): Observable<DoctorBasicData> {
+    return this.httpClient.get<DoctorBasicData>(`${API_ENDPOINTS.PATIENT.DOCTOR_BASIC_DATA}/${doctorId}/basic-data`);
   }
 
 }

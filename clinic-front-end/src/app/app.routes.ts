@@ -79,7 +79,7 @@ export const routes: Routes = [
              },
         ]
      },
-    { path: 'doctor-profile', component: DoctorProfileComponent },
+    { path: 'doctor/:id', component: DoctorProfileComponent },
     { path: 'reserve-appointment/:doctorId',
       loadComponent: () => import('./patient-appointment-reservation.component').then(m => m.PatientAppointmentReservationComponent),
       canActivate: [AuthGuardService],

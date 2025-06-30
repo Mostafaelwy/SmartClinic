@@ -1,1 +1,420 @@
-<div class="breadcrumb-bar"> ... (all provided HTML content here) ... </div> 
+<div class="breadcrumb-bar">
+				<div class="container">
+					<div class="row align-items-center inner-banner">
+						<div class="col-md-12 col-12 text-center">
+							<nav aria-label="breadcrumb" class="page-breadcrumb">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="index.html"><i class="isax isax-home-15"></i></a></li>
+									<li class="breadcrumb-item" aria-current="page">Patient</li>
+									<li class="breadcrumb-item active">Doctor Profile 2</li>
+								</ol>
+								<h2 class="breadcrumb-title">Doctor Profile</h2>
+							</nav>
+						</div>
+					</div>
+				</div>
+				<div class="breadcrumb-bg">
+					<img src="assets/img/bg/breadcrumb-bg-01.png" alt="img" class="breadcrumb-bg-01">
+					<img src="assets/img/bg/breadcrumb-bg-02.png" alt="img" class="breadcrumb-bg-02">
+					<img src="assets/img/bg/breadcrumb-icon.png" alt="img" class="breadcrumb-bg-03">
+					<img src="assets/img/bg/breadcrumb-icon.png" alt="img" class="breadcrumb-bg-04">
+				</div>
+			</div>
+
+<div class="content" style="min-height: 212.9px;">
+  <div class="container">
+    <!-- Doctor Widget -->
+    <div class="card">
+      <div class="card-body">
+        <div class="doctor-widget">
+          <div class="doc-info-left">
+            <div class="doctor-img">
+              <img *ngIf="doctorData?.photo?.url" [src]="doctorData?.photo?.url" class="img-fluid" alt="User Image">
+            </div>
+            <div class="doc-info-cont">
+              <h4 class="doc-name">Dr. {{ doctorData?.firstName }} {{ doctorData?.secondName }}</h4>
+              <p class="doc-speciality">{{ doctorData?.speciality }}</p>
+              <div class="rating">
+                <i class="fas fa-star filled" *ngIf="(doctorData?.totalRating ?? 0) >= 1"></i>
+                <i class="fas fa-star filled" *ngIf="(doctorData?.totalRating ?? 0) >= 2"></i>
+                <i class="fas fa-star filled" *ngIf="(doctorData?.totalRating ?? 0) >= 3"></i>
+                <i class="fas fa-star filled" *ngIf="(doctorData?.totalRating ?? 0) >= 4"></i>
+                <i class="fas fa-star" *ngIf="(doctorData?.totalRating ?? 0) < 5"></i>
+                <span class="d-inline-block average-rating">({{ doctorData?.totalRating ?? 0 }})</span>
+              </div>
+              <div *ngIf="doctorData?.languages?.length">
+                <span>Languages: {{ doctorData?.languages?.join(', ') }}</span>
+              </div>
+              <!-- Keep the rest of the widget as is for now -->
+            </div>
+          </div>
+          <div class="doc-info-right">
+            <!-- Placeholder for future right-side content -->
+            <div class="clinic-booking">
+              <a class="apt-btn" (click)="onBookAppointment()" style="cursor:pointer;">Book Appointment</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Doctor Widget -->
+    <div class="card">
+      <div class="card-body pt-0">
+        <!-- Tab Menu -->
+        <nav class="user-tabs mb-4">
+          <ul class="nav nav-tabs nav-tabs-bottom nav-justified" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" href="#doc_overview" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Overview</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" href="#doc_locations" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Locations</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" href="#doc_reviews" data-bs-toggle="tab" aria-selected="true" role="tab">Reviews</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" href="#doc_business_hours" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Business Hours</a>
+            </li>
+          </ul>
+        </nav>
+        <!-- /Tab Menu -->
+        <!-- Tab Content -->
+        <div class="tab-content pt-0">
+          <!-- Overview Content -->
+          <div role="tabpanel" id="doc_overview" class="tab-pane fade">
+            <div class="row">
+              <div class="col-md-12 col-lg-9">
+                <!-- About Details -->
+                <div class="widget about-widget">
+                  <h4 class="widget-title">About Me</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+                <!-- /About Details -->
+                <!-- Education Details -->
+                <div class="widget education-widget">
+                  <h4 class="widget-title">Education</h4>
+                  <div class="experience-box">
+                    <ul class="experience-list">
+                      <li *ngFor="let edu of education">
+                        <div class="experience-user">
+                          <div class="before-circle"></div>
+                        </div>
+                        <div class="experience-content">
+                          <div class="timeline-content">
+                            <a href="#/" class="name">{{ edu.institutionName }}</a>
+                            <div>{{ edu.course }}</div>
+                            <span class="time">{{ edu.startDate }} - {{ edu.endDate }}</span>
+                            <div *ngIf="edu.description">{{ edu.description }}</div>
+                          </div>
+                        </div>
+                      </li>
+                      <li *ngIf="education.length === 0">
+                        <div class="experience-content">No education data available.</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- /Education Details -->
+                <!-- Experience Details -->
+                <div class="widget experience-widget">
+                  <h4 class="widget-title">Work &amp; Experience</h4>
+                  <div class="experience-box">
+                    <ul class="experience-list">
+                      <li *ngFor="let exp of experience">
+                        <div class="experience-user">
+                          <div class="before-circle"></div>
+                        </div>
+                        <div class="experience-content">
+                          <div class="timeline-content">
+                            <a href="#/" class="name">{{ exp.hospital }}</a>
+                            <div>{{ exp.title }}</div>
+                            <span class="time">{{ exp.startDate }} - {{ exp.stillWorking ? 'Present' : exp.endDate }}</span>
+                            <div *ngIf="exp.jopDescription">{{ exp.jopDescription }}</div>
+                          </div>
+                        </div>
+                      </li>
+                      <li *ngIf="experience.length === 0">
+                        <div class="experience-content">No experience data available.</div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- /Experience Details -->
+                <!-- Awards Details -->
+                <div class="widget awards-widget">
+                  <h4 class="widget-title">Awards</h4>
+                  <div class="experience-box">
+                    <ul class="experience-list">
+                      <li>
+                        <div class="experience-user">
+                          <div class="before-circle"></div>
+                        </div>
+                        <div class="experience-content">
+                          <div class="timeline-content">
+                            <p class="exp-year">July 2023</p>
+                            <h4 class="exp-title">Humanitarian Award</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="experience-user">
+                          <div class="before-circle"></div>
+                        </div>
+                        <div class="experience-content">
+                          <div class="timeline-content">
+                            <p class="exp-year">March 2011</p>
+                            <h4 class="exp-title">Certificate for International Volunteer Service</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="experience-user">
+                          <div class="before-circle"></div>
+                        </div>
+                        <div class="experience-content">
+                          <div class="timeline-content">
+                            <p class="exp-year">May 2008</p>
+                            <h4 class="exp-title">The Dental Professional of The Year Award</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a ipsum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- /Awards Details -->
+                <!-- Services List -->
+                <div class="service-list">
+                  <h4>Services</h4>
+                  <ul class="clearfix">
+                    <ng-container *ngFor="let spec of specialties">
+                      <ng-container *ngFor="let service of spec.services">
+                        <li>{{ service.serviceType }}</li>
+                      </ng-container>
+                    </ng-container>
+                    <li *ngIf="hasNoServices">No services available.</li>
+                  </ul>
+                </div>
+                <!-- /Services List -->
+                <!-- Specializations List -->
+                <div class="service-list">
+                  <h4>Specializations</h4>
+                  <ul class="clearfix">
+                    <li *ngFor="let spec of specialties">{{ spec.speciality }}</li>
+                    <li *ngIf="specialties.length === 0">No specializations available.</li>
+                  </ul>
+                </div>
+                <!-- /Specializations List -->
+              </div>
+            </div>
+          </div>
+          <!-- /Overview Content -->
+          <!-- Locations Content -->
+          <div role="tabpanel" id="doc_locations" class="tab-pane fade">
+            <ng-container *ngIf="clinics.length > 0; else noClinics">
+              <div class="location-list" *ngFor="let clinic of clinics">
+                <div class="row">
+                  <!-- Clinic Content -->
+                  <div class="col-md-6">
+                    <div class="clinic-content">
+                      <h4 class="clinic-name"><a href="#">{{ clinic.clinicName }}</a></h4>
+                      <p class="doc-speciality">{{ clinic.address?.city }}, {{ clinic.address?.country }}</p>
+                      <div class="clinic-details mb-0">
+                        <h5 class="clinic-direction">
+                          <i class="fas fa-map-marker-alt"></i>
+                          {{ clinic.address?.street }}, {{ clinic.address?.city }}, {{ clinic.address?.state }}, {{ clinic.address?.country }}
+                        </h5>
+                        <ul>
+                          <li *ngFor="let img of clinic.gellery">
+                            <a [href]="img.url" data-fancybox="gallery2">
+                              <img [src]="img.url" alt="Feature Image">
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /Clinic Content -->
+                  <!-- Clinic Timing -->
+                  <div class="col-md-4">
+                    <div class="clinic-timing">
+                      <div *ngFor="let day of (clinic.workingHoursMap | keyvalue)">
+                        <p class="timings-days">
+                          <span>{{ day.key }}</span>
+                        </p>
+                        <p class="timings-times">
+                          <span>{{ day.value.startTime }} - {{ day.value.endTime }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /Clinic Timing -->
+                  <div class="col-md-2">
+                    <div class="consult-price">
+                      <!-- Placeholder for price if available -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #noClinics>
+              <div class="location-list">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="clinic-content">No clinics available.</div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+          <!-- /Locations Content -->
+          <!-- Reviews Content -->
+          <div role="tabpanel" id="doc_reviews" class="tab-pane fade active show">
+            <!-- Review Listing -->
+            <div class="widget review-listing">
+              <ul class="comments-list">
+                <li *ngFor="let review of reviews">
+                  <div class="comment">
+                    <img class="avatar avatar-sm rounded-circle" alt="User Image" [src]="review.patientPhoto?.url">
+                    <div class="comment-body">
+                      <div class="meta-data row align-items-center">
+                        <div class="col">
+                          <span class="comment-author">{{ review.patientName }}</span>
+                          <span class="comment-date">{{ review.creatDate }}</span>
+                        </div>
+                        
+                      </div>
+                      <p class="comment-content">{{ review.review }}</p>
+                      <div *ngIf="review.reply" class="comment-reply">
+                        <span class="reply-label">Doctor Reply:</span>
+                        <span>{{ review.reply }}</span>
+                      </div>
+                    </div>
+                    <div class="col-auto text-end">
+                        <div class="review-count rating">
+                          <ng-container *ngFor="let star of [1,2,3,4,5]">
+                            <i class="fas fa-star" [ngClass]="{'filled': (review?.rate ?? 0) >= star}"></i>
+                          </ng-container>
+                        </div>
+                      </div>
+                  </div>
+                </li>
+                <li *ngIf="reviews.length === 0">
+                  <div class="comment-body">No reviews available.</div>
+                </li>
+              </ul>
+              <!-- Show More -->
+              <div class="all-feedback text-center" *ngIf="reviewsPage + 1 < reviewsTotalPages">
+                <button class="btn btn-primary btn-sm" (click)="showMoreReviews()" [disabled]="reviewsLoading">
+                  Show More
+                </button>
+              </div>
+              <!-- /Show More -->
+            </div>
+            <!-- /Review Listing -->
+            <!-- Write Review -->
+            <div class="write-review">
+              <div *ngIf="reviewErrorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ reviewErrorMessage }}
+                <button type="button" class="btn-close" aria-label="Close" (click)="reviewErrorMessage = null"></button>
+              </div>
+              <h4>Write a review for <strong>Dr. {{ doctorData?.firstName }} {{ doctorData?.secondName }}</strong></h4>
+              <!-- Write Review Form -->
+              <form (ngSubmit)="submitReview()" #reviewForm="ngForm">
+                <div class="mb-3">
+                  <label class="mb-2">Review</label>
+                  <div class="star-rating">
+                    <ng-container *ngFor="let star of [5,4,3,2,1]">
+                      <input type="radio" [id]="'star-' + star" name="rating" [value]="star" [(ngModel)]="newReviewRate" required>
+                      <label [for]="'star-' + star" title="{{star}} stars">
+                        <i class="active fa fa-star" [class.filled]="newReviewRate >= star"></i>
+                      </label>
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="mb-2">Your review</label>
+                  <textarea id="review_desc" maxlength="100" class="form-control" [(ngModel)]="newReviewText" name="reviewText" required></textarea>
+                  <div class="d-flex justify-content-between mt-3"><small class="text-muted">{{ 100 - (newReviewText?.length || 0) }} characters remaining</small></div>
+                </div>
+                <div class="submit-section">
+                  <button type="submit" class="btn btn-primary submit-btn" [disabled]="submittingReview || !newReviewRate || !newReviewText.trim()">Add Review</button>
+                </div>
+              </form>
+              <!-- /Write Review Form -->
+            </div>
+            <!-- /Write Review -->
+          </div>
+          <!-- /Reviews Content -->
+          <!-- Business Hours Content -->
+          <div role="tabpanel" id="doc_business_hours" class="tab-pane fade">
+            <div class="row">
+              <div class="col-md-6 offset-md-3">
+                <!-- Business Hours Widget -->
+                <div class="widget business-widget">
+                  <div class="widget-content">
+                    <div class="listing-hours">
+                      <div class="listing-day current">
+                        <div class="day">Today <span>5 Nov 2023</span></div>
+                        <div class="time-items">
+                          <span class="open-status"><span class="badge bg-success-light">Open Now</span></span>
+                          <span class="time">07:00 AM - 09:00 PM</span>
+                        </div>
+                      </div>
+                      <div class="listing-day">
+                        <div class="day">Monday</div>
+                        <div class="time-items">
+                          <span class="time">07:00 AM - 09:00 PM</span>
+                        </div>
+                      </div>
+                      <div class="listing-day">
+                        <div class="day">Tuesday</div>
+                        <div class="time-items">
+                          <span class="time">07:00 AM - 09:00 PM</span>
+                        </div>
+                      </div>
+                      <div class="listing-day">
+                        <div class="day">Wednesday</div>
+                        <div class="time-items">
+                          <span class="time">07:00 AM - 09:00 PM</span>
+                        </div>
+                      </div>
+                      <div class="listing-day">
+                        <div class="day">Thursday</div>
+                        <div class="time-items">
+                          <span class="time">07:00 AM - 09:00 PM</span>
+                        </div>
+                      </div>
+                      <div class="listing-day">
+                        <div class="day">Friday</div>
+                        <div class="time-items">
+                          <span class="time">07:00 AM - 09:00 PM</span>
+                        </div>
+                      </div>
+                      <div class="listing-day">
+                        <div class="day">Saturday</div>
+                        <div class="time-items">
+                          <span class="time">07:00 AM - 09:00 PM</span>
+                        </div>
+                      </div>
+                      <div class="listing-day closed">
+                        <div class="day">Sunday</div>
+                        <div class="time-items">
+                          <span class="time"><span class="badge bg-danger-light">Closed</span></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Business Hours Widget -->
+              </div>
+            </div>
+          </div>
+          <!-- /Business Hours Content -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

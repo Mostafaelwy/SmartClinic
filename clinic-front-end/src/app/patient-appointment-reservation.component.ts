@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthServiceService } from './services/auth-service.service';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ClinicData } from '../types';
+import { ReservationRequest, ReservationResponse, DoctorBasicData } from '../types';
 
 @Component({
   selector: 'app-patient-appointment-reservation',
@@ -34,10 +35,27 @@ export class PatientAppointmentReservationComponent implements OnInit {
   clinics: ClinicData[] = [];
   selectedClinic: ClinicData | null = null;
 
-  constructor(private route: ActivatedRoute, private authService: AuthServiceService) {
+  timeSlots: { [key: string]: boolean } = {};
+  selectedDate: string = '';
+  minDate: string = '';
+  noSlotsMessage: string = '';
+  selectedTimeSlot: string | null = null;
+
+  morningSlots: string[] = [];
+  afternoonSlots: string[] = [];
+  eveningSlots: string[] = [];
+
+  reservationResponse: ReservationResponse | null = null;
+  doctorBasicData: DoctorBasicData | null = null;
+
+  constructor(private route: ActivatedRoute, private authService: AuthServiceService, private router: Router) {
     this.route.paramMap.subscribe(params => {
       this.doctorId = params.get('doctorId');
     });
+    // Initialize selectedDate and minDate to today
+    const today = new Date();
+    this.selectedDate = today.toISOString().slice(0, 10); // YYYY-MM-DD
+    this.minDate = this.selectedDate;
   }
 
   ngOnInit() {
@@ -48,6 +66,14 @@ export class PatientAppointmentReservationComponent implements OnInit {
           this.selectedSpecialtyId = null;
           this.selectedSpecialty = null;
           this.selectedService = null;
+        },
+        error: (err) => {
+          // Handle error
+        }
+      });
+      this.authService.getDoctorBasicData(this.doctorId).subscribe({
+        next: (data) => {
+          this.doctorBasicData = data;
         },
         error: (err) => {
           // Handle error
@@ -87,6 +113,9 @@ export class PatientAppointmentReservationComponent implements OnInit {
       if (this.step === 2) {
         this.loadClinics();
       }
+      if (this.step === 3 && this.selectedClinic) {
+        this.onDaySelect(this.selectedDate);
+      }
     }
   }
 
@@ -97,16 +126,19 @@ export class PatientAppointmentReservationComponent implements OnInit {
   }
 
   submitReservation() {
-    if (!this.clinicId) return;
-    const data = {
-      reservationDate: this.reservationDate,
-      reservationTime: this.reservationTime,
-      visitType: this.visitType,
-      serviceId: this.selectedService?.id
+    if (!this.clinicId || !this.selectedTimeSlot || !this.selectedService) return;
+    // Parse selectedTimeSlot (HH:mm) to hour and minute
+    const [hourStr, minuteStr] = this.selectedTimeSlot.split(':');
+    const reservationTime = `${hourStr.padStart(2, '0')}:${minuteStr.padStart(2, '0')}`;
+    const data: ReservationRequest = {
+      reservationDate: this.selectedDate,
+      reservationTime,
+      visitType: 'GENERAL', // or use this.visitType if set elsewhere
+      serviceId: this.selectedService.id
     };
     this.authService.reserveAppointment(this.clinicId, data).subscribe({
-      next: (res) => {
-        // Show confirmation, move to confirmation step, etc.
+      next: (res: ReservationResponse) => {
+        this.reservationResponse = res;
         this.step = 4;
       },
       error: (err) => {
@@ -116,8 +148,9 @@ export class PatientAppointmentReservationComponent implements OnInit {
   }
 
   startNewBooking() {
-    this.step = 1;
-    // Reset all form data
+    this.router.navigate([this.router.url]).then(() => {
+      window.location.reload();
+    });
   }
 
   onSpecialtyChange() {
@@ -138,5 +171,55 @@ export class PatientAppointmentReservationComponent implements OnInit {
   selectService(service: any) {
     this.selectedService = service;
     this.onServiceChange(service);
+  }
+
+  onDaySelect(date: string) {
+    this.selectedDate = date;
+    if (!this.selectedClinic) return;
+    const clinicId = this.selectedClinic.id;
+    this.authService.getClinicTimeAvailability(clinicId, date)
+      .subscribe({
+        next: (response) => {
+          if ('success' in response && response['success'] === false) {
+            this.noSlotsMessage = String(response['message'] || 'No slots available');
+            this.timeSlots = {};
+          } else {
+            this.noSlotsMessage = '';
+            this.timeSlots = response;
+            this.groupSlots();
+          }
+          this.selectedTimeSlot = null;
+        },
+        error: (err) => {
+          this.noSlotsMessage = 'No slots available';
+          this.timeSlots = {};
+          this.selectedTimeSlot = null;
+        }
+      });
+  }
+
+  onDateChange(event: any) {
+    const date = event.target.value;
+    this.selectedDate = date;
+    if (this.selectedClinic) {
+      this.onDaySelect(date);
+    }
+  }
+
+  private groupSlots() {
+    this.morningSlots = [];
+    this.afternoonSlots = [];
+    this.eveningSlots = [];
+    Object.keys(this.timeSlots).forEach(slot => {
+      // Parse hour for grouping, include all slots regardless of value
+      const hour = parseInt(slot.split(':')[0], 10);
+      if (hour >= 5 && hour < 12) {
+        this.morningSlots.push(slot);
+      } else if (hour >= 12 && hour < 17) {
+        this.afternoonSlots.push(slot);
+      } else if (hour >= 17 && hour <= 22) {
+        this.eveningSlots.push(slot);
+      }
+    });
   }
 }

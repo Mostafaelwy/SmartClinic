@@ -36,6 +36,15 @@ const API_ENDPOINTS_RAW = {
       DOCTOR_SPECIALTIES: '/doctor',
       RESERVATION_CLINIC: '/me/reservation/clinic',
       DOCTOR_CLINICS: '/doctor',
+      TIME_AVAILABILITY: '/clinic',
+      DOCTOR_BASIC_DATA: '/doctor',
+      DOCTOR_EDUCATION: '/doctor',
+      DOCTOR_EXPERIENCE: '/doctor',
+      DOCTOR_SPECIALTIES_BY_ID: '/doctor',
+      DOCTOR_CLINICS_BY_ID: '/doctor',
+      DOCTOR_REVIEWS_BY_ID: '/doctor',
+      POST_DOCTOR_REVIEW: '/me/rating/doctor',
+
     },
     // Add other endpoint groups as needed
   };

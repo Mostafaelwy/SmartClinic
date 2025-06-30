@@ -200,4 +200,115 @@ export class DoctorService {
     return this.http.get(API_ENDPOINTS.DOCTOR.PROFILE_DATA, { headers });
   }
 
+  getDoctorEducation(doctorId: string): Observable<DoctorEducation[]> {
+    return this.http.get<DoctorEducation[]>(`${API_ENDPOINTS.PATIENT.DOCTOR_EDUCATION}/${doctorId}/education`);
+  }
+
+  getDoctorExperience(doctorId: string): Observable<DoctorExperience[]> {
+    return this.http.get<DoctorExperience[]>(`${API_ENDPOINTS.PATIENT.DOCTOR_EXPERIENCE}/${doctorId}/experience`);
+  }
+
+  getDoctorSpecialties(doctorId: string): Observable<DoctorSpecialty[]> {
+    return this.http.get<DoctorSpecialty[]>(`${API_ENDPOINTS.PATIENT.DOCTOR_SPECIALTIES_BY_ID}/${doctorId}/specialties`);
+  }
+
+  getDoctorClinics(doctorId: string): Observable<DoctorClinic[]> {
+    return this.http.get<DoctorClinic[]>(`${API_ENDPOINTS.PATIENT.DOCTOR_CLINICS_BY_ID}/${doctorId}/clinics`);
+  }
+
+  getDoctorReviews(doctorId: string, pageNum: number, pageSize: number, sortAttribute?: string | null, dir?: 'ASC' | 'DESC', startDate?: string, endDate?: string): Observable<DoctorReviewsResponse> {
+    const params: any = {
+      pageNum,
+      pageSize,
+      dir: dir || 'DESC',
+    };
+    if (sortAttribute != null) params.sortAttripute = sortAttribute;
+    if (startDate) params.startDate = startDate;
+    if (endDate) params.endDate = endDate;
+    return this.http.get<DoctorReviewsResponse>(`${API_ENDPOINTS.PATIENT.DOCTOR_REVIEWS_BY_ID}/${doctorId}/reviews`, { params });
+  }
+
+  postDoctorReview(doctorId: string, rate: number, review: string): Observable<any> {
+    return this.http.post(`${API_ENDPOINTS.PATIENT.POST_DOCTOR_REVIEW}/${doctorId}`, { rate, review });
+  }
+
+}
+
+export interface DoctorEducation {
+  id: number;
+  logo: { type: string; id: number; url: string };
+  institutionName: string;
+  course: string;
+  startDate: string;
+  endDate: string;
+  yearsNum: number;
+  description: string;
+}
+
+export interface DoctorExperience {
+  id: number;
+  logo: { type: string; id: number; url: string };
+  title: string;
+  hospital: string;
+  experienceYears: number;
+  location: string;
+  employment: string;
+  jopDescription: string;
+  startDate: string;
+  endDate: string;
+  stillWorking: boolean;
+}
+
+export interface DoctorSpecialty {
+  id: number;
+  speciality: string;
+  services: {
+    id: number;
+    serviceType: string;
+    price: number;
+    hint: string;
+  }[];
+}
+
+export interface DoctorClinic {
+  id: number;
+  logo: { type: string; id: number; url: string };
+  clinicName: string;
+  address: {
+    id: number;
+    country: string;
+    state: string;
+    city: string;
+    street: string;
+  };
+  location: string;
+  gellery: { type: string; id: number; url: string }[];
+  workingHoursMap: {
+    [day: string]: {
+      startTime: { hour: number; minute: number; second: number; nano: number };
+      endTime: { hour: number; minute: number; second: number; nano: number };
+    };
+  };
+}
+
+export interface DoctorReview {
+  id: number;
+  rate: number;
+  patientId: number;
+  patientName: string;
+  creatDate: string;
+  patientPhoto: { type: string; id: number; url: string };
+  reply: string;
+  review: string;
+}
+
+export interface DoctorReviewsResponse {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  content: DoctorReview[];
+  number: number;
+  numberOfElements: number;
+  first: boolean;
+  last: boolean;
 }

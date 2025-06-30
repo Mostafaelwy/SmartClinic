@@ -40,7 +40,7 @@
           </ul>
         </div>
         <div class="booking-widget multistep-form mb-5">
-          <!-- Step 1: Specialty -->
+          <!-- Step 1: Doctor Info -->
           <fieldset [style.display]="step === 1 ? 'block' : 'none'">
             <!-- Step 1 HTML -->
             <div class="card booking-card mb-0">
@@ -49,11 +49,15 @@
                   <div class="card mb-0">
                     <div class="card-body">
                       <div class="d-flex align-items-center flex-wrap rpw-gap-2 flex-wrap row-gap-2">
-                        <span class="avatar avatar-xxxl avatar-rounded me-2 flex-shrink-0"><img src="assets/img/clients/client-15.jpg" alt=""></span>
+                        <span class="avatar avatar-xxxl avatar-rounded me-2 flex-shrink-0">
+                          <img *ngIf="doctorBasicData?.photo?.url" [src]="doctorBasicData?.photo?.url" alt="Doctor Photo">
+                        </span>
                         <div>
-                          <h4 class="mb-1">Dr. Michael Brown <span class="badge bg-orange fs-12"><i class="fa-solid fa-star me-1"></i>5.0</span></h4>
-                          <p class="text-indigo mb-3 fw-medium">Psychologist</p>
-                          <p class="mb-0"><i class="isax isax-location me-2"></i>5th Street - 1011 W 5th St, Suite 120, Austin, TX 78703</p>
+                          <h4 class="mb-1">Dr. {{ doctorBasicData?.firstName }} {{ doctorBasicData?.secondName }}
+                            <span class="badge bg-orange fs-12"><i class="fa-solid fa-star me-1"></i>{{ doctorBasicData?.totalRating }}</span>
+                          </h4>
+                          <p class="text-indigo mb-3 fw-medium">{{ doctorBasicData?.speciality }}</p>
+                          <p class="mb-0" *ngIf="doctorBasicData?.languages?.length">Languages: {{ doctorBasicData?.languages?.join(', ') }}</p>
                         </div>
                       </div>
                     </div>
@@ -119,11 +123,17 @@
                   <div class="card mb-0">
                     <div class="card-body">
                       <div class="d-flex align-items-center flex-wrap rpw-gap-2 flex-wrap row-gap-2">
-                        <span class="avatar avatar-xxxl avatar-rounded me-2 flex-shrink-0"><img src="assets/img/clients/client-15.jpg" alt=""></span>
+                        <span class="avatar avatar-xxxl avatar-rounded me-2 flex-shrink-0">
+                          <img *ngIf="doctorBasicData?.photo?.url" [src]="doctorBasicData?.photo?.url" alt="Doctor Photo">
+                        </span>
                         <div>
-                          <h4 class="mb-1">Dr. Michael Brown <span class="badge bg-orange fs-12"><i class="fa-solid fa-star me-1"></i>5.0</span></h4>
+                          <h4 class="mb-1">Dr. {{ doctorBasicData?.firstName }} {{ doctorBasicData?.secondName }}
+                            <span class="badge bg-orange fs-12"><i class="fa-solid fa-star me-1"></i>5.0</span></h4>
                           <p class="text-indigo mb-3 fw-medium">Psychologist</p>
-                          <p class="mb-0"><i class="isax isax-location me-2"></i>5th Street - 1011 W 5th St, Suite 120, Austin, TX 78703</p>
+                          <p class="mb-0" *ngIf="selectedClinic?.address">
+                            <i class="isax isax-location me-2"></i>
+                            {{ selectedClinic?.address?.street }}, {{ selectedClinic?.address?.city }}, {{ selectedClinic?.address?.state }}, {{ selectedClinic?.address?.country }}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -182,11 +192,15 @@
                   <div class="card mb-0">
                     <div class="card-body">
                       <div class="d-flex align-items-center flex-wrap rpw-gap-2 mb-4 flex-wrap row-gap-2">
-                        <span class="avatar avatar-xxxl avatar-rounded me-2 flex-shrink-0"><img src="assets/img/clients/client-15.jpg" alt=""></span>
+                        <span class="avatar avatar-xxxl avatar-rounded me-2 flex-shrink-0">
+                          <img *ngIf="doctorBasicData?.photo?.url" [src]="doctorBasicData?.photo?.url" alt="Doctor Photo">
+                        </span>
                         <div>
-                          <h4 class="mb-1">Dr. Michael Brown <span class="badge bg-orange fs-12"><i class="fa-solid fa-star me-1"></i>5.0</span></h4>
-                          <p class="text-indigo mb-3 fw-medium">Psychologist</p>
-                          <p class="mb-0"><i class="isax isax-location me-2"></i>5th Street - 1011 W 5th St, Suite 120, Austin, TX 78703</p>
+                          <h4 class="mb-1">Dr. {{ doctorBasicData?.firstName }} {{ doctorBasicData?.secondName }}
+                            <span class="badge bg-orange fs-12"><i class="fa-solid fa-star me-1"></i>{{ doctorBasicData?.totalRating }}</span>
+                          </h4>
+                          <p class="text-indigo mb-3 fw-medium">{{ doctorBasicData?.speciality }}</p>
+                          <p class="mb-0" *ngIf="doctorBasicData?.languages?.length">Languages: {{ doctorBasicData?.languages?.join(', ') }}</p>
                         </div>
                       </div>
                       <h6 class="mb-2">Booking Info</h6>
@@ -194,25 +208,25 @@
                         <div class="col-lg-3 col-sm-6">
                           <div>
                             <h6 class="fs-14 fw-medium mb-1">Service</h6>
-                            <p class="mb-0">Cardiology (30 Mins)</p>
+                            <p class="mb-0">{{ selectedService?.serviceType }}</p>
                           </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
                           <div>
-                            <h6 class="fs-14 fw-medium mb-1">Service</h6>
-                            <p class="mb-0">Echocardiograms</p>
+                            <h6 class="fs-14 fw-medium mb-1">Date</h6>
+                            <p class="mb-0">{{ selectedDate }}</p>
                           </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
                           <div>
-                            <h6 class="fs-14 fw-medium mb-1">Date &amp; Time</h6>
-                            <p class="mb-0">10:00 - 11:00 AM, 15, Oct</p>
+                            <h6 class="fs-14 fw-medium mb-1">Time</h6>
+                            <p class="mb-0">{{ selectedTimeSlot }}</p>
                           </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
                           <div>
                             <h6 class="fs-14 fw-medium mb-1">Appointment type</h6>
-                            <p class="mb-0">Clinic (Wellness Path)</p>
+                            <p class="mb-0">{{ visitType || 'GENERAL' }}</p>
                           </div>
                         </div>
                       </div>
@@ -227,11 +241,8 @@
                       <div class="col-lg-5">
                         <div class="card">
                           <div class="card-body p-2 pt-3">
-                            <!-- Date picker placeholder -->
                             <div id="datetimepickershow">
-                              <!-- You can integrate Angular date picker here -->
-                              <input type="date" class="form-control mb-2">
-                              <input type="time" class="form-control">
+                              <input type="date" class="form-control mb-2" [value]="selectedDate" (change)="onDateChange($event)" [min]="minDate">
                             </div>
                           </div>
                         </div>
@@ -240,15 +251,38 @@
                         <div class="card booking-wizard-slots">
                           <div class="card-body">
                             <div class="book-title">
-                              <h6 class="fs-14 mb-2">Available Slots</h6>
                             </div>
                             <div class="token-slot mt-2 mb-2">
-                              <div class="form-check-inline visits me-0" *ngFor="let slot of ['09:45','10:45','11:45','-']">
-                                <label class="visit-btns">
-                                  <input type="checkbox" class="form-check-input" name="appintment">
-                                  <span class="visit-rsn">{{slot}}</span>
-                                </label>
-                              </div>
+                              <div *ngIf="noSlotsMessage" class="alert alert-warning text-center">{{ noSlotsMessage }}</div>
+                              <ng-container *ngIf="!noSlotsMessage && (morningSlots.length + afternoonSlots.length + eveningSlots.length) > 0">
+                                <div *ngIf="morningSlots.length > 0">
+                                  <div class="book-title"><h6 class="fs-14 mb-2">Morning</h6></div>
+                                  <div class="form-check-inline visits me-0" *ngFor="let slot of morningSlots">
+                                    <label class="visit-btns">
+                                      <input type="radio" class="form-check-input" name="appintment" [value]="slot" [(ngModel)]="selectedTimeSlot" [disabled]="!timeSlots[slot]">
+                                      <span class="visit-rsn">{{ slot }}</span>
+                                    </label>
+                                  </div>
+                                </div>
+                                <div *ngIf="afternoonSlots.length > 0">
+                                  <div class="book-title"><h6 class="fs-14 mb-2">Afternoon</h6></div>
+                                  <div class="form-check-inline visits me-0" *ngFor="let slot of afternoonSlots">
+                                    <label class="visit-btns">
+                                      <input type="radio" class="form-check-input" name="appintment" [value]="slot" [(ngModel)]="selectedTimeSlot" [disabled]="!timeSlots[slot]">
+                                      <span class="visit-rsn">{{ slot }}</span>
+                                    </label>
+                                  </div>
+                                </div>
+                                <div *ngIf="eveningSlots.length > 0">
+                                  <div class="book-title"><h6 class="fs-14 mb-2">Evening</h6></div>
+                                  <div class="form-check-inline visits me-0" *ngFor="let slot of eveningSlots">
+                                    <label class="visit-btns">
+                                      <input type="radio" class="form-check-input" name="appintment" [value]="slot" [(ngModel)]="selectedTimeSlot" [disabled]="!timeSlots[slot]">
+                                      <span class="visit-rsn">{{ slot }}</span>
+                                    </label>
+                                  </div>
+                                </div>
+                              </ng-container>
                             </div>
                           </div>
                         </div>
@@ -263,7 +297,7 @@
                     <i class="isax isax-arrow-left-2 me-1"></i>
                     Back
                   </a>
-                  <a (click)="nextStep()" class="btn btn-md btn-primary-gradient next_btns inline-flex align-items-center rounded-pill">
+                  <a (click)="submitReservation()" class="btn btn-md btn-primary-gradient next_btns inline-flex align-items-center rounded-pill">
                     Confirm &amp; Book
                     <i class="isax isax-arrow-right-3 ms-1"></i>
                   </a>
@@ -287,54 +321,50 @@
                         </div>
                         <div class="card-header d-flex align-items-center flex-wrap rpw-gap-2">
                           <span class="avatar avatar-lg avatar-rounded me-2 flex-shrink-0"><img src="assets/img/clients/client-16.jpg" alt=""></span>
-                          <p class="mb-0">Your Booking has been Confirmed with <span class="text-dark">Dr. Michael Brown </span>  be on time before <span class="text-dark">15 Mins </span> From the appointment Time</p>
+                          <p class="mb-0">Your Booking has been Confirmed for <span class="text-dark">{{ reservationResponse?.patientName }}</span> at <span class="text-dark">{{ reservationResponse?.clinicName }}</span></p>
                         </div>
                         <div class="card-body pb-1">
                           <div class="d-flex align-items-center flex-wrap rpw-gap-2 justify-content-between mb-3">
                             <h6>Booking Info</h6>
-                            <a href="javascript:void(0);" class="btn btn-light rounded-pill"><i class="isax isax-calendar me-1"></i>Reschedule</a>
                           </div>
                           <div class="row">
                             <div class="col-md-6">
                               <div class="mb-3">
-                                <label class="form-label">Service</label>
-                                <div class="form-plain-text">Cardiology (30 Mins)</div>
+                                <label class="form-label">Clinic Name</label>
+                                <div class="form-plain-text">{{ reservationResponse?.clinicName }}</div>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="mb-3">
-                                <label class="form-label">Additional Service</label>
-                                <div class="form-plain-text">Echocardiograms</div>
+                                <label class="form-label">Patient Name</label>
+                                <div class="form-plain-text">{{ reservationResponse?.patientName }}</div>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="mb-3">
                                 <label class="form-label">Date &amp; Time</label>
-                                <div class="form-plain-text">10:00 - 11:00 AM, 15, Oct 2025 </div>
+                                <div class="form-plain-text">{{ reservationResponse?.reservationDate }} {{ reservationResponse?.reservationTime }}</div>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="mb-3">
                                 <label class="form-label">Appointment type</label>
-                                <div class="form-plain-text">Clinic </div>
+                                <div class="form-plain-text">{{ reservationResponse?.visitType }}</div>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="mb-3">
-                                <label class="form-label">Clinic Name &amp; Location</label>
-                                <div class="form-plain-text">Wellness Path <a href="javascript:void(0);" class="text-primary">View Location</a></div>
+                                <label class="form-label">Status</label>
+                                <div class="form-plain-text">{{ reservationResponse?.status }}</div>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="mb-3">
+                                <label class="form-label">Booking Number</label>
+                                <div class="form-plain-text">{{ reservationResponse?.id }}</div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                      <div class="card">
-                        <div class="card-body d-flex align-items-center flex-wrap rpw-gap-2 justify-content-between">
-                          <div>
-                            <h6 class="mb-1">Need Our Assistance</h6>
-                            <p class="mb-0">Call us in case you face any Issue on Booking / Cancellation</p>
-                          </div>
-                          <a href="javascript:void(0);" class="btn btn-light rounded-pill"><i class="isax isax-call5 me-1"></i>Call Us</a>
                         </div>
                       </div>
                     </div>
@@ -344,14 +374,11 @@
                       <div class="card-body d-flex flex-column justify-content-between">
                         <div class="text-center">
                           <h6 class="fs-14 mb-2">Booking Number</h6>
-                          <span class="booking-id-badge mb-3">DCRA12565</span>
+                          <span class="booking-id-badge mb-3">{{ reservationResponse?.id }}</span>
                           <span class="d-block mb-3"><img src="assets/img/icons/payment-qr.svg" alt=""></span>
                           <p>Scan this QR Code to Download the details of Appointment</p>
                         </div>
                         <div>
-                          <a href="javascript:void(0);" class="btn w-100 mb-3 btn-md btn-dark prev_btns inline-flex align-items-center rounded-pill">
-                            Add To Calendar
-                          </a>
                           <a (click)="startNewBooking()" class="btn w-100 btn-md btn-primary-gradient next_btns inline-flex align-items-center rounded-pill">
                             Start New Booking
                           </a>
@@ -361,12 +388,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div>
-              <a href="booking.html" class="">
-                <i class="isax isax-arrow-left-2 me-1"></i>
-                Back to Bookings
-              </a>
             </div>
           </fieldset>
         </div>

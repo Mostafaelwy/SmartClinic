@@ -130,7 +130,7 @@ public class PatientController {
 		return clinicService.getClinics(id);
 	}
 	@GetMapping("/clinic/{id}/time-avilabilty")
-	public Map<LocalTime,Boolean> getTimeAvilabilty(@RequestBody SetDate date,@PathVariable Long id){
+	public Map<LocalTime,Boolean> getTimeAvilabilty(@ModelAttribute SetDate date,@PathVariable Long id){
 		return clinicService.getAvilableTimes(date.getDate(), id);
 	}
 	@PostMapping("/me/change-password")

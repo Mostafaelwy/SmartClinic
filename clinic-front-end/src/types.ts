@@ -488,3 +488,46 @@ export interface PagedReviews {
   pageable: any;
   empty: boolean;
 }
+
+export interface ReservationRequest {
+  reservationDate: string;
+  reservationTime: string;
+  visitType: string;
+  serviceId: number;
+}
+
+export interface ReservationResponse {
+  id: number;
+  patientId: number;
+  patientName: string;
+  clinicName: string;
+  status: string;
+  reservationDate: string;
+  reservationTime: {
+    hour: number;
+    minute: number;
+    second: number;
+    nano: number;
+  };
+  creationDate: string;
+  visitType: string;
+  photo: {
+    type: string;
+    id: number;
+    url: string;
+  };
+}
+
+export interface DoctorBasicData {
+  id: number;
+  totalRating: number;
+  firstName: string;
+  secondName: string;
+  speciality: string;
+  photo: {
+    type: string;
+    id: number;
+    url: string;
+  } | null;
+  languages: string[];
+}
