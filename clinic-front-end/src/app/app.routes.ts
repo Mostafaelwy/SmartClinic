@@ -27,24 +27,27 @@ import { PatientdashwalletComponent } from './dashboard/patient/patientdashwalle
 import { PatientdashinvoicesComponent } from './dashboard/patient/patientdashinvoices/patientdashinvoices.component';
 import { PatientdashmessagesComponent } from './dashboard/patient/patientdashmessages/patientdashmessages.component';
 import { PatientdashvitalsComponent } from './dashboard/patient/patientdashvitals/patientdashvitals.component';
+import { PatientdashsettingsComponent } from './dashboard/patient/patientdashsettings/patientdashsettings.component';
 
 export const routes: Routes = [
 
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'doctor-register', component: DoctorRegisterComponent },
-    { path: 'dashboard', component: DashboardComponent,
-        children:[
-            { path: 'doctor', component: DoctorComponent, canActivate: [AuthGuardService], data: { roles: ['DOCTOR'] },
-                children:[
-                    {path:'home', component:DoctordashhomeComponent},
-                    {path:'requests', component:DoctordashrequestsComponent},
-                    {path:'appointments', component:DoctordashappointmentComponent},
-                    {path:'available-timings', component:DoctordashavailabletimingsComponent},
-                    {path:'speciality-service', component:DoctordashspecandservComponent},
-                    {path:'reviews', component:DoctordashreviewsComponent},
-                    {path:'profile', component:DoctordashprofileComponent},
-                    {path:'change-password', component:DoctordashchangepasswordComponent},
+    {
+        path: 'dashboard', component: DashboardComponent,
+        children: [
+            {
+                path: 'doctor', component: DoctorComponent, canActivate: [AuthGuardService], data: { roles: ['DOCTOR'] },
+                children: [
+                    { path: 'home', component: DoctordashhomeComponent },
+                    { path: 'requests', component: DoctordashrequestsComponent },
+                    { path: 'appointments', component: DoctordashappointmentComponent },
+                    { path: 'available-timings', component: DoctordashavailabletimingsComponent },
+                    { path: 'speciality-service', component: DoctordashspecandservComponent },
+                    { path: 'reviews', component: DoctordashreviewsComponent },
+                    { path: 'profile', component: DoctordashprofileComponent },
+                    { path: 'change-password', component: DoctordashchangepasswordComponent },
                     {
                         path: '', // default to home if no child is specified
                         redirectTo: 'home',
@@ -68,14 +71,15 @@ export const routes: Routes = [
                     { path: 'invoices', component: PatientdashinvoicesComponent },
                     { path: 'messages', component: PatientdashmessagesComponent },
                     { path: 'vitals', component: PatientdashvitalsComponent },
+                    { path: 'settings', component: PatientdashsettingsComponent },
                     {
                         path: '', // default to home if no child is specified
                         redirectTo: 'home',
                         pathMatch: 'full'
                     }
                 ]
-             },
+            },
         ]
-     },
+    },
     { path: '', canActivate: [AuthRedirectGuard], component: LoginComponent },
 ];
