@@ -1,78 +1,73 @@
-  <div class="content">
-        <div class="container">
+<div class="content">
+    <div class="container">
 
-            <div class="row">
-                <div class="col-lg-4 col-xl-3 theiaStickySidebar">
+        <div class="row">
+            <div class="col-lg-4 col-xl-3 theiaStickySidebar">
 
-                    <!-- Profile Sidebar -->
-                    <div class="profile-sidebar doctor-sidebar profile-sidebar-new">
-                        <div class="widget-profile pro-widget-content">
-                            <div class="profile-info-widget">
-                                <a href="doctor-profile.html" class="booking-doc-img">
-                                    <img *ngIf="doctorProfileData?.photo?.url" [src]="doctorProfileData?.photo?.url" alt="User Image">
-                                    <img *ngIf="!doctorProfileData?.photo?.url" src="assets/img/doctors-dashboard/doctor-profile-img.jpg" alt="User Image">
-                                </a>
-                                <div class="profile-det-info">
-                                    <h3><a href="doctor-profile.html">{{ doctorProfileData?.name || 'Doctor' }}</a></h3>
-                                    <div class="patient-details">
-                                        <h5 class="mb-0">{{ doctorProfileData?.displayName }}</h5>
-                                    </div>
-                                    <span class="badge doctor-role-badge"><i class="fa-solid fa-circle"></i>{{ doctorProfileData?.specialites?.[0] }}</span>
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar doctor-sidebar profile-sidebar-new">
+                    <div class="widget-profile pro-widget-content">
+                        <div class="profile-info-widget">
+                            <a href="doctor-profile.html" class="booking-doc-img">
+                                <img *ngIf="doctorProfileData?.photo?.url" [src]="doctorProfileData?.photo?.url"
+                                    alt="User Image">
+                                <img *ngIf="!doctorProfileData?.photo?.url"
+                                    src="assets/img/doctors-dashboard/doctor-profile-img.jpg" alt="User Image">
+                            </a>
+                            <div class="profile-det-info">
+                                <h3><a href="doctor-profile.html">{{ doctorProfileData?.name || 'Doctor' }}</a></h3>
+                                <div class="patient-details">
+                                    <h5 class="mb-0">{{ doctorProfileData?.displayName }}</h5>
                                 </div>
+                                <span class="badge doctor-role-badge"><i class="fa-solid fa-circle"></i>{{
+                                    doctorProfileData?.specialites?.[0] }}</span>
                             </div>
                         </div>
-                        <div class="doctor-available-head">
-                            <div class="input-block input-block-new">
-                                <label class="form-label">Availability <span class="text-danger">*</span></label>
-                                <select class="select form-control">
-                                    <option>I am Available Now</option>
-                                    <option>Not Available</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="dashboard-widget">
-                            <nav class="dashboard-menu">
-                                <ul>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/doctor/home']">
-                                            <i class="isax isax-category-2"></i>
-                                            <span>Dashboard</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/doctor/requests']">
-                                            <i class="isax isax-clipboard-tick"></i>
-                                            <span>Requests</span>
-                                            <small class="unread-msg">2</small>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/doctor/appointments']">
-                                            <i class="isax isax-calendar-1"></i>
-                                            <span>Appointments</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/doctor/available-timings']">
-                                            <i class="isax isax-calendar-tick"></i>
-                                            <span>Available Timings</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    </div>
 
-                                        <a [routerLink]="['/dashboard/doctor/speciality-service']">
-                                            <i class="isax isax-clock"></i>
-                                            <span>Specialties & Services</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <div class="dashboard-widget">
+                        <nav class="dashboard-menu">
+                            <ul>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                    <a [routerLink]="['/dashboard/doctor/home']">
+                                        <i class="isax isax-category-2"></i>
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                    <a [routerLink]="['/dashboard/doctor/requests']">
+                                        <i class="isax isax-clipboard-tick"></i>
+                                        <span>Requests</span>
+                                        <small class="unread-msg">2</small>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                    <a [routerLink]="['/dashboard/doctor/appointments']">
+                                        <i class="isax isax-calendar-1"></i>
+                                        <span>Appointments</span>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                    <a [routerLink]="['/dashboard/doctor/available-timings']">
+                                        <i class="isax isax-calendar-tick"></i>
+                                        <span>Available Timings</span>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
 
-                                        <a [routerLink]="['/dashboard/doctor/reviews']">
-                                            <i class="isax isax-star-1"></i>
-                                            <span>Reviews</span>
-                                        </a>
-                                    </li>
-                                    <!-- <li>
+                                    <a [routerLink]="['/dashboard/doctor/speciality-service']">
+                                        <i class="isax isax-clock"></i>
+                                        <span>Specialties & Services</span>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+
+                                    <a [routerLink]="['/dashboard/doctor/reviews']">
+                                        <i class="isax isax-star-1"></i>
+                                        <span>Reviews</span>
+                                    </a>
+                                </li>
+                                <!-- <li>
                                         <a href="accounts.html">
                                             <i class="isax isax-profile-tick"></i>
                                             <span>Accounts</span>
@@ -97,50 +92,45 @@
                                             <small class="unread-msg">7</small>
                                         </a>
                                     </li> -->
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
 
-                                        <a [routerLink]="['/dashboard/doctor/profile']">
-                                            <i class="isax isax-setting-2"></i>
-                                            <span>Profile Settings</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="social-media.html">
-                                            <i class="fa-solid fa-shield-halved"></i>
-                                            <span>Social Media</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                    <a [routerLink]="['/dashboard/doctor/profile']">
+                                        <i class="isax isax-setting-2"></i>
+                                        <span>Profile Settings</span>
+                                    </a>
+                                </li>
 
-                                        <a [routerLink]="['/dashboard/doctor/change-password']">
-                                            <i class="isax isax-key"></i>
-                                            <span>Change Password</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/doctor/ai-predict']">
-                                            <i class="isax isax-brain"></i>
-                                            <span>AI Predict</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);" (click)="logout()">
-                                            <i class="isax isax-logout"></i>
-                                            <span>Logout</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+
+                                    <a [routerLink]="['/dashboard/doctor/change-password']">
+                                        <i class="isax isax-key"></i>
+                                        <span>Change Password</span>
+                                    </a>
+                                </li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                                    <a [routerLink]="['/dashboard/doctor/ai-predict']">
+                                        <i class="isax isax-brain"></i>
+                                        <span>AI Predict</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" (click)="logout()">
+                                        <i class="isax isax-logout"></i>
+                                        <span>Logout</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
-                    <!-- /Profile Sidebar -->
+                </div>
+                <!-- /Profile Sidebar -->
 
-                </div>
-                <div class="col-lg-8 col-xl-9">
-                    <router-outlet></router-outlet>
-                </div>
             </div>
-
+            <div class="col-lg-8 col-xl-9">
+                <router-outlet></router-outlet>
+            </div>
         </div>
 
     </div>
+
+</div>

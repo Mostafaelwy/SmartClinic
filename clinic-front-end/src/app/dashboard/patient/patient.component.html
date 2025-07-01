@@ -21,7 +21,8 @@
                                         [alt]="(patientProfile?.firstName || '') + ' ' + (patientProfile?.lastName || '') || 'Patient'">
                                 </a>
                                 <div class="profile-det-info">
-                                    <h3><a [routerLink]="['/dashboard/patient/profile']">{{(patientProfile?.firstName || '') + ' ' + (patientProfile?.lastName || '') || 'Loading...'}}</a></h3>
+                                    <h3><a [routerLink]="['/dashboard/patient/profile']">{{(patientProfile?.firstName ||
+                                            '') + ' ' + (patientProfile?.lastName || '') || 'Loading...'}}</a></h3>
                                     <div class="patient-details">
                                         <h5 class="mb-0">Patient ID : PT{{patientProfile?.patientId || 'N/A'}}</h5>
                                     </div>
@@ -35,59 +36,11 @@
                         <div class="dashboard-widget">
                             <nav class="dashboard-menu">
                                 <ul>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/patient/ai-predict']">
-                                            <i class="isax isax-brain"></i>
-                                            <span>AI Predict</span>
-                                        </a>
-                                    </li>
+
                                     <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
                                         <a [routerLink]="['/dashboard/patient/appointments']">
                                             <i class="isax isax-calendar-1"></i>
                                             <span>My Appointments</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/patient/favourites']">
-                                            <i class="isax isax-star-1"></i>
-                                            <span>Favourites</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/patient/dependants']">
-                                            <i class="isax isax-user-octagon"></i>
-                                            <span>Dependants</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/patient/medical-records']">
-                                            <i class="isax isax-note-21"></i>
-                                            <span>Medical Records</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/patient/wallet']">
-                                            <i class="isax isax-wallet-2"></i>
-                                            <span>Wallet</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/patient/invoices']">
-                                            <i class="isax isax-document-text"></i>
-                                            <span>Invoices</span>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/patient/messages']">
-                                            <i class="isax isax-messages-1"></i>
-                                            <span>Message</span>
-                                            <small class="unread-msg">7</small>
-                                        </a>
-                                    </li>
-                                    <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-                                        <a [routerLink]="['/dashboard/patient/vitals']">
-                                            <i class="isax isax-note-1"></i>
-                                            <span>Vitals</span>
                                         </a>
                                     </li>
                                     <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
